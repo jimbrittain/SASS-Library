@@ -1,0 +1,42 @@
+@mixin __text-shadow($a1:a, $a2:a, $a3:a, $a4:a, $a5:a, $a6:a, $a7:a, $a8:a, $a9:a){
+  @if(type-of($a1) == 'list'){
+    $the_list: $a1;
+    $built: false;
+    @if($a2 not a){ @if(not $built){ zip($the_list, $a1); $built: true; } @else { append($the_list, $a2); }}
+  }
+  text-shadow: $pro;
+
+  
+}
+
+@mixin __old_ie_text-shadow($col, $off-x, $off-y, $blur){
+  $use_glow: if($off-x == 0 and $off-y == 0, true, false);
+  $blur: measure($blur, px);
+  $off-x: strip-units($off-x);
+  $off-y: strip-units($off-y);
+  $direction: 0; //needs a calcuation here;
+  @include ie6_htmlstar_hack {
+    & {
+       @if($use_glow){
+         filter: progId:DXImageTransform.Microsoft.Glow(Color=$col,Strength=$blur));
+       } @else {
+         filter: progId:DXImageTransform.Microsoft.Shadow(Color=$col,Direction=$direction,Strength=$blur);
+       }
+       zoom: 1;
+       height: 1%;
+       & * { filter: none; }
+    }
+  }
+  @include ie7_htmlstar_hack {
+    & {
+      @if($use_glow){
+        -ms-filter:"progid:DXImageTransform.Microsoft.Glow(Color=" + $col + ",Strength=" + $blur + ")";
+      } @else {
+        -ms-filter:"progid:DXImageTransform.Microsoft.Shadow(Color=" + $col + ",Direction=" + $direction + ",Strength=" + $blur + ")";
+      }
+      zoom: 1;
+      min-height: 1%;
+      & * { -ms-filter: none; }
+    }
+  }
+}

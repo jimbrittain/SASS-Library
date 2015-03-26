@@ -1,0 +1,164 @@
+@import "p/math/addnumbers.scss";
+@import "p/math/subtractnumbers.scss";
+@import "p/math/dividenumbers.scss";
+@import "p/math/multiplienumbers.scss";
+@import "p/math/isNaN.scss";
+@import "p/math/isInfinity.scss";
+@import "p/math/strip-units.scss";
+
+//tan, sin, cosine, power from http://japborst.net/posts/sass-sines-and-cosines
+$pi: 3.14159265359 !global;
+@function pow($number, $exp) {
+  $value: $number;
+  @if $exp > 0 {
+    // If the exponent is positive, multiply.
+    @for $i from 2 through $exp { $value: $value * $number; }
+  } @elseif $exp < 0 {
+    // If the exponent is negative, divide.
+    @for $i from 0 through -$exp { $value: $value / $number; }
+  } @else {
+    // If the exponent is zero, just return 1.
+    $value: 1; }
+  @return $value; }
+@function fact($val){
+  $value: 1;
+  @if $val > 0{
+    @for $i from 1 through $val { $value: $value * $i; }
+  }
+  @return $value; }
+
+@function sin($angle, $degrees:false) {
+  @if $degrees { $angle: $angle /(180 * $pi); }
+  $sin: $angle;
+  @for $i from 1 through 10 {
+    $ncalc: 2 * $i + 1;
+    $calc: pow(-1,$i)/fact($ncalc);
+    $calc: $calc * (pow($angle, $ncalc));
+    $sin: $sin + $calc;
+  }
+  @return $sin;
+}
+@function cos($angle, $degrees: false){
+  $cos: 0;
+  @if $degrees { $angle: $angle /(180 * $pi); }
+  @for $n from 0 through 10{ 
+    $calc: ((pow(-1, $n) * pow($angle, 2 * $n)) / fact(2 * $n)); 
+    $cos: $cos + $calc;
+    //$cos: $cos + (( pow(-1,$n) / fact(2 * $n) ) * pow($angle,(2 * $n)));
+  }
+  @return $cos; }
+@function tan($angle, $degrees: false){
+  @if $degrees{ $angle: $angle /(180 * $pi); }
+  $tan: sin($angle) / cos($angle);
+  @return $tan; }
+
+
+
+
+//From https://github.com/terkel/mathsass/blob/master/dist/functions/atan2.scss and acos.scss and asin.scss and atan.scss and sqrt;
+// Returns the arctangent of a number.
+// @param {Number} $x
+// @example
+//     atan(0.1) // 0.09967
+//     atan(-1)  // -0.7854
+@function atan ($x) {
+    $i:  24;
+    $sgn: 0;
+    $a:   0;
+    @if $x > 1 {
+        $sgn:  1;
+        $x:    1 / $x;
+    } @else if $x < -1 {
+        $sgn: -1;
+        $x:    1 / $x;
+    }
+    @while $i > 0 {
+        $a: ($i * $i * ($x * $x)) / ((2 * $i) + 1 + $a);
+        $i: $i - 1;
+    }
+    @if $sgn > 0 {
+        @return  $pi / 2 - $x / (1 + $a);
+    } @else if $sgn < 0 {
+        @return -$pi / 2 - $x / (1 + $a);
+    } @else {
+        @return            $x / (1 + $a);
+    }
+}
+// Returns the arcsine of a number.
+// @param {Number} $x A number between -1 and 1.
+// @example
+//     asin(0.1) // 0.10017
+//     asin(-1)  // -1.5708
+@function asin ($x) {
+    @if $x > 1 or $x < -1 {
+        @warn "Argument for `asin()` must be a number between -1 and 1";
+        @return null;
+    }
+    @return atan($x / sqrt(1 - ($x * $x)));
+}
+// Returns the arccosine of a number.
+// @param {Number} $x A number between -1 and 1.
+// @example
+//     acos(0.1) // 1.47063
+//     acos(-1)  // 3.14159
+@function acos ($x) {
+    @if $x > 1 or $x < -1 {
+        @warn "Argument for `acos()` must be a number between -1 and 1";
+        @return null;
+    }
+    @return $pi / 2 - asin($x);
+}
+// Returns the arctangent of the quotient of its arguments.
+// @param {Number} $y
+// @param {Number} $x
+// @example
+//     atan2(0, 0)       // 0
+//     atan2(0, -0.0)    // 3.14159
+//     atan2(-0.0, 0)    // 0
+//     atan2(-0.0, -0.0) // -3.14159
+//     atan2(0, 1)       // 0
+//     atan2(0, -1)      // 3.14159
+@function atan2 ($y, $x) {
+    @if $x > 0 {
+        @return atan($y / $x);
+    } @else if $x < 0 {
+        @if $y < 0 {
+            @return atan($y / $x) - $pi;
+        } @else {
+            @return atan($y / $x) + $pi;
+        }
+    } @else {
+        @if $y < 0 {
+            @return - $pi / 2;
+        } @else if $y > 0 {
+            @return $pi / 2;
+        } @else {
+            @if 1 / $x == 1 / 0 {
+                @return 0;
+            } @else {
+                @if 1 / $y == 1 / 0 {
+                    @return $pi;
+                } @else {
+                    @return -$pi;
+                }
+            }
+        }
+    }
+}
+@function sqrt ($x) {
+    @if $x < 0 {
+        @warn "Argument for `sqrt()` must be a positive number.";
+        @return null;
+    }
+    $ret: 1;
+    @for $i from 1 through 24 {
+        $ret: $ret - (pow($ret, 2) - $x) / (2 * $ret);
+    }
+    @return $ret;
+}
+
+
+/*mine*/
+@function radiansToDegrees($radians){ @return $radians * (180/$pi); }
+@function degreesToRadians($degrees){ @return $degrees * ($pi/180); }
+@function rationalAngle($degrees){ @return $degrees % 360; }

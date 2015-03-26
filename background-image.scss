@@ -1,0 +1,219 @@
+//To Do,
+// repeating-radial-gradient, repeating-linear-gradient, default kick in (ie.if url first no grad ie);
+// allow different order for colour-stop, currently Position then Colour, allow for Colour then Position.
+// confirm direction 'to' specs, plus that the radial bits will get added right;
+
+$_bi_d: "a";
+@mixin __background-image($a1:$_bi_d,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){
+  $args: array_create_exclude($_bi_d, $a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+
+  $standards: "standards";
+  $webkit: "webkit";
+  $moz: "moz";
+  $ms: "ms";
+  $o: "o";
+  $webkit_old: "webkit_old";
+  $ie6: "ie6";
+  $ie7: "ie7";
+  
+  $res: false;
+  @for $i from 1 through length($args) {
+    $b: single_background_list(nth($args, $i));
+    @if($b != false){
+      @if($res == false){ $res: (); }
+      $res: append($res, $b); }}
+  @if($res != false and length($res) > 0){
+    @for $i from 1 through length($res){
+      $on: nth($res, $i);
+      @for $n from 1 through length($on){
+        $onn: nth($on, $n);
+        @if(nth($onn, 1) == "standards"){ $standards: append($standards, nth($onn, 2)); }
+        @if(nth($onn, 1) == "webkit"){ $webkit: append($webkit, nth($onn, 2)); }
+        @if(nth($onn, 1) == "moz"){ $moz: append($moz, nth($onn, 2)); }
+        @if(nth($onn, 1) == "ms"){ $ms: append($ms, nth($onn, 2)); }
+        @if(nth($onn, 1) == "o"){ $o: append($o, nth($onn, 2)); }
+        @if(nth($onn, 1) == "webkit_old"){ $webkit_old: append($webkit_old, nth($onn, 2)); }
+        @if(nth($onn, 1) == "ie6"){ $ie6: append($ie6, nth($onn, 2)); }
+        @if(nth($onn, 1) == "ie7"){ $ie7: append($ie7, nth($onn, 2)); }
+      }
+    }
+  }
+  @if(length($webkit_old) > 1) { background-image: unquote(liststrip_sb($webkit_old)); }
+  @if(length($webkit) > 1) { background-image: unquote(liststrip_sb($webkit)); }
+  @if(length($moz) > 1) { background-image: unquote(liststrip_sb($moz)); }
+  @if(length($ms) > 1) { background-image: unquote(liststrip_sb($ms)); }
+  @if(length($o) > 1) { background-image: unquote(liststrip_sb($o)); }
+  @if(length($standards) > 1) { background-image: unquote(liststrip_sb($standards)); }
+  
+  @if(length($standards) == 1){
+    @if(length($ie6) > 1 and nth($ie6,2) != false){
+      filter:unquote(nth($ie6, 2));
+    }
+    @if(length($ie7) > 1 and nth($ie7, 2) != false){
+      -ms-filter:nth($ie7, 2);
+    }}}
+
+@function single_background_list($a1:"a",$a2:"a",$a3:"a",$a4:"a",$a5:"a",$a6:"a",$a7:"a",$a8:"a",$a9:"a",$a10:"a"){
+  $arg_list: array_create_exclude("a", $a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9,$a10);
+  $list: false;
+  $fallback_args: nth($arg_list, 1);
+  $arg_list: if(length($arg_list) == 1 and length($fallback_args) > 1, $fallback_args, $arg_list); 
+  
+  $standards: "standards";
+  $webkit: "webkit";
+  $webkit_old: "webkit_old";
+  $ms: "ms";
+  $moz: "moz";
+  $o: "o";
+  $ie6: "ie6";
+  $ie7: "ie7";
+
+  $valid: false;
+  $error: false;
+  $added: false;
+  
+  @if(type-of(nth($arg_list, 1)) == "string"){
+    @if(nth($arg_list, 1) == 'linear-gradient' or nth($arg_list, 1) == 'radial-gradient'){
+      $type: nth($arg_list, 1);
+      $start_col: false;
+      $cols: a a;
+      $temp_col: false;
+      $end_col: false;
+      $dir_added: false;
+      $dir: "bottom";
+      @while $error == false and $valid == false {
+        @for $i from 2 to length($arg_list) + 1 {
+          @if($start_col == false and type-of(nth($arg_list, $i)) == 'color'){
+            $start_col: nth($arg_list, $i);
+          } @else if($temp_col != false and type-of(nth($arg_list, $i)) == 'color'){
+            $temp_col: join($temp_col, nth($arg_list, $i));
+            $cols: join($cols, $temp_col);
+            $temp_col: false;
+          } @else if(type-of(nth($arg_list, $i)) == 'color'){
+            $end_col: nth($arg_list, $i);
+            $valid: true;
+          } @else if((type-of(nth($arg_list, $i)) == 'string' or type-of(nth($arg_list, $i)) == 'number') and $start_col == false and length($dir) < 5){
+            @if($dir_added == true){
+              $dir: join($dir, nth($arg_list, $i));
+            } @else {
+              $dir: nth($arg_list, $i);
+              $dir_added: true; }
+          } @else if(type-of(nth($arg_list, $i)) == 'number' and $start_col != false){
+            @if($temp_col == false){
+              $temp_col: nth($arg_list, $i);
+            } @else { $error: true; }
+          }
+        }
+        @if($valid == false){ $error: true; }
+      }
+      
+      @if($start_col != false and $end_col != false and $type != false){
+        
+        //STANDARDS//
+        $str: $type + "(";
+        //not good;
+        $rd: nth($dir,1);
+        $rd_str: "";
+        @if($rd == 'bottom' or $rd == 'top' or $rd == 'left' or $rd == 'right'){
+          $rd_str: 'to ';
+          $rd_str: if($rd == 'bottom', $rd_str + 'top', $rd_str);
+          $rd_str: if($rd == 'top', $rd_str + 'bottom', $rd_str);
+          $rd_str: if($rd == 'left', $rd_str + 'right', $rd_str);
+          $rd_str: if($rd == 'right', $rd_str + 'left', $rd_str);
+          $str: $str + $rd_str;
+        } @else{
+          @for $i from 1 through length($dir) { $str: $str + " " + nth($dir, $i) + ""; }
+        }
+        //$direction_to: if(nth($dir, 1) == 'bottom' or nth($dir, 1) == 'top' or nth($dir, 1) == 'left' or nth($dir, 1) == 'right', "to", "");
+        $str: $str + ", " + $start_col + ',';
+        $i:1;
+        @while $i < length($cols) - 2 {
+          $i: $i + 2;
+          $str: $str + " " + nth($cols, ($i + 1)) + " " + nth($cols, $i) + ','; }
+        $str: $str + $end_col + ')';
+        
+        $standards: append($standards, $str);
+        //WEBKIT et.al//
+        $str: $type + "(";
+        @for $i from 1 through length($dir) { $str: $str + nth($dir, $i) + ', '; }
+        $str: $str + $start_col + ',';
+        $i:1;
+        @while $i < length($cols) - 2 {
+          $i: $i + 2;
+          $str: $str + " " + nth($cols, ($i + 1)) + " " + nth($cols, $i) + ','; }
+        $str: $str + $end_col + ')';
+        
+        $w_str: '-webkit-' + $str;
+        $webkit: append($webkit, $w_str);
+        $w_str: "-ms-" + $str;
+        $ms: append($ms, $w_str);
+        $w_str: "-o-" + $str;
+        $o: append($o, $w_str);
+        $w_str: "-moz-" + $str;
+        $moz: append($moz, $w_str);
+        
+        $str: "";
+        $str: '-webkit-gradient(' + (if($type == 'linear-gradient', 'linear,', 'radial,'));
+        @for $i from 1 through length($dir) { $str: $str + " " + nth($dir, $i) + ""; }
+        $str: $str + ', from ' + $start_col + ',';
+        $i:1;
+        @while $i < length($cols) - 2 {
+          $i: $i + 2;
+          $str: $str + " color-stop(" + nth($cols, $i) + " " + nth($cols, ($i + 1)) + '),'; }
+        $str: $str + ' to ' + $end_col + ')';
+        $webkit_old: append($webkit_old, $str);
+        
+        $str: 'progid:DXImageTransform.Microsoft.gradient(GradientType=';
+        $str: $str + (if((nth($dir, 1) == 'bottom' or nth($dir, 1) == 'top'), "0", "1"));
+        $n_col: if(nth($dir,1) == 'bottom' or nth($dir,1) == 'right', $end_col, $start_col);
+        //$n_col: opacify($start_col, 1);
+        $str: $str + ",startColorstr=" + ie_hex_str($n_col);
+        $n_col: if(nth($dir,1) == 'bottom' or nth($dir,1) == 'right', $start_col, $end_col);
+        //$n_col: opacify($end_col, 1);
+        $str: $str + ",endColorstr=" + ie_hex_str($n_col) + ')';
+        $ie6: append($ie6, $str);
+        $ie7: append($ie7, $str);
+        $list: ();
+        $list: array_create($standards, $webkit, $ms, $o, $moz, $webkit_old, $ie6, $ie7);
+      } @else { @warn "fucked up somewhere"; }
+    } @else if(nth($arg_list, 1) == 'repeating-linear-gradient' or nth($arg_list, 1) == 'repeating-radial-gradient'){
+      //repeaters;
+    } @else {
+      $valid: true;
+      $standards: append($standards, nth($arg_list, 1));
+      $webkit: append($webkit, nth($arg_list, 1));
+      $ms: append($ms, nth($arg_list, 1));
+      $o: append($o, nth($arg_list, 1));
+      $moz: append($moz, nth($arg_list, 1));
+      $webkit_old: append($webkit_old, nth($arg_list, 1));
+      $ie6: append($ie6, false);
+      $ie7: append($ie7, false);
+      $list: array_create($standards, $webkit, $ms, $o, $moz, $webkit_old); }
+  }
+  
+  //@debug $list;
+ // @debug "Debugger:" + (if($valid != false and $error == false and $list != false, "true", "false"));
+  @return if($valid != false and $error == false and $list != false, $list, false); }
+
+@function list_add($l, $stopper, $v){
+  @if($v != $stopper){ 
+    @if(type-of($l) != "list" and $l == $stopper){
+      $l: $v;
+    } @else { $l: append($l, $v); }}
+  @return $l; }
+
+
+@function liststrip_sb($l){
+  $str: "";
+  $len: length($l) + 1;
+  @for $i from 2 to $len { 
+    $str: $str + nth($l, $i) + if($i == length($l), "", ", "); }
+  @return $str; }
+
+@function find_sb_index($l, $s){
+  $set: 0;
+  $i: 0;
+  @while $set == 0 and $i < length($l){
+    $i: $i + 1;
+    @if(nth($l, $i) == $s){ @debug "Found it"; $set: $i; }}
+  @return if($set == 0, false, $set); }
