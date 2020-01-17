@@ -1,6 +1,0 @@
-@function isNaN($v){
-  @if(type-of($v) == 'number'){
-    @return if((($v > 0 or $v < 0) != true) and $v != 0, true, false);
-  } @else {
-    @warn "isNaN was supplied a non-numeric type";
-    @return true; }}
