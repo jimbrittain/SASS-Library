@@ -1,0 +1,5 @@
+@mixin __column-rule-width($val:medium){
+    @if (is-reserved-variable($val) or is-length($val) or is-border-width-keyword($val)) {
+        -moz-column-rule-width: $val;
+        -webkit-column-rule-width: $val;
+        column-rule-width: $val; }}

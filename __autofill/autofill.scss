@@ -1,0 +1,6 @@
+@mixin __autofill {
+    &:-moz-autofill { @content; }
+    &::-moz-autofill { @content; }
+    &:-webkit-autofill { @content; }
+    &::-webkit-autofill { @content; }
+}

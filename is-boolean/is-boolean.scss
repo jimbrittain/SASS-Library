@@ -1,0 +1,15 @@
+@function is-boolean($val, $loose:false) {
+    @if type-of($val) == 'bool' {
+        @return true;
+    } @else if ($loose == true) {
+        @if type-of($val) == number {
+            @return is-binary($val);
+        } @else if type-of($val) == 'string' {
+            $val: to-lower-case($val);
+            @warn 'is here for ' + $val;
+            @warn if($val == '1' or $val == '0' or $val == 'true' or $val == 'false', 'true', 'false');
+            @return if($val == '1' or $val == '0' or $val == 'true' or $val == 'false', true, false); }}
+    @return false; }
+
+@function is-binary($val) {
+    @return if(type-of($val) == number and ($val == 0 or $val == 1 or $val == null) and unitless($val), true, false); }

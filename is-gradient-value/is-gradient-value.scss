@@ -1,0 +1,20 @@
+@function is-gradient-value($str) {
+    @if (type-of($str) == string) {
+        $list: ('-moz-linear-gradient' '-webkit-linear-gradient' '-ms-linear-gradient' '-o-linear-gradient' 'linear-gradient' '-moz-radial-gradient' '-webkit-radial-gradient' '-ms-radial-gradient' '-o-radial-gradient' 'radial-gradient' '-moz-repeating-linear-gradient' '-webkit-repeating-linear-gradient' '-ms-repeating-linear-gradient' '-o-repeating-linear-gradient' 'repeating-linear-gradient' '-moz-repeating-radial-gradient' '-webkit-repeating-radial-gradient' '-ms-repeating-radial-gradient' '-o-repeating-radial-gradient' 'repeating-radial-gradient' 'conic-gradient' 'repeating-conic-gradient');
+        @for $i from 1 through length($list) {
+            $o: nth($list, $i);
+            @if (str-index($str, $o) == 1) {
+                @return true;
+            }
+        }
+    }
+    @return false; }
+
+@function is-gradient-type($str) {
+    @if (type-of($str) == string) {
+        $str: str-remove-prefix($str);
+        $list: ('linear-gradient' 'repeating-linear-gradient' 'radial-gradient' 'repeating-radial-gradient' 'conic-gradient' 'repeating-conic-gradient');
+        @return if(index($list, $str) != null, true, false);
+    }
+    @return false;
+}

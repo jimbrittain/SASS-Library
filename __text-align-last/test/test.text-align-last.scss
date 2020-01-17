@@ -1,0 +1,125 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/text-align-last.scss';
+@include describe('__text-align-last mixin') {
+    @include it('Outputs text-align-last proceeded by the -moz prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align-last(auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-text-align-last: auto;
+                    text-align-last: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-align-last proceeded by the -moz prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align-last(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-text-align-last: inherit;
+                    text-align-last: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-align-last proceeded by the -moz prefixes: start') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align-last(start);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-text-align-last: start;
+                    text-align-last: start;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-align-last proceeded by the -moz prefixes: end') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align-last(end);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-text-align-last: end;
+                    text-align-last: end;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-align-last proceeded by the -moz prefixes: left') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align-last(left);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-text-align-last: left;
+                    text-align-last: left;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-align-last proceeded by the -moz prefixes: right') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align-last(right);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-text-align-last: right;
+                    text-align-last: right;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-align-last proceeded by the -moz prefixes: center') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align-last(center);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-text-align-last: center;
+                    text-align-last: center;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-align-last proceeded by the -moz prefixes: justify') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align-last(justify);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-text-align-last: justify;
+                    text-align-last: justify;
+                }
+            }
+        }
+    }
+}

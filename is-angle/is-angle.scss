@@ -1,0 +1,4 @@
+@function is-angle($val){
+    $list: (deg grad rad turn);
+    @return if((type-of($val) == number and not(unitless($val)) and index($list, unit($val)) != null) or is-unitless-zero($val), true, false); }
+

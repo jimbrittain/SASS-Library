@@ -1,0 +1,6 @@
+@mixin __before { 
+    //#{if(&, '&', '*')}::before { @content; } 
+    &::before { @content; }
+    //#{if(&, '&', '*')}:before { @content; }
+    &:before { @content; }
+}

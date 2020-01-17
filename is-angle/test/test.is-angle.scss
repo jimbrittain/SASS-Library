@@ -1,0 +1,40 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/is-angle.scss';
+@include describe('is-angle function:') {
+    @include it('is-angle returns true: grad') {
+        @include assert-true(
+            is-angle(0grad),
+            'true: grad');
+    }
+    @include it('is-angle returns true: rad') {
+        @include assert-true(
+            is-angle(5rad),
+            'true: rad');
+    }
+    @include it('is-angle returns true: turn') {
+        @include assert-true(
+            is-angle(3turn),
+            'true: turn');
+    }
+    @include it('is-angle returns true: deg') {
+        @include assert-true(
+            is-angle(5deg),
+            'true: deg');
+    }
+    @include it('is-angle returns false: em') {
+        @include assert-false(
+            is-angle(3em),
+            'false: em');
+    }
+    @include it('is-angle returns false: unitless') {
+        @include assert-false(
+            is-angle(3),
+            'false: unitless');
+    }
+    @include it('is-angle returns true: unitless 0') {
+        @include assert-true(
+            is-angle(0),
+            'true: unitless 0');
+    }
+}

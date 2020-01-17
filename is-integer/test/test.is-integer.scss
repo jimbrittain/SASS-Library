@@ -1,0 +1,30 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/is-integer.scss';
+@include describe('is-integer function:') {
+    @include it('is-integer true for 1') {
+        @include assert-true(
+            is-integer(1),
+            '1:true');
+    }
+    @include it('is-integer true for 999999') {
+        @include assert-true(
+            is-integer(9999999),
+            '9999999:true');
+    }
+    @include it('is-integer true for 1.0') {
+        @include assert-true(
+            is-integer(1.0),
+            '1.0:true');
+    }
+    @include it('is-integer false for 1.1') {
+        @include assert-false(
+            is-integer(1.1),
+            '1.1:false');
+    }
+    @include it('is-integer true for -5') {
+        @include assert-true(
+            is-integer(-5),
+            '-5:true');
+    }
+}

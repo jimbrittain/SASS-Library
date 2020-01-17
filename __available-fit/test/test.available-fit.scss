@@ -1,0 +1,25 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/available-fit.scss';
+@include describe('__available-fit') {
+    @include it('Outputs width: available and the multitude of stupid variations') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include __available-fit();
+                }
+            }
+            @include expect(false) { 
+                @supports ((width: available) or (width: -webkit-fill-available) or (width: fill-available) or (width: -moz-available) or (width: -webkit-available)) {
+                    #cheese {
+                        width: -webkit-fill-available;
+                        width: fill-available;
+                        width: -moz-available;
+                        width: -webkit-available;
+                        width: available; 
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,25 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/find-first-unit.scss';
+@include describe('find-first-unit function:') {
+    @include it('find first unit: 0 0 2em 2mm: em') {
+        @include assert-equal(
+            find-first-unit(0 0 2em 2mm),
+            'em');
+    }
+    @include it('find first unit: 0, 0, 2em, 2mm: em') {
+        @include assert-equal(
+            find-first-unit(0, 0, 2in, 2mm),
+            'in');
+    }
+    @include it('find first unit: 0, 0, 0, 0: ""') {
+        @include assert-equal(
+            find-first-unit(0, 0, 0, 0),
+            "");
+    }
+    @include it('find first unit: cheese, (1 2 3), 0, 5em: em') {
+        @include assert-equal(
+            find-first-unit(cheese, (1 2 3), 0, 5em),
+            "em");
+    }
+}

@@ -1,0 +1,77 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/transition-duration.scss';
+@include describe('__transition-duration mixin') {
+    @include it('Outputs transition-duration proceeded by the -o, -moz, -ms, and -webkit prefixes: 3s') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-duration(3s);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-duration: 3s;
+                    -ms-transition-duration: 3s;
+                    -o-transition-duration: 3s;
+                    -webkit-transition-duration: 3s;
+                    transition-duration: 3s;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition-duration proceeded by the -o, -moz, -ms, and -webkit prefixes: 4s, 2ms') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-duration(4s, 2ms);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-duration: 4s, 2ms;
+                    -ms-transition-duration: 4s, 2ms;
+                    -o-transition-duration: 4s, 2ms;
+                    -webkit-transition-duration: 4s, 2ms;
+                    transition-duration: 4s, 2ms;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition-duration proceeded by the -o, -moz, -ms, and -webkit prefixes: 4s, 2ms') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-duration(4s 2ms);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-duration: 4s, 2ms;
+                    -ms-transition-duration: 4s, 2ms;
+                    -o-transition-duration: 4s, 2ms;
+                    -webkit-transition-duration: 4s, 2ms;
+                    transition-duration: 4s, 2ms;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition-duration proceeded by the -o, -moz, -ms, and -webkit prefixes: inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-duration(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-duration: inherit;
+                    -ms-transition-duration: inherit;
+                    -o-transition-duration: inherit;
+                    -webkit-transition-duration: inherit;
+                    transition-duration: inherit;
+                }
+            }
+        }
+    }
+}

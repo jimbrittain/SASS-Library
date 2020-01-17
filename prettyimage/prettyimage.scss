@@ -1,0 +1,5 @@
+@mixin prettyimage { 
+    @include __image-rendering(smooth,true); }
+
+@mixin veryprettyimage {
+    @include __image-rendering(high-quality,true); }

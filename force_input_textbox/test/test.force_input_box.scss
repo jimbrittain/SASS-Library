@@ -1,0 +1,23 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/force_input_textbox.scss';
+@include describe('force_input_textbox mixin') {
+    @include it('Outputs force_input_textbox proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include force_input_textbox;
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-appearance: textfield;
+                    -webkit-appearance: textfield;
+                    -moz-box-sizing: content-box;
+                    -webkit-box-sizing: content-box;
+                    box-sizing: content-box;
+                }
+            }
+        }
+    }
+}

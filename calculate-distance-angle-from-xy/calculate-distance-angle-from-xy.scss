@@ -1,0 +1,38 @@
+//requires: convert-angle, measure, zeromeasure, sqrt, acos, pow, is-angle-degree, strip-units
+@function calculate-distance-angle-from-xy($x, $y){
+    @if type-of($x) == number and type-of($y) == number {
+        $no_base: if(unitless($x) and unitless($y), true, false);
+        $base_unit: px;
+        $base_x: if(not(unitless($x)), unit($x), '');
+        $base_y: if(not(unitless($y)), unit($y), '');
+        @if not($no_base) and not($base_x == $base_y){
+            $base_unit: $base_x;
+            $y: measure($y,$base_unit);
+        } @else if not($no_base) { $base_unit: $base_x; }
+
+        $x: strip-units($x);
+        $y: strip-units($y);
+
+        $distance: sqrt((pow($x,2) + pow($y,2)));
+        $angle: acos((abs($x)/$distance));
+        $angle: convert-angle($angle, deg);
+        @if($x >= 0 and $y >= 0){
+            $angle: 0 + $angle;
+        } @else if ($x >= 0){
+            $angle: 360 - $angle;
+        } @else if ($y >= 0){
+            $angle: 180 - $angle;
+        } @else { $angle: 180 + $angle; }
+
+        @if type-of($distance) == number and type-of($angle) == number {
+            $angle: if(unit($angle) == deg, $angle, zeromeasure(deg) + strip-units($angle));
+            $distance: if($no_base, strip-units($distance), zeromeasure($base_unit) + strip-units($distance));
+            @return ($distance, $angle);
+        } @else {
+            @warn "calculate-distance-angle-from-xy was supplied a none-number"; }
+    } @else { @warn "calculate-distance-angle-from-xy was supplied a none-number"; }
+    @return (0px, 0deg); }
+
+@function calculateDistanceAngleFromXY($x, $y) {
+    $dumb: depreciatedWarning('calculateDistanceAngleFromXY', 'calculate-distance-angle-from-xy');
+    @return calculate-distance-angle-from-xy($x, $y); }

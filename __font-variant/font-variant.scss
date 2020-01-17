@@ -1,0 +1,9 @@
+// only done ligatures so far, need a way to convert font-variant arguments to font-feature-settings
+@mixin __font-variant-ligatures($val){
+    @if is-font-variant-ligatures-value($val) or is-reserved-variable($val) {
+        -webkit-font-variant-ligatures: $val;
+        font-variant-ligatures: $val; }
+}
+@function is-font-variant-ligatures-value($val) {
+    $list: (normal none common-ligatures no-common-ligatures discretionary-ligatures no-discretionary-ligatures historical-ligatures contextual no-contextual);
+    @return if(index($list,$val) != null, true, false); }

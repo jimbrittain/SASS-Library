@@ -1,0 +1,23 @@
+$_bi_d: -1 !default;
+@mixin __object-position($a1,$a2:$_bi_d){
+    $args: arguments($a1,$a2);
+    $args: list-change-separator($args, ' ');
+    $args: list-safe-unquote-items($args);
+    @if (length($args) > 0 and length($args) < 3) {
+        $valid: true;
+        @for $i from 1 through length($args) {
+            $val: nth($args, $i);
+            @if not(is-reserved-variable($val) or is-position-value($val) or (type-of($val) == number and not(unitless($val)))) {
+                $valid: false; 
+                @warn '"' + $val + '" {' + type-of($val) + '} is not a valid value for __object-position'; }}
+        @if $valid == true {
+            -o-object-position: $args;
+            object-position: $args; }
+    } @else {
+        @warn 'Wrong number of arguments for __object-value, should be 1 or 2';
+    }
+}
+
+@function is-position-value($value){
+    $list: (top left bottom right center);
+    @return if(type-of($value) == 'string' and index($list, $value) != null, true, false); }

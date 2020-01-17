@@ -1,0 +1,21 @@
+// TODO: might be worthwhile adding a loop once list-replace
+@function boolean-switch($b, $force_boolean: false) {
+    $force_boolean: if($force_boolean == true, true, false); //ensure its a bool
+    $b: if(type-of($b) == 'string', to-lower-case($b), $b);
+    @if (type-of($b) == bool) {
+        $b: if($b == true, false, true); 
+    } @else if type-of($b) == number and ($b == 1 or $b == 0) {
+        @if $force_boolean == true {
+            $b: if($b == 1, false, true); 
+        } @else {
+            $b: if($b == 1, 0, 1);
+        }
+    } @else if type-of($b) == string and ($b == 'true' or $b == 'false') {
+        @if $force_boolean == true {
+            $b: if($b == 'true', false, true);
+        } @else {
+            $b: if($b == 'true', 'false', 'true'); 
+        }
+    } @else {
+        @warn('"' + $b + '" {' + type-of($b) + '} supplied to boolean-switch is not a valid boolean, number or string'); }
+    @return $b; }

@@ -1,0 +1,40 @@
+@mixin __break-inside($val:auto){
+    $val: if(type-of($val) == 'string', safe-unquote(to-lower-case($val)), $val);
+    @if (is-valid-break-inside($val)) {
+        //webkit-column-break
+        $wb-list: (avoid-column avoid auto);
+        @if (index($wb-list, $val) != null or is-reserved-variable($val)) {
+            $wb-val: if($val == 'avoid-column', avoid, $val);
+            @include __-webkit-column-break-inside($wb-val); }
+
+        //page-break-inside
+        $pb-val: $val;
+        $pb-avoid-list: (avoid avoid-page avoid-column avoid-region);
+        $pb-val: if(index($pb-avoid-list, $pb-val) != null, avoid, $pb-val);
+        $pb-val: if($pb-val == 'page', auto, $pb-val);
+        @include __page-break-inside($pb-val);
+
+        break-inside: $val; }}
+
+@mixin __page-break-inside($val:auto){
+    $val: if(type-of($val) == 'string', safe-unquote(to-lower-case($val)), $val);
+    @if is-valid-page-break-inside($val) {
+        page-break-inside: $val; }}
+
+@mixin __-webkit-column-break-inside($val:auto){
+    $val: if(type-of($val) == 'string', safe-unquote(to-lower-case($val)), $val);
+    @if is-valid-webkit-column-break-inside($val) {
+        -webkit-column-break-inside: $val; }}
+
+@function is-valid-break-inside($val){
+    $list: (auto avoid avoid-page avoid-column avoid-region page);
+    @return if(type-of($val) == 'string' and (index($list, $val) != null or is-reserved-variable($val)), true, false); }
+
+@function is-valid-page-break-inside($val){
+    $list: (auto avoid);
+    @return if(type-of($val) == 'string' and (index($list, $val) != null or is-reserved-variable($val)), true, false); }
+
+@function is-valid-webkit-column-break-inside($val){
+    $list: (auto avoid);
+    @return if(type-of($val) == 'string' and (index($list, $val) != null or is-reserved-variable($val)), true, false); }
+

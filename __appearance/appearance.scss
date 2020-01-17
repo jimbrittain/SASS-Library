@@ -1,0 +1,6 @@
+@mixin __appearance($val) {
+    $val: safe-unquote($val);
+    @if ($val != none) {
+        @warn '__appearance mixin used without "none", browser quirks and non-standard appearance are better with none'; }
+    -moz-appearance: $val; 
+    -webkit-appearance: $val; }

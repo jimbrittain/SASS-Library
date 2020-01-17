@@ -1,0 +1,13 @@
+@function list-fill($size, $value, $separator: ' '){
+      $r: ();
+      @if (type-of($size) == number and $size > 0) {
+        $size: round($size);
+        $i: 0;
+        @while $i < $size {
+            $r: append($r, $value);
+            $i: $i + 1; }
+        $r: list-change-separator($r, $separator);
+        @return $r;
+    } @else {
+        @warn "list-fill: the size must be positive";
+        @return false; }}

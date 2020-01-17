@@ -1,0 +1,33 @@
+@function cast-to-number($n){
+    @if type-of($n) == number {
+        @return $n;
+  } @else if (type-of($n) == string) {
+      $strings: '0' '1' '2' '3' '4' '5' '6' '7' '8' '9';
+      $numbers: 0 1 2 3 4 5 6 7 8 9;
+      $result: 0;
+      $minus: false;
+      $divider: 0;
+      @for $i from 1 through str-length($n) {
+        $char: str-slice($n, $i, $i);
+        @if ($char == '-' and $i == 1){
+          $minus: true;
+        } @else if($char == '.' and $divider == 0){
+          $divider: 1;
+        } @else {
+          $index: index($strings, $char);
+          @if(not $index){
+            @warn $n + " is not valid for cast-to-number";
+            @return 0; }
+          $number: nth($numbers, $index);
+          @if($divider == 0){
+            $result: $result * 10;
+          } @else {
+            $divider: $divider * 10;
+            $number: $number/$divider; }
+          $result: $result + $number; }}
+      @return if($minus, $result * -1, $result); 
+    } @else if (type-of($n) == bool) {
+        @return if($n, 1, 0);
+    } @else {
+        @warn 'cast-to-number: not supplied a string';
+        @return $n; }}

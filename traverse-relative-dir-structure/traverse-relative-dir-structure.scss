@@ -1,0 +1,21 @@
+//requiries remove-filename, is-url-relative, str-explode, list-slice;
+@function traverse-relative-dir-structure($loc, $dest) {
+    @if type-of($loc) == string and type-of($dest) == string {
+        $curr: remove-filename($loc);
+        $dest: remove-filename($dest);
+        @if(is-url-relative($dest)){
+            $curr_dir: str-explode($curr, '/');
+            $dest_dir: str-explode($dest, '/');
+            @for $n from 1 through length($dest_dir) {
+                $go: nth($dest_dir, $n);
+                @if $go == '..' {
+                    @if(length($curr_dir) > 0){
+                        $curr_dir: list-slice($curr_dir, length($curr_dir), 1);
+                    } @else { $curr_dir: append($curr_dir, $go); }
+                } @else if str-length($go) > 0 {
+                    $curr_dir: append($curr_dir, $go); }}
+            $new_dir: '';
+            @for $m from 1 through length($curr_dir) {
+                $new_dir: $new_dir + nth($curr_dir,$m) + '/'; }
+            @return $new_dir; }}
+    @return $loc; }

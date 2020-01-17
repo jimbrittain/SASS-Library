@@ -1,0 +1,124 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/transform-origin.scss';
+@include describe('__transform origin mixin') {
+    @include it('Outputs transform-origin proceeded by the -ms, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transform-origin(2px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-transform-origin: 2px;
+                    -moz-transform-origin: 2px;
+                    -webkit-transform-origin: 2px;
+                    transform-origin: 2px;
+                }
+            }
+        }
+    }
+    @include it('Outputs transform-origin 2 vals space sep') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transform-origin(2px 2px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-transform-origin: 2px 2px;
+                    -moz-transform-origin: 2px 2px;
+                    -webkit-transform-origin: 2px 2px;
+                    transform-origin: 2px 2px;
+                }
+            }
+        }
+    }
+    @include it('Outputs transform-origin 2 values comma sep') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transform-origin(2px, 2px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-transform-origin: 2px 2px;
+                    -moz-transform-origin: 2px 2px;
+                    -webkit-transform-origin: 2px 2px;
+                    transform-origin: 2px 2px;
+                }
+            }
+        }
+    }
+    @include it('Outputs transform-origin 3 values comma sep') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transform-origin(2px, 30%, 10px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-transform-origin: 2px 30% 10px;
+                    -moz-transform-origin: 2px 30% 10px;
+                    -webkit-transform-origin: 2px 30% 10px;
+                    transform-origin: 2px 30% 10px;
+                }
+            }
+        }
+    }
+    @include it('Outputs transform-origin-x 2 values comma sep') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transform-origin-x(2px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-transform-origin: 2px inherit;
+                    -moz-transform-origin: 2px inherit;
+                    -webkit-transform-origin: 2px inherit;
+                    transform-origin: 2px inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs transform-origin-y 2 values comma sep') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transform-origin-y(2px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-transform-origin: inherit 2px;
+                    -moz-transform-origin: inherit 2px;
+                    -webkit-transform-origin: inherit 2px;
+                    transform-origin: inherit 2px;
+                }
+            }
+        }
+    }
+    @include it('Outputs transform-origin-z 3 values comma sep') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transform-origin-z(2px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-transform-origin: inherit inherit 2px;
+                    -moz-transform-origin: inherit inherit 2px;
+                    -webkit-transform-origin: inherit inherit 2px;
+                    transform-origin: inherit inherit 2px;
+                }
+            }
+        }
+    }
+}

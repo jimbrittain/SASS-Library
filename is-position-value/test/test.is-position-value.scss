@@ -1,0 +1,107 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/is-position-value.scss';
+@include describe('is-position-value function:') {
+    // :::::::::::::::::: is-background-position-value ::::::::::::::::::::::::::
+    @include it('is-background-position-value function: top') {
+        @include assert-true(is-background-position-value(top));
+    }
+    @include it('is-background-position-value function: 75% 25%') {
+        @include assert-true(is-background-position-value(75% 25%));
+    }
+    @include it('is-background-position-value function: 0 0') {
+        @include assert-true(is-background-position-value(0 0));
+    }
+    @include it('is-background-position-value function: 1cm 2cm') {
+        @include assert-true(is-background-position-value(1cm 2cm));
+    }
+    @include it('is-background-position-value function: 10ch 8em') {
+        @include assert-true(is-background-position-value(10ch 8em));
+    }
+    @include it('is-background-position-value function: bottom 10px right 20px') {
+        @include assert-true(is-background-position-value(bottom 10px right 20px));
+    }
+    @include it('is-background-position-value function: right 3em bottom 10px') {
+        @include assert-true(is-background-position-value(right 3em bottom 10px));
+    }
+    @include it('is-background-position-value function: bottom 10px right') {
+        @include assert-true(is-background-position-value(bottom 10px right));
+    }
+    @include it('is-background-position-value function: top right 10px') {
+        @include assert-true(is-background-position-value(top right 10px));
+    }
+    @include it('is-background-position-value function: right, 3em, bottom, 10px') {
+        @include assert-true(is-background-position-value(right, 3em, bottom, 10px));
+    }
+    @include it('is-background-position-value function: "right 3em bottom 10px"') {
+        @include assert-true(is-background-position-value("right 3em bottom 10px"));
+    }
+
+    // :::::::::::::::::: is-position-length-percent-value ::::::::::::::::::::::::::
+    @include it('is-position-length-percent value function: top 10px') {
+        @include assert-true(is-position-length-percent-value(top 10px));
+    }
+    @include it('is-position-length-percent value function: 10px 10px') {
+        @include assert-true(is-position-length-percent-value(10px 10px));
+    }
+    @include it('is-position-length-percent value function: 10% center') {
+        @include assert-true(is-position-length-percent-value(10% center));
+    }
+    @include it('is-position-length-percent value function: 10%') {
+        @include assert-true(is-position-length-percent-value(10%));
+    }
+    @include it('is-position-length-percent value function: top top') {
+        @include assert-false(is-position-length-percent-value(top top));
+    }
+    @include it('is-position-value function: top true') {
+        @include assert-true(is-position-value(top));
+    }
+    @include it('is-position-value function: top left') {
+        @include assert-true(is-position-value(top left));
+    }
+    @include it('is-position-value function: bottom right') {
+        @include assert-true(is-position-value(bottom, right));
+    }
+    @include it('is-position-value function: center center') {
+        @include assert-true(is-position-value(center, center));
+    }
+    @include it('is-position-value function: center 10%') {
+        @include assert-true(is-position-value(center 10%));
+    }
+    @include it('is-position-value function: center 10px') {
+        @include assert-true(is-position-value(center 10px));
+    }
+    @include it('is-position-value function: 10px 10px') {
+        @include assert-true(is-position-value(10px 10px));
+    }
+    @include it('is-position-value function: top top, false') {
+        @include assert-false(is-position-value(top top));
+    }
+    @include it('is-position-value function: left right, false') {
+        @include assert-false(is-position-value(left, right));
+    }
+    @include it('is-vertical-position-value function: top') {
+        @include assert-true(is-vertical-position-value(top));
+    }
+    @include it('is-vertical-position-value function: bottom') {
+        @include assert-true(is-vertical-position-value(bottom));
+    }
+    @include it('is-vertical-position-value function: center') {
+        @include assert-true(is-vertical-position-value(center));
+    }
+    @include it('is-vertical-position-value function: right') {
+        @include assert-false(is-vertical-position-value(right));
+    }
+    @include it('is-horizontal-position-value function: center') {
+        @include assert-true(is-horizontal-position-value(center));
+    }
+    @include it('is-horizontal-position-value function: right') {
+        @include assert-true(is-horizontal-position-value(right));
+    }
+    @include it('is-horizontal-position-value function: left') {
+        @include assert-true(is-horizontal-position-value(left));
+    }
+    @include it('is-horizontal-position-value function: top, false') {
+        @include assert-false(is-horizontal-position-value(top));
+    }
+}

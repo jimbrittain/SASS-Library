@@ -1,0 +1,10 @@
+@mixin __hyphens($val:auto){
+    @if is-hyphens-value($val) or is-reserved-variable($val) {
+        -moz-hyphens: $val;
+        -ms-hyphens: $val;
+        -webkit-hyphens: $val;
+        hyphens: $val; }}
+
+@function is-hyphens-value($val){
+    $list: (auto manual none);
+    @return if(index($list, $val) != null, true, false); }

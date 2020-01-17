@@ -1,0 +1,7 @@
+@function list-add($l, $stopper, $v){
+    @if not($v == $stopper) {
+        @if not(type-of($l) == list and $l == $stopper) {
+            $l: $v;
+        } @else { $l: append($l, $v); }
+    }
+    @return $l; }

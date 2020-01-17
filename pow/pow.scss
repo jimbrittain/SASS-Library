@@ -1,0 +1,33 @@
+//requiries zeromeasure, multiplienumbers, dividenumbers, strip-units, measure
+@function pow($number, $exp) {
+    $base-unit: px;
+    $no-base: true;
+    $value: $number;
+    @if type-of($value) == number and type-of($exp) == number {
+        @if (unitless($value) == false) {
+            $base-unit: unit($value);
+            $no-base: false;
+            $value: strip-units($value); 
+            $number: strip-units($value); }
+        @if (unitless($exp) == false) {
+            @if($no-base == true){
+                $exp: strip-units($exp);
+            } @else {
+                $exp: measure($exp, $base-unit);
+                $exp: strip-units($exp); }}
+        $exp: round($exp);
+        @if $exp > 0 {
+            // If the exponent is positive, multiply.
+            @for $i from 1 to $exp { 
+                $value: multiplynumbers($value, $number); 
+            }
+        } @else if $exp < 0 {
+            // If the exponent is negative, divide.
+            @for $i from -1 to -$exp { 
+                $value: dividenumbers($value, $number); }
+      } @else {
+        $value: 1; } // If the exponent is zero, return 1 of base unit;
+      @return if($no-base == true, strip-units($value), zeromeasure($base-unit) + strip-units($value));
+  } @else {
+      @warn "pow() was supplied a non-number (" + $value + ")";
+      @return $value; }}

@@ -1,0 +1,86 @@
+@import 'true';
+@import '../../zeromeasure/src/zeromeasure.scss';
+@import '../../measure/src/measure.scss';
+@import '../../measure/src/isMeasurementAbsolute.scss';
+@import '../../measure/src/isMeasurementRelative.scss';
+@import '../../measure/src/isMeasurementAngle.scss';
+@import '../../measure/src/isMeasurement.scss';
+@import '../../measure/src/measureComparisonRelative.scss';
+@import '../../measure/src/measureComparisonAbsolute.scss';
+@import '../../strip-units/src/strip-units.scss';
+@import '../../list-create-exclude/src/list-create-exclude.scss';
+@import '../src/multiplynumbers.scss';
+@include describe('multiply-numbers function:') {
+    @include it('Relative to relative') {
+        @include assert-equal(
+            multiply-numbers(5ex,5ex), 
+            25ex,
+            "Relative unit multiplied by relative unit");
+    }
+    @include it('Relative to interger') {
+        @include assert-equal(
+            multiply-numbers(5ex,5), 
+            25ex,
+            "Relative unit multiplied by interger");
+    }
+    @include it('Relative to absolute') {
+        @include assert-equal(
+            multiply-numbers(1em,32px), 
+            2em,
+            "Relative unit multiplied by absolute");
+    }
+    @include it('interger to interger') {
+        @include assert-equal(
+            multiply-numbers(5,5), 
+            25,
+            "Interger multiplied by interger");
+    }
+    @include it('interger to absolute') {
+        @include assert-equal(
+            multiply-numbers(5,5px), 
+            25,
+            "Interger multiplied by absolute");
+    }
+    @include it('interger to relative') {
+        @include assert-equal(
+            multiply-numbers(1,1em), 
+            16,
+            "Interger multiplied by relative");
+    }
+    @include it('interger to absolute') {
+        @include assert-equal(
+            multiply-numbers(1,5px), 
+            5,
+            "Interger multiplied by absolute");
+    }
+    @include it('absolute to relative') {
+        @include assert-equal(
+            multiply-numbers(1px,2em), 
+            32px,
+            "Absolute unit multiplied by interger");
+    }
+    @include it('absolute to absolute') {
+        @include assert-equal(
+            multiply-numbers(1px,8px), 
+            8px,
+            "Absolute unit multiplied by absolute");
+    }
+    @include it('absolute to interger') {
+        @include assert-equal(
+            multiply-numbers(1px,15), 
+            15px,
+            "Absolute unit multiplied by interger");
+    }
+    @include it('multiplynumbers is an alias for multiply-numbers') {
+        @include assert-equal(
+            multiply-numbers(1px,15), 
+            multiplynumbers(1px,15),
+            "multiplynumbers is an alias for multiply-numbers");
+    }
+    @include it('multiplienumbers is an alias for multiply-numbers') {
+        @include assert-equal(
+            multiply-numbers(1px,15), 
+            multiplienumbers(1px,15),
+            "multiplienumbers is an alias for multiply-numbers");
+    }
+}

@@ -1,0 +1,38 @@
+@import 'true';
+@import '../src/list-to-string.scss';
+@include describe('list-to-string function:') {
+    @include it('Returns a list as a string') {
+        $a: (1 2 3 4);
+        @include assert-true(
+            type-of(list-to-string($a)) == string,
+            'Returns a string from a list');
+    }
+    @include it('Returns a list with a comma-space separator') {
+        $a: (1 2 3 4);
+        @include assert-equal(
+            list-to-string($a),
+            '1, 2, 3, 4',
+            'Returns the list separated properly, last unseparated');
+    }
+    @include it('Can have the separator adjusted using the second parameter') {
+        $a: (1 2 3 4);
+        @include assert-equal(
+            list-to-string($a, ' '),
+            '1 2 3 4',
+            'Returns the list separated properly, last unseparated');
+    }
+    @include it('If anything other than a list supplied returns with a warning: string') {
+        $a: 'carve';
+        @include assert-equal(
+            list-to-string($a, ' '),
+            'carve',
+            'Returns the list separated properly, last unseparated');
+    }
+    @include it('If anything other than a list supplied returns with a warning: number') {
+        $a: 1234;
+        @include assert-equal(
+            list-to-string($a, ' '),
+            1234,
+            'Returns the list separated properly, last unseparated');
+    }
+}

@@ -1,0 +1,35 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/appearance.scss';
+@include describe('__appearance') {
+    @include it('Outputs the -moz, and -webkit prefixed appearances') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __appearance(textfield);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-appearance: textfield;
+                    -webkit-appearance: textfield;
+                }
+            }
+        }
+    }
+    @include it('Outputs the unquote values') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __appearance('textfield');
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-appearance: textfield;
+                    -webkit-appearance: textfield;
+                }
+            }
+        }
+    }
+}

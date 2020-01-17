@@ -1,0 +1,73 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/animation-fill-mode.scss';
+@include describe('__animation-fill-mode mixin') {
+    @include it('Outputs animation-fill-mode proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-fill-mode(none);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-fill-mode: none;
+                    -moz-animation-fill-mode: none;
+                    -webkit-animation-fill-mode: none;
+                    animation-fill-mode: none;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-fill-mode outputs correct list, comma delimited') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-fill-mode(none none none);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-fill-mode: none, none, none;
+                    -moz-animation-fill-mode: none, none, none;
+                    -webkit-animation-fill-mode: none, none, none;
+                    animation-fill-mode: none, none, none;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-fill-mode outputs correct list, comma delimited') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-fill-mode(inherit, none, inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-fill-mode: inherit, none, inherit;
+                    -moz-animation-fill-mode: inherit, none, inherit;
+                    -webkit-animation-fill-mode: inherit, none, inherit;
+                    animation-fill-mode: inherit, none, inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-fill-mode proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-fill-mode(invalid);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-fill-mode: invalid;
+                    -moz-animation-fill-mode: invalid;
+                    -webkit-animation-fill-mode: invalid;
+                    animation-fill-mode: invalid;
+                }
+            }
+        }
+    }
+}

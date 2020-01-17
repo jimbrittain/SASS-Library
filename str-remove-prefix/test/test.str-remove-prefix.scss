@@ -1,0 +1,41 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/str-remove-prefix.scss';
+@include describe('str-remove-prefix function:') {
+    @include it('str-remove-prefix correctly removes -moz-') {
+        @include assert-equal(
+            str-remove-prefix(-moz-linear-gradient),
+            linear-gradient,
+            'Strip units returns the correct number');
+    }
+    @include it('str-remove-prefix correctly removes -webkit-') {
+        @include assert-equal(
+            str-remove-prefix(-webkit-linear-gradient),
+            linear-gradient,
+            'Strip units returns the correct number');
+    }
+    @include it('str-remove-prefix correctly removes -ms-') {
+        @include assert-equal(
+            str-remove-prefix(-ms-linear-gradient),
+            linear-gradient,
+            'Strip units returns the correct number');
+    }
+    @include it('str-remove-prefix correctly removes -o-') {
+        @include assert-equal(
+            str-remove-prefix(-o-linear-gradient),
+            linear-gradient,
+            'Strip units returns the correct number');
+    }
+    @include it('str-remove-prefix correctly removes -khtml-') {
+        @include assert-equal(
+            str-remove-prefix(-khtml-linear-gradient),
+            linear-gradient,
+            'Strip units returns the correct number');
+    }
+    @include it('str-remove-prefix leaves unprefixed alone-') {
+        @include assert-equal(
+            str-remove-prefix(linear-moz-gradient),
+            linear-moz-gradient,
+            'Strip units returns the correct number');
+    }
+}

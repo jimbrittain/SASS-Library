@@ -1,0 +1,16 @@
+//requires pow, strip-units;
+$decimalplaces: 2 !default;
+@function to-dp($val, $dp:$decimalplaces) {
+    @if not(type-of($val) == number) {
+        @warn 'function to-dp cannot complete as ' + $val + ' is not a number';
+        @return $val; }
+    $dp: if(type-of($dp) == number, $dp, 2); //defaults to 2 if not a number
+    $dp: if(not(unitless($dp)), strip-units($dp), $dp);
+    
+    $p: pow(10, $dp);
+    $val: round($val * $p);
+    @return $val/$p; }
+@function to-3dp($val){ @return to-dp($val,3); }
+@function to-2dp($val){ @return to-dp($val,2); }
+@function to-1dp($val){ @return to-dp($val,1); }
+@function to-0dp($val){ @return round(to-dp($val,1)); }

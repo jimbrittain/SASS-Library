@@ -1,0 +1,10 @@
+@mixin __column-fill($val:auto){
+  @if is-reserved-variable($val) or is-column-fill-keyword($val) {
+    -moz-column-fill: $val;
+    -webkit-column-fill: $val;
+    column-fill: $val;
+  } @else { @warn "column-fill supplied with an unrecognized value."; }}
+
+@function is-column-fill-keyword($val){
+    $list: (auto balance balance-all);
+    @return if(index($list,$val) != null, true, false); }

@@ -1,0 +1,116 @@
+@import 'true';
+@import '../src/cast-to-boolean.scss';
+@include describe('cast-to-boolean function:') {
+    @include it('cast-to-boolean returns a boolean for boolean true') {
+        @include assert-true(
+            type-of(cast-to-boolean(true)) == bool,
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean returns a boolean for boolean false') {
+        @include assert-true(
+            type-of(cast-to-boolean(false)) == bool,
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean returns a boolean for 0') {
+        @include assert-true(
+            type-of(cast-to-boolean(0)) == bool,
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean returns a boolean for 1') {
+        @include assert-true(
+            type-of(cast-to-boolean(1)) == bool,
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean returns a boolean for "true"') {
+        @include assert-true(
+            type-of(cast-to-boolean('true')) == bool,
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean returns a boolean for "false"') {
+        @include assert-true(
+            type-of(cast-to-boolean('true')) == bool,
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean returns a boolean for unsupported type') {
+        $list: (1 2 3);
+        @include assert-true(
+            type-of(cast-to-boolean($list)) == bool,
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean checks, true 1') {
+        @include assert-true(
+            cast-to-boolean(true),
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean checks, true 2') {
+        @include assert-true(
+            cast-to-boolean(1),
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean checks, true 3') {
+        @include assert-true(
+            cast-to-boolean('TRUE'),
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean checks, true 4') {
+        @include assert-true(
+            cast-to-boolean('true'),
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean checks, true 5') {
+        @include assert-true(
+            cast-to-boolean('True'),
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean checks, true 6') {
+        $list: (1 2);
+        @include assert-true(
+            cast-to-boolean($list),
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean checks, true 7') {
+        @include assert-true(
+            cast-to-boolean('a'),
+            'A boolean is returned');
+    }
+
+
+
+
+    @include it('cast-to-boolean checks, false 1') {
+        @include assert-false(
+            cast-to-boolean(false),
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean checks, false 2') {
+        @include assert-false(
+            cast-to-boolean(0),
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean checks, false 3') {
+        @include assert-false(
+            cast-to-boolean('FALSE'),
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean checks, false 4') {
+        @include assert-false(
+            cast-to-boolean('false'),
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean checks, false 5') {
+        @include assert-false(
+            cast-to-boolean('False'),
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean checks, false 6') {
+        $list: ();
+        @include assert-false(
+            cast-to-boolean($list),
+            'A boolean is returned');
+    }
+    @include it('cast-to-boolean checks, false 7') {
+        @include assert-false(
+            cast-to-boolean(''),
+            'A boolean is returned');
+    }
+}

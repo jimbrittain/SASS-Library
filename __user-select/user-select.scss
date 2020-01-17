@@ -1,0 +1,23 @@
+@mixin __user-select($val){
+    $valid: (all, auto, none, text, contain, element, -moz-none);
+    $val-assigned: if(list-search($val, $valid) == true, $val, auto);
+    $val-all: if(($val-assigned == -moz-none), none, $val-assigned);
+    $val-all: if(($val-assigned == element), contain, $val-all);
+
+    $val-web: if($val-assigned == -moz-none, none, $val-assigned);
+    $val-web: if($val-assigned == all, auto, $val-web);
+
+    $val-ms: if(($val-assigned == element or $val-assigned == contain), element, $val-all);
+    $val-ms: if($val-assigned == all, auto, $val-ms);
+
+    $val-moz: if(($val-assigned == -moz-none), -moz-none, $val-all);
+    $val-callout: if(($val-all == none), none, default);
+    
+    -khtml-user-select: safe-unquote($val-all);
+    -moz-user-select: safe-unquote($val-moz);
+    -ms-user-select: safe-unquote($val-ms);
+    -webkit-user-select: safe-unquote($val-web);
+    user-select: safe-unquote($val-all);
+
+    -webkit-touch-callout: safe-unquote($val-callout);
+}

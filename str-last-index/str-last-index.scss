@@ -1,0 +1,14 @@
+@function str-last-index($haystack, $needle) {
+    $needle: if(type-of($needle) == string, $needle, ($needle + ''));
+    @if(type-of($haystack) == string and type-of($needle) == string) {
+        $hay: $haystack;
+        $index: 0;
+        $i: 1;
+        @while not(str-index($hay, $needle) == null) {
+            @if not(str-index($hay, $needle) == null) {
+                $index: str-index($hay, $needle) + $index;
+                $hay: str-slice($hay, str-index($hay, $needle) + 1); }}
+        @return if($index == 0, 0, $index);
+    } @else { 
+        @warn "str-last-index() supplied a none-string";
+        @return 0; }}

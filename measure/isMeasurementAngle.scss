@@ -1,0 +1,6 @@
+@function isMeasurementAngle($unit){
+    $unit: if(type-of($unit) == number and not(unitless($unit)), unit($unit), $unit);
+    $angleValues: 'grad' 'rad' 'deg' 'turn';
+    $index: index($angleValues, $unit);
+    @return if(not $index, false, true);
+}

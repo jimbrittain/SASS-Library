@@ -1,0 +1,69 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/style-form-user-entries.scss';
+@include describe('style-form-user-entries mixin') {
+    @include it('style-form-user-entries, no additions') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include style-form-user-entries {
+                        color: red;
+                    }
+                }
+            }
+            @include contains(false) {
+                 #cheese textarea, #cheese input[type="date"], #cheese input[type="datetime-local"], #cheese input[type="email"], #cheese input[type="month"], #cheese input[type="number"], #cheese input[type="password"], #cheese input[type="search"], #cheese input[type="tel"], #cheese input[type="text"], #cheese input[type="time"], #cheese input[type="url"], #cheese input[type="datetime"] {
+                    color: red;
+                }
+            }
+        }
+    }
+    @include it('style-form-user-entries, 1 additions') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include style-form-user-entries('a.button') {
+                        color: red;
+                    }
+                }
+            }
+            @include contains(false) {
+                 #cheese textarea, #cheese input[type="date"], #cheese input[type="datetime-local"], #cheese input[type="email"], #cheese input[type="month"], #cheese input[type="number"], #cheese input[type="password"], #cheese input[type="search"], #cheese input[type="tel"], #cheese input[type="text"], #cheese input[type="time"], #cheese input[type="url"], #cheese input[type="datetime"], #cheese a.button {
+                    color: red;
+                }
+            }
+        }
+    }
+    @include it('style-form-user-entries, 2 additions, space separated') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include style-form-user-entries('a.button' 'a.smallbutton') {
+                        color: red;
+                    }
+                }
+            }
+            @include contains(false) {
+                 #cheese textarea, #cheese input[type="date"], #cheese input[type="datetime-local"], #cheese input[type="email"], #cheese input[type="month"], #cheese input[type="number"], #cheese input[type="password"], #cheese input[type="search"], #cheese input[type="tel"], #cheese input[type="text"], #cheese input[type="time"], #cheese input[type="url"], #cheese input[type="datetime"], #cheese a.button, #cheese a.smallbutton {
+                    color: red;
+                }
+            }
+        }
+    }
+    @include it('style-form-user-entries, 2 additions, comma separated') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include style-form-user-entries('a.button', 'a.smallbutton') {
+                        color: red;
+                    }
+                }
+            }
+            @include contains(false) {
+                 #cheese textarea, #cheese input[type="date"], #cheese input[type="datetime-local"], #cheese input[type="email"], #cheese input[type="month"], #cheese input[type="number"], #cheese input[type="password"], #cheese input[type="search"], #cheese input[type="tel"], #cheese input[type="text"], #cheese input[type="time"], #cheese input[type="url"], #cheese input[type="datetime"], #cheese a.button, #cheese a.smallbutton {
+                    color: red;
+                }
+            }
+        }
+    }
+}

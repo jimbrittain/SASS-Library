@@ -1,0 +1,72 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/border-image-source.scss';
+@include describe('__border-image-source mixin') {
+    @include it('Outputs border-image-source proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image-source(none);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image-source: none;
+                    -o-border-image-source: none;
+                    -webkit-border-image-source: none;
+                    border-image-source: none;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-image-source proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image-source(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image-source: inherit;
+                    -o-border-image-source: inherit;
+                    -webkit-border-image-source: inherit;
+                    border-image-source: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-image-source proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image-source(url('/media/examples/border-diamonds.png'));
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image-source: url('/media/examples/border-diamonds.png');
+                    -o-border-image-source: url('/media/examples/border-diamonds.png');
+                    -webkit-border-image-source: url('/media/examples/border-diamonds.png');
+                    border-image-source: url('/media/examples/border-diamonds.png');
+                }
+            }
+        }
+    }
+    @include it('Outputs border-image-source proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image-source(repeating-linear-gradient(45deg, transparent, #4d9f0c 20px));
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image-source: repeating-linear-gradient(45deg, transparent, #4d9f0c 20px);
+                    -o-border-image-source: repeating-linear-gradient(45deg, transparent, #4d9f0c 20px);
+                    -webkit-border-image-source: repeating-linear-gradient(45deg, transparent, #4d9f0c 20px);
+                    border-image-source: repeating-linear-gradient(45deg, transparent, #4d9f0c 20px);
+                }
+            }
+        }
+    }}

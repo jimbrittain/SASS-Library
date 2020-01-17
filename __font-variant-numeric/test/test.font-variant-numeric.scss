@@ -1,0 +1,66 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/font-variant-numeric.scss';
+@include describe('is-font-variant-numeric-value function:') {
+    @include it('True for inherit') { @include assert-true(is-font-variant-numeric-value(inherit)); }
+    @include it('True for normal') { @include assert-true(is-font-variant-numeric-value(normal)); }
+    @include it('True for ordinal') { @include assert-true(is-font-variant-numeric-value(ordinal)); }
+    @include it('True for slashed-zero') { @include assert-true(is-font-variant-numeric-value(slashed-zero)); }
+    @include it('True for lining-nums') { @include assert-true(is-font-variant-numeric-value(lining-nums)); }
+    @include it('True for oldstyle-nums') { @include assert-true(is-font-variant-numeric-value(oldstyle-nums)); }
+    @include it('True for proportional-nums') { @include assert-true(is-font-variant-numeric-value(proportional-nums)); }
+    @include it('True for tabular-nums') { @include assert-true(is-font-variant-numeric-value(tabular-nums)); }
+    @include it('True for diagonal-fractions') { @include assert-true(is-font-variant-numeric-value(diagonal-fractions)); }
+    @include it('True for stacked-fractions') { @include assert-true(is-font-variant-numeric-value(stacked-fractions)); }
+    @include it('True for oldstyle-nums stacked-fractions') { @include assert-true(is-font-variant-numeric-value(oldstyle-nums stacked-fractions)); }
+    @include it('False for normal normal') { @include assert-false(is-font-variant-numeric-value(normal normal)); }
+    @include it('False for bert') { @include assert-false(is-font-variant-numeric-value(bert)); }
+    @include it('False for 101') { @include assert-false(is-font-variant-numeric-value(101)); }}
+
+@include describe('__font-variant-numeric mixin') {
+    @include it('Outputs font-variant-numeric by -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __font-variant-numeric(normal);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-font-variant-numeric: normal;
+                    font-variant-numeric: normal;
+                }
+            }
+        }
+    }
+    @include it('Outputs font-variant-numeric by -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __font-variant-numeric(oldstyle-nums stacked-fractions);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-font-variant-numeric: oldstyle-nums stacked-fractions;
+                    font-variant-numeric: oldstyle-nums stacked-fractions;
+                }
+            }
+        }
+    }
+    @include it('Outputs font-variant-numeric by -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __font-variant-numeric(oldstyle-nums, stacked-fractions);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-font-variant-numeric: oldstyle-nums stacked-fractions;
+                    font-variant-numeric: oldstyle-nums stacked-fractions;
+                }
+            }
+        }
+    }
+}

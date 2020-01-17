@@ -1,0 +1,38 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/list-fill.scss';
+@include describe('list-fill function:') {
+    @include it('list-fill creates a list of 1 filled with 1s') {
+        $list: ();
+        $list: append($list, 1);
+        @include assert-equal(
+            list-fill(1, 1),
+            $list,
+            'list-fill 1,1');
+    }
+    @include it('list-fill creates a list of 1 filled with 1s, separated with commas') {
+        @include assert-equal(
+            list-fill(4, 1, ''),
+            (1, 1, 1, 1),
+            'list-fill 1,1');
+    }
+    @include it('list-fill creates a list of 8 filled with 1s') {
+        @include assert-equal(
+            list-fill(8, 1),
+            (1 1 1 1 1 1 1 1),
+            'list-fill 8,1');
+    }
+    @include it('list-fill creates a list of 2 filled with string') {
+        @include assert-equal(
+            list-fill(2, '<li></li>'),
+            ('<li></li>' '<li></li>'),
+            'list-fill 2, strings');
+    }
+    @include it('list-fill creates a list of 2 filled with lists') {
+        $list: (1 2);
+        @include assert-equal(
+            list-fill(2, $list),
+            ((1 2) (1 2)),
+            'list-fill 2, lists');
+    }
+}

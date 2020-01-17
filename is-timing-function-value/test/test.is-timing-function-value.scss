@@ -1,0 +1,25 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/is-timing-function-value.scss';
+@include describe('is-timing-function-value function:') {
+    @include it('is-timing-function-value returns true for ease-out') {
+        @include assert-true(
+            is-timing-function-value(ease-out),
+            'true: ease-out');
+    }
+    @include it('is-timing-function-value returns true for steps(4, jump-end)') {
+        @include assert-true(
+            is-timing-function-value(steps(4, jump-end)),
+            'true: steps(4, jump-end)');
+    }
+    @include it('is-timing-function-value returns true for cubic-bezier(0.1, 0.7, 1.0, 0.1)') {
+        @include assert-true(
+            is-timing-function-value(cubic-bezier(0.1, 0.7, 1.0, 0.1)),
+            'true: cubic-bezier(0.1, 0.7, 1.0, 0.1)');
+    }
+    @include it('is-timing-function-value returns true for hamster') {
+        @include assert-false(
+            is-timing-function-value(hamster),
+            'false: hamster');
+    }
+}

@@ -1,0 +1,12 @@
+@function list-unshift($a, $v){
+  @if(type-of($a) == 'list'){
+    $i: 1;
+    $r: ();
+    $r: append($r, $v);
+    @while $i < length($a) + 1{
+      $r: append($r, nth($a, $i));
+      $i: $i + 1; }
+    @return $r;
+  } @else {
+    @warn "list-unshift: not supplied a list";
+    @return $a; }}

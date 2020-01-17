@@ -1,0 +1,5 @@
+@function is-circular-shape-value($val) {
+    $list: (circle ellipse);
+    @if type-of($val) == string and index($list, $val) != null {
+        @return true; }
+    @return false; }

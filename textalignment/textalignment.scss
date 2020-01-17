@@ -1,0 +1,4 @@
+@mixin textalignment($val:auto, $last:$val) {
+    @if ($val == justify) {
+        @include __text-align(justify, left, newspaper);
+    } @else { @include __text-align($val, $last); }}

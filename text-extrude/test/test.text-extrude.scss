@@ -1,0 +1,63 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/text-extrude.scss';
+@include describe('text-extrude mixin') {
+    /*
+    @include it('delete when done') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include text-extrude(black 10px 10px);
+                }
+            }
+            @include expect(false) {
+                #cheese {
+                    text-shadow: none;
+                }
+            }
+        }
+    }
+    @include it('delete when done') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include text-extrude(black 10px 10px);
+                }
+            }
+            @include expect(false) {
+                #cheese {
+                    text-shadow: 10px 10px 0 black, 9.28571px 9.28571px 0 black, 8.57143px 8.57143px 0 black, 7.85714px 7.85714px 0 black, 7.14286px 7.14286px 0 black, 6.42857px 6.42857px 0 black, 5.71429px 5.71429px 0 black, 5px 5px 0 black, 4.28571px 4.28571px 0 black, 3.57143px 3.57143px 0 black, 2.85714px 2.85714px 0 black, 2.14286px 2.14286px 0 black, 1.42857px 1.42857px 0 black, 0.71429px 0.71429px 0 black;
+                }
+            }
+        }
+    }
+    @include it('delete when done') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include text-extrude(black 1em 1em);
+                }
+            }
+            @include expect(false) {
+                #cheese {
+                    text-shadow: 10px 10px 0 black, 9.28571px 9.28571px 0 black, 8.57143px 8.57143px 0 black, 7.85714px 7.85714px 0 black, 7.14286px 7.14286px 0 black, 6.42857px 6.42857px 0 black, 5.71429px 5.71429px 0 black, 5px 5px 0 black, 4.28571px 4.28571px 0 black, 3.57143px 3.57143px 0 black, 2.85714px 2.85714px 0 black, 2.14286px 2.14286px 0 black, 1.42857px 1.42857px 0 black, 0.71429px 0.71429px 0 black;
+                }
+            }
+        }
+    }
+    @include it('delete when done') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include text-extrude(black 1em -2em);
+                }
+            }
+            @include expect(false) {
+                #cheese {
+                    text-shadow: 10px 10px 0 black, 9.28571px 9.28571px 0 black, 8.57143px 8.57143px 0 black, 7.85714px 7.85714px 0 black, 7.14286px 7.14286px 0 black, 6.42857px 6.42857px 0 black, 5.71429px 5.71429px 0 black, 5px 5px 0 black, 4.28571px 4.28571px 0 black, 3.57143px 3.57143px 0 black, 2.85714px 2.85714px 0 black, 2.14286px 2.14286px 0 black, 1.42857px 1.42857px 0 black, 0.71429px 0.71429px 0 black;
+                }
+            }
+        }
+    }
+    */
+}

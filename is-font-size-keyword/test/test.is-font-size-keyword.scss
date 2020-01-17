@@ -1,0 +1,59 @@
+@import 'true';
+@import '../src/is-font-size-keyword.scss';
+@include describe('is-font-size-keyword function:') {
+    @include it('is-font-size-keyword returns true, xx-small') {
+        @include assert-true(
+            is-font-size-keyword(xx-small),
+            'xx-small');
+    }
+    @include it('is-font-size-keyword returns true, x-small') {
+        @include assert-true(
+            is-font-size-keyword(x-small),
+            'x-small');
+    }
+    @include it('is-font-size-keyword returns true, small') {
+        @include assert-true(
+            is-font-size-keyword(small),
+            'small');
+    }
+    @include it('is-font-size-keyword returns true, medium') {
+        @include assert-true(
+            is-font-size-keyword(medium),
+            'medium');
+    }
+    @include it('is-font-size-keyword returns true, large') {
+        @include assert-true(
+            is-font-size-keyword(large),
+            'large');
+    }
+    @include it('is-font-size-keyword returns true, x-large') {
+        @include assert-true(
+            is-font-size-keyword(x-large),
+            'x-large');
+    }
+    @include it('is-font-size-keyword returns true, xx-large') {
+        @include assert-true(
+            is-font-size-keyword(xx-large),
+            'xx-large');
+    }
+    @include it('is-font-size-keyword returns true, xxx-large') {
+        @include assert-true(
+            is-font-size-keyword(xxx-large),
+            'xxx-large');
+    }
+    @include it('is-font-size-keyword returns true, smaller') {
+        @include assert-true(
+            is-font-size-keyword(smaller),
+            'smaller');
+    }
+    @include it('is-font-size-keyword returns true, larger') {
+        @include assert-true(
+            is-font-size-keyword(larger),
+            'larger');
+    }
+    @include it('is-font-size-keyword returns false, none') {
+        @include assert-false(
+            is-font-size-keyword(none),
+            'none, false');
+    }
+}

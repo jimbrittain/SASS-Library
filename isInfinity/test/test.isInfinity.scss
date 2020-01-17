@@ -1,0 +1,15 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/isInfinity.scss';
+@include describe('isInfinity function:') {
+    @include it('infinity = 1/0') {
+        @include assert-true(
+            isInfinity(1/0),
+            '1 divided by zero');
+    }
+    @include it('infinity = log(0)') {
+        @include assert-true(
+            isInfinity(log(0)),
+            'log(0)');
+    }
+}

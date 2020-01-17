@@ -1,0 +1,23 @@
+@import 'true';
+@import '../src/after.scss';
+@include describe('__after mixin') {
+    @include it('Outputs two :after pseudo selectors, :after and ::after') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __after(){
+                        content: '';
+                    }
+                }
+            }
+            @include expect {
+                #cheese::after {
+                    content: '';
+                }
+                #cheese:after {
+                    content: '';
+                }
+            }
+        }
+    }
+}

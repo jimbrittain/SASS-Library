@@ -1,0 +1,39 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/border-image.scss';
+@include describe('__border-image mixin') {
+    @include it('Outputs border-image proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image(url('mine.jpg'), 0, 0, repeat);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image: url('mine.jpg') 0 0 repeat;
+                    -o-border-image: url('mine.jpg') 0 0 repeat;
+                    -webkit-border-image: url('mine.jpg') 0 0 repeat;
+                    border-image: url('mine.jpg') 0 0 repeat;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-image proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image(url('mine.jpg') 0 0 repeat);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image: url('mine.jpg') 0 0 repeat;
+                    -o-border-image: url('mine.jpg') 0 0 repeat;
+                    -webkit-border-image: url('mine.jpg') 0 0 repeat;
+                    border-image: url('mine.jpg') 0 0 repeat;
+                }
+            }
+        }
+    }
+}

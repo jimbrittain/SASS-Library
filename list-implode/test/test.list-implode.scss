@@ -1,0 +1,28 @@
+@import 'true';
+@import '../src/list-implode.scss';
+@include describe('list-implode function:') {
+    @include it('list-implode returns string, single character delimiter') {
+        @include assert-equal(
+            list-implode((1 2 3 4 5 6 7), '%'),
+            '1%2%3%4%5%6%7',
+            'Works for single character delimiter');
+    }
+    @include it('list-implode returns string, multi character delimiter') {
+        @include assert-equal(
+            list-implode((1 2 3 4 5 6 7), 'cheese'),
+            '1cheese2cheese3cheese4cheese5cheese6cheese7',
+            'Works for single character delimiter');
+    }
+    @include it('list-implode returns string, single character delimiter') {
+        @include assert-equal(
+            list-implode((1 2 3 4 5 6 7 (8 9)), '%', false),
+            '1%2%3%4%5%6%7%8 9',
+            'Works for single character delimiter');
+    }
+    @include it('list-implode returns string, single character delimiter, recursive') {
+        @include assert-equal(
+            list-implode((1 2 3 4 5 6 7 (8 9)), '%', true),
+            '1%2%3%4%5%6%7%8%9',
+            'Works for single character delimiter');
+    }
+}

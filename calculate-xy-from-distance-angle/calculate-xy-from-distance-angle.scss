@@ -1,0 +1,35 @@
+//requires strip-units, zeromeasure, convert-angle, rational-angle, cos, sin
+@function calculate-xy-from-distance-angle($distance, $angle, $degrees:true){
+    @if type-of($angle) == number and type-of($distance) == number {
+        $no_base: true;
+        $base_unit: px;
+        @if not unitless($distance) {
+            $no_base: false;
+            $base_unit: unit($distance);
+            $distance: strip-units($distance); }
+        $degs: 0deg;
+        @if type-of($angle) == number and unitless($angle) {
+            $is_d: if($degrees == true, deg, rad);
+            $angle: zeromeasure($is_d) + $angle; }
+
+        $degs: convert-angle($angle, deg);
+        $rads: convert-angle($angle, rad);
+        @if $distance < 0 {
+            $degs: rational-angle(180deg + $degs);
+            $rads: convert-angle($degs, rad);
+            $distance: abs($distance); }
+
+            $x: cos($rads) * $distance;
+            $y: sin($rads) * $distance;
+
+            @if type-of($x) == number and type-of($y) == number {
+                $x: if($no_base == true, strip-units($x), zeromeasure($base_unit) + strip-units($x));
+                $y: if($no_base == true, strip-units($y), zeromeasure($base_unit) + strip-units($y));
+            @return ($x, $y);
+        } @else { @warn "calculate-xy-from-distance-angle resulted in a none number"; }
+    } @else { @warn "calculate-xy-from-distance-angle was supplied a none-number"; }
+    @return (0px, 0px); }
+
+@function calculateXYFromDistanceAngle($distance, $angle, $degrees:true){
+    $degrees: if($degrees == true, deg, rad);
+    @return calculate-xy-from-distance-angle($distance, $angle, $degrees); }

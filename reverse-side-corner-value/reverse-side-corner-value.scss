@@ -1,0 +1,27 @@
+@function reverse-side-corner-value($a1,$a2:$_bi_d,$a3:$_bi_d){
+    $args: arguments($a1,$a2,$a3);
+    $args: list-change-separator($args, ' ');
+    $args: list-safe-unquote-items($args);
+    $val: nth($args, 1);
+    @if type-of($val) == string { 
+        @if str-index($val, ' ') != null and length($args) == 1 {
+            $args: str-explode($val, ' '); }}
+    $r: ();
+    @if is-side-corner-value($args) {
+        @if index($args, 'to') == null { $r: append($r, 'to'); }
+        @each $s in $args {
+            @if $s == 'bottom' {
+                $r: append($r, top);
+            } @else if $s == 'top' {
+                $r: append($r, bottom);
+            } @else if $s == 'left' {
+                $r: append($r, right);
+            } @else if $s == 'right' {
+                $r: append($r, left);
+            }
+        }
+        $r: list-safe-unquote-items($r);
+        @return $r;
+    }
+    @return $args;
+}

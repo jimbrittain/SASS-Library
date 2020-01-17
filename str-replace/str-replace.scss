@@ -1,0 +1,21 @@
+@function str-replace($haystack, $needle, $replace){
+    @if (type-of($haystack) == 'string' and type-of($needle) == 'string' and type-of($replace) == 'string') {
+        $i: 1;
+        @while $i < str-length($haystack) {
+            $ws: str-slice($haystack, $i);
+            @if (str-index($ws, $needle) != null) {
+                $ind: str-index($ws, $needle) + ($i - 1);
+                $endind: $ind + str-length($needle);
+
+                $start-str: if(($ind - 1) > 0, str-slice($haystack,1,$ind - 1), '');
+                $end-str: if($endind < (str-length($haystack) + 1), str-slice($haystack, $endind), '');
+                $haystack: $start-str + $replace + $end-str;
+
+                $i: $ind + str-length($replace) - 1;
+            } @else {
+                $i: str-length($haystack);
+            }
+            $i: $i + 1;
+        }
+    }
+    @return $haystack; }

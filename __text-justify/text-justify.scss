@@ -1,0 +1,37 @@
+@mixin __text-justify($val:newspaper, $include-align: true, $include-last: true) {
+    @if is-reserved-variable($val) or is-text-justify-value($val) or is-ms-text-justify-value($val) {
+        @if ($include-align == true) {
+          text-align: if($val == none, left, justify); }
+        @if is-reserved-variable($val) {
+            -ms-text-justify: safe-unquote($val);
+            text-justify: safe-unquote($val);
+        } @else {
+            $ms: if(not(is-ms-text-justify-value($val)), convert-ms-text-justify-value($val, true), $val);
+            -ms-text-justify: safe-unquote($ms);
+            $tj: if(not(is-text-justify-value($val)), convert-ms-text-justify-value($val), $val);
+            text-justify: safe-unquote($tj); 
+            @if ($tj == 'distribute') { text-justify: inter-character; }
+        }
+        @if $include-last == true and ($val == distribute-all-lines or $val == distribute-center-last) {
+            @if ($val == distribute-all-lines){
+                @include __text-align-last(justify);
+            } @else if ($val == distribute-center-last) {
+                @include __text-align-last(center); }}
+    }
+}
+
+@function is-text-justify-value($val) {
+    $list: (auto inter-word inter-character distribute none);
+    @return if(index($list,$val) != null, true, false); }
+
+@function is-ms-text-justify-value($val) {
+    $list: (auto distribute distribute-all-lines distribute-center-last inter-cluster inter-ideograph inter-word kashida newspaper);
+    @return if(index($list,$val) != null, true, false);
+}
+@function convert-ms-text-justify-value($val, $ms: false) {
+    $mslist: (auto distribute distribute-all-lines distribute-center-last inter-cluster inter-ideograph inter-word kashida newspaper auto distribute);
+    $stds: (auto distribute distribute distribute inter-word auto inter-word auto auto none inter-character);
+    @if ($ms == false) {
+        @return nth($stds, index($mslist, $val));
+    } @else {
+        @return nth($mslist, index($stds, $val)); }}

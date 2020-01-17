@@ -1,0 +1,53 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/subtractnumbers.scss';
+@include describe('subtract-numbers function:') {
+    @include it('Relative to relative') {
+        @include assert-equal( subtract-numbers(10ex,5ex), 5ex); }
+    @include it('Relative to interger') {
+        @include assert-equal( subtract-numbers(25ex,5), 20ex); }
+    @include it('Relative to absolute') {
+        @include assert-equal(subtract-numbers(1em,8px), 0.5em); }
+    @include it('interger to interger') {
+        @include assert-equal(
+            subtract-numbers(15,5), 
+            10,
+            "Interger subtracting interger");
+    }
+    @include it('interger to absolute') {
+        @include assert-equal(
+            subtract-numbers(5,5px), 
+            0,
+            "Interger subtracting an absolute");
+    }
+    @include it('interger to relative') {
+        @include assert-equal(
+            subtract-numbers(32,1em), 
+            16,
+            "Interger subtracting relative");
+    }
+    @include it('interger to absolute') {
+        @include assert-equal(
+            subtract-numbers(25,5px), 
+            20,
+            "Interger subtracting absolute");
+    }
+    @include it('absolute to relative') {
+        @include assert-equal(
+            subtract-numbers(32px,2em), 
+            0px,
+            "Absolute unit subtracting interger");
+    }
+    @include it('absolute to absolute') {
+        @include assert-equal(
+            subtract-numbers(18px,8px), 
+            10px,
+            "Absolute unit subtracting an absolute");
+    }
+    @include it('absolute to interger') {
+        @include assert-equal(
+            subtract-numbers(10px,5), 
+            5px,
+            "Absolute unit subtracting an interger");
+    }
+}

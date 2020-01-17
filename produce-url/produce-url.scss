@@ -1,0 +1,15 @@
+$file-location: '' !default;
+@function produce-url($file, $fl:$file-location) {
+    @if type-of($file) == string and type-of($fl) == string {
+        @if str-index($file, '/') == 1 { $file: str-slice($file, 2); }
+        @if str-last-index($fl, '/') != str-length($fl) { $fl: $fl + '/'; }
+        $ts: typical-url-encode($file);
+        //@if str-length($file) != str-length($ts) { @warn 'The file name does not seem to have been encoded'; }
+
+        $str: '';
+        $str: '' + $fl + $file;
+        $str: 'url(' + '"' + (safe-unquote($str));
+        $str: $str + '"' + ')';
+        @return safe-unquote($str); 
+    }
+}

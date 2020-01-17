@@ -1,0 +1,12 @@
+@function list-reverse($a){
+    @if(type-of($a) == 'list'){
+        $i: length($a);
+        $r: ();
+        @while($i > 0){
+            $r: append($r, nth($a, $i));
+            $i: $i - 1; }
+        $r: list-change-separator($r, list-separator($a));
+        @return $r;
+    } @else { 
+        @warn "list-reverse: not supplied a list"; 
+        @return $a; }}

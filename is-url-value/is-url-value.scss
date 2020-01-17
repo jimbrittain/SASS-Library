@@ -1,0 +1,4 @@
+@function is-url-value($val){
+    @if type-of($val) == string and str-index($val, 'url(') == 1 and str-last-index($val, ')') == str-length($val) {
+        @return true;
+    } @else { @return false; }}

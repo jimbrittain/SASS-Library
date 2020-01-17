@@ -1,0 +1,56 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/placeholder.scss';
+@include describe('__placeholder mixin') {
+    @include it('Outputs ::placeholder  proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __placeholder {
+                        color: red;
+                    }
+                }
+            }
+            @include contains {
+                #cheese:-moz-placeholder { color: red; }
+                #cheese:-ms-input-placeholder { color: red; }
+                #cheese:-webkit-input-placeholder { color: red; }
+                #cheese::-moz-placeholder { color: red; }
+                #cheese::-webkit-input-placeholder { color: red; }
+                #cheese:placeholder { color: red; }
+                #cheese::placeholder { color: red; }
+            }
+        }
+    }
+    @include it('Outputs ::placeholder  proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include placeholder_definitions {
+                        color: red;
+                    }
+                }
+            }
+            @include contains {
+                #cheese::placeholder { color: red; }
+            }
+        }
+    }
+}
+@include describe('__placeholder-shown mixin') {
+    @include it('Outputs ::placeholder-shown  proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __placeholder-shown {
+                        color: red;
+                    }
+                }
+            }
+            @include contains {
+                #cheese:placeholder-shown { color: red; }
+                #cheese::placeholder-shown { color: red; }
+            }
+        }
+    }
+}

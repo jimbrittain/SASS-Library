@@ -1,0 +1,87 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/border-image-repeat.scss';
+@include describe('__border-image-repeat mixin') {
+    @include it('Outputs border-image-repeat proceeded by the -o, -moz, and -webkit prefixes; inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image-repeat(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image-repeat: inherit;
+                    -ms-border-image-repeat: inherit;
+                    -o-border-image-repeat: inherit;
+                    -webkit-border-image-repeat: inherit;
+                    border-image-repeat: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-image-repeat proceeded by the -o, -moz, and -webkit prefixes; round') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image-repeat(round);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image-repeat: round;
+                    -ms-border-image-repeat: round;
+                    -o-border-image-repeat: round;
+                    -webkit-border-image-repeat: round;
+                    border-image-repeat: round;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-image-repeat proceeded by the -o, -moz, and -webkit prefixes; round stretch') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image-repeat(round stretch);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image-repeat: round stretch;
+                    -ms-border-image-repeat: round stretch;
+                    -o-border-image-repeat: round stretch;
+                    -webkit-border-image-repeat: round stretch;
+                    border-image-repeat: round stretch;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-image-repeat proceeded by the -o, -moz, and -webkit prefixes; round stretch') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image-repeat(round, stretch);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image-repeat: round stretch;
+                    -ms-border-image-repeat: round stretch;
+                    -o-border-image-repeat: round stretch;
+                    -webkit-border-image-repeat: round stretch;
+                    border-image-repeat: round stretch;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-image-repeat proceeded by the -o, -moz, and -webkit prefixes; hamster') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image-repeat(hamster);
+                }
+            }
+            @include expect {}
+        }
+    }
+}

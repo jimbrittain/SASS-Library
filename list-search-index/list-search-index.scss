@@ -1,0 +1,11 @@
+@function list-search-index($haystack, $needle){
+    $set: 0;
+    @if(type-of($haystack) == list) {
+        $i: 0;
+        @while $set == 0 and $i < length($haystack) {
+            $i: $i + 1;
+            @if(nth($haystack, $i) == $needle){
+                $set: $i; }}}
+    @return if($set == 0, false, $set); }
+
+@function find_sb_index($haystack, $needle){ @return list-search-index($haystack, $needle); } //Backwards compat.

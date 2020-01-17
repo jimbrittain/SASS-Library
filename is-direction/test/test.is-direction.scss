@@ -1,0 +1,11 @@
+@import 'true';
+@import '../src/is-direction.scss';
+@include describe('is-direction function:') {
+    @include it('is-direction: top, true') { @include assert-true(is-direction(top)); }
+    @include it('is-direction: bottom, true') { @include assert-true(is-direction(bottom)); }
+    @include it('is-direction: left, true') { @include assert-true(is-direction(left)); }
+    @include it('is-direction: right, true') { @include assert-true(is-direction(right)); }
+    @include it('is-direction: TOP, false') { @include assert-false(is-direction(TOP)); }
+    @include it('is-direction: 1, false') { @include assert-false(is-direction(1)); }
+    @include it('is-direction: (1 2), false') { @include assert-false(is-direction((1 2))); }
+}

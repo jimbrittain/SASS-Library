@@ -1,0 +1,36 @@
+@import 'true';
+@import '../src/cast-to-string.scss';
+@include describe('cast-to-string function:') {
+    @include it('cast-to-string for number') {
+        @include assert-equal(
+            cast-to-string(123456),
+            '123456',
+            'casts number to string');
+    }
+    @include it('cast-to-string for number, negative') {
+        @include assert-equal(
+            cast-to-string(-123456),
+            '-123456',
+            'casts number to string, negative');
+    }
+    @include it('cast-to-string for list, space') {
+        $list: (1 2 3 4);
+        @include assert-equal(
+            cast-to-string($list),
+            '1 2 3 4',
+            'casts list to string');
+    }
+    @include it('cast-to-string for list, comma') {
+        $list: (1, 2, 3, 4);
+        @include assert-equal(
+            cast-to-string($list),
+            '1, 2, 3, 4',
+            'casts list to string');
+    }
+    @include it('cast-to-string for boolean') {
+        @include assert-equal(
+            cast-to-string(true),
+            'true',
+            'casts boolean to string');
+    }
+}

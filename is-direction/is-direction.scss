@@ -1,0 +1,3 @@
+@function is-direction($dir) {
+    $list: (top right bottom left);
+    @return if(index($list,$dir) != null, true, false); }

@@ -1,0 +1,23 @@
+@import 'true';
+@import '../src/before.scss';
+@include describe('__before mixin') {
+    @include it('Outputs two :before pseudo selectors, :after and ::after') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __before(){
+                        content: '';
+                    }
+                }
+            }
+            @include expect {
+                #cheese::before {
+                    content: '';
+                }
+                #cheese:before {
+                    content: '';
+                }
+            }
+        }
+    }
+}

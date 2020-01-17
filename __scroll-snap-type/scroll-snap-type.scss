@@ -1,0 +1,8 @@
+$_bi_d: -1 !default;
+@mixin __scroll-snap-type($a1, $a2:$_bi_d){
+    $args: arguments($a1,$a2);
+    $args: list-change-separator($args, ' ');
+    //none, x, y, block, inline, both, x|y|both mandatory|proximity, inherit, initial, unset
+    -ms-scroll-snap-type: $args;
+    -webkit-scroll-snap-type: $args;
+    scroll-snap-type: $args; }

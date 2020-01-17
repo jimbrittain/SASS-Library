@@ -1,0 +1,3 @@
+@function is-integer($val) {
+    @return if(type-of($val) == number and unitless($val) and $val == round($val) and (str-length(quote($val)) == str-length(quote(round($val)))), true, false);
+}

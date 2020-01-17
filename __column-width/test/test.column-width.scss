@@ -1,0 +1,63 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/column-width.scss';
+@include describe('__column-width mixin') {
+    @include it('Outputs column-width proceeded by the -moz, and -webkit prefixes: auto') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-width(auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-width: auto;
+                    -webkit-column-width: auto;
+                    column-width: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-width proceeded by the -moz, and -webkit prefixes: 60px') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-width(60px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-width: 60px;
+                    -webkit-column-width: 60px;
+                    column-width: 60px;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-width proceeded by the -moz, and -webkit prefixes: inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-width(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-width: inherit;
+                    -webkit-column-width: inherit;
+                    column-width: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs nothing when invalid value passed') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-width(hamster);
+                }
+            }
+            @include expect {}
+        }
+    }
+}

@@ -1,0 +1,19 @@
+@mixin __opacity($val:1, $msfilters: true){
+    @if (type-of($val) == number and unit($val) == '%') {
+        $val: $val/100;
+        $val: strip-units($val); }
+    @if not((type-of($val) == number and ($val >= 0 and $val <= 1)) or is-reserved-variable($val)) {
+        @warn '__opacity value should be between 0 and 1'; 
+    } @else {
+        $val: if(type-of($val) == number and not(unitless($val)), strip-units($val), safe-unquote($val));
+        -khtml-opacity: $val;
+        -moz-opacity: $val;
+        opacity: $val;
+
+        @if type-of($val) == number and $msfilters == true {
+            $per: round($val * 100);
+            $str: 'alpha(opacity=' + $per + ')';
+            filter: #{safe-unquote($str)};
+            $str: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + $per + ')';
+            -ms-filter: "#{safe-unquote($str)}";
+            @include ms-filter-fix; }}}

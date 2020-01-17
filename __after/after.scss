@@ -1,0 +1,6 @@
+@mixin __after { 
+    //#{if(&, '&', '*')}::after { @content; } 
+    //#{if(&, '&', '*')}:after { @content; }
+    &::after { @content; }
+    &:after { @content; }
+}

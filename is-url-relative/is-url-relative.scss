@@ -1,0 +1,6 @@
+@function is-url-relative($url) {
+    @if(type-of($url) == string and str-index($url, "/") != 1) {
+        @if not(str-index($url,':') == null) and str-index($url, ':') < str-index($url, "/") {
+            @return false; }
+        @return true;
+    } @else { @return false; }}

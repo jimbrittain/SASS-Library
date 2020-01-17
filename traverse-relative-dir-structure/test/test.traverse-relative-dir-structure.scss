@@ -1,0 +1,11 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/traverse-relative-dir-structure.scss';
+@include describe('traverse-relative-dir-structure function:') {
+    @include it('traverse-relative-dir-structure returns the correct whole number') {
+        @include assert-equal(
+            traverse-relative-dir-structure('/morris/dancing/main/', '../../cheese/nine.jpg'),
+            '/morris/cheese/',
+            'Strip units returns the correct number');
+    }
+}

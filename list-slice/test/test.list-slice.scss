@@ -1,0 +1,26 @@
+@import 'true';
+@import '../../../globalimport.scss'; //requires list-change-separator
+@import '../src/list-slice.scss';
+@warn 'This is more like a list remove function should probably have a different name';
+$list: (1 2 3 4 5 6 7 8);
+@include describe('list-slice function:') {
+    @include it('list-slice returns a slice of the list') {
+        @include assert-equal(
+            list-slice($list, 2, 2),
+            (1 4 5 6 7 8),
+            'list-slice returns a 2 2');
+    }
+    @include it('list-slice returns a slice of the list') {
+        @include assert-equal(
+            list-slice($list, length($list), 1),
+            (1 2 3 4 5 6 7),
+            'list-slice returns list with last item removed on length(list), 1');
+    }
+    @include it('list-slice returns a slice of the list') {
+        $clist: (1, 2, 3, 4, 5, 6, 7, 8);
+        @include assert-equal(
+            list-slice($clist, 2, 2),
+            (1, 4, 5, 6, 7, 8),
+            'list-slice returns a 2 2');
+    }
+}

@@ -1,0 +1,15 @@
+@function safe-unquote-list-items($list, $recursive:true) {
+    $recursive: if($recursive == false, false, true);
+    @if type-of($list) != list {
+        @warn 'safe-unquote-list-items supplied a non-list: "' + $list + '" {' + type-of($list) + '}';
+        @return safe-unquote($list); }
+    @for $i from 1 through length($list) {
+        $v: nth($list, $i);
+        @if type-of($v) == list and $recursive == true {
+            $v: safe-unquote-list-items($v); 
+        } @else { $v: safe-unquote($v); }
+        $list: list-replace-nth($list, $i, $v); }
+    @return $list; }
+
+@function list-safe-unquote-items($list, $recursive:true){ //alias
+    @return safe-unquote-list-items($list, $recursive); }

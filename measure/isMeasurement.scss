@@ -1,0 +1,7 @@
+@function isMeasurement($unit) {
+    $unit: if(type-of($unit) == number and not(unitless($unit)), unit($unit), $unit);
+    @if (isMeasurementAbsolute($unit)
+        or isMeasurementRelative($unit)) {
+        @return true;
+    } @else {
+        @return false; }}

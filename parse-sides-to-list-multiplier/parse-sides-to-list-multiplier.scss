@@ -1,0 +1,87 @@
+//requires cast-to-number;
+$_bi_d: -1 !default;
+//this is an on-off function for each side, not a true multiplier
+@function parse-sides-to-list-multiplier($a1,$a2:$_bi_d,$a3:$_bi_d, $a4:$_bi_d) {
+    $args: arguments($a1,$a2,$a3,$a4);
+    $args: list-change-separator($args, ' ');
+    $args: list-safe-unquote-items($args);
+
+    $top: 0;
+    $left: 0;
+    $right: 0;
+    $bottom: 0;
+
+    $isnumeric: false;
+    $is-binary: false;
+
+    @if type-of($args) == list and length($args) < 5 {
+        $broke: false;
+        $binary-list: ();
+
+        @each $binary in $args {
+            @if not(is-binary($binary)) { 
+                $broke: true; 
+            } @else { $binary-list: append($binary-list, zeromeasure('px') + cast-to-number($binary)); }}
+
+        @if not($broke) {
+            $is-binary: true;
+            $l: parse-sides-to-list($binary-list);
+            $top: strip-units(nth($l,1));
+            $right: strip-units(nth($l,2));
+            $bottom: strip-units(nth($l,3));
+            $left: strip-units(nth($l,4)); }
+
+        @if not($is-binary) {
+            $all-numbers: true;
+            $united-args: ();
+            @each $num in $args {
+                @if (type-of($num) == number and unitless($num)) or is-reserved-variable($num) {
+                    $num: if(is-reserved-variable($num), 0, $num);
+                    $united-args: append($united-args, (zeromeasure('px') + $num));
+                } @else { $all-numbers: false; }}
+            @if $all-numbers == true {
+                $args: $united-args; }}
+
+        @if not($is-binary) and parse-sides-to-list($args) != false {
+            $l: parse-sides-to-list($args);
+            @for $i from 1 through length($l) {
+                $on: nth($l, $i);
+                @warn type-of($on);
+                @if (type-of($on) == number ) {
+                    $on: strip-units(round($on));
+                    $on: if($on > 0, 1, 0); 
+                } @else if type-of($on) == string {
+                    $on: if($on == 'true', 1, 0); //covers unset and all that crap
+                }
+                $l: list-replace-nth($l, $i, $on); }
+            $top: nth($l, 1);
+            $right: nth($l, 2);
+            $bottom: nth($l, 3);
+            $left: nth($l, 4);
+        } @else {
+            @each $class in $args {
+                @if $class == top {
+                    $top: 1;
+                } @else if $class == bottom {
+                    $bottom: 1;
+                } @else if $class == left {
+                    $left: 1;
+                } @else if $class == right {
+                    $right: 1;
+                } @else if type-of($class) == 'string' and str-length($class) < 5 {
+                    @for $i from 1 through str-length($class) {
+                        $o: str-slice($class, $i, $i);
+                        @if $o == t {
+                            $top: 1;
+                        } @else if $o == b {
+                            $bottom: 1;
+                        } @else if $o == r {
+                            $right: 1;
+                        } @else if $o == l {
+                            $left: 1; }}}}}}
+    $list: ();
+    $list: append($list, cast-to-number($top));
+    $list: append($list, cast-to-number($right));
+    $list: append($list, cast-to-number($bottom));
+    $list: append($list, cast-to-number($left));
+    @return $list; }

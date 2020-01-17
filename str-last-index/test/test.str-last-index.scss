@@ -1,0 +1,47 @@
+@import 'true';
+@import '../src/str-last-index.scss';
+@include describe('str-last-index function:') {
+    @include it('str-last-index returns the correct index for single') {
+        @include assert-equal(
+            str-last-index('morbid', 'id'),
+            5,
+            'correct index for single occurrance');
+    }
+    @include it('str-last-index returns the correct index for double') {
+        @include assert-equal(
+            str-last-index('morbidid', 'id'),
+            7,
+            'correct index for double occurrance');
+    }
+    @include it('str-last-index returns the correct index for triple') {
+        @include assert-equal(
+            str-last-index('morbididid', 'id'),
+            9,
+            'correct index for triple occurrance');
+    }
+    @include it('str-last-index returns 0 for not occurring') {
+        @include assert-equal(
+            str-last-index('morbididid', 'arm'),
+            0,
+            '0 for not occurring');
+    }
+    @include it('str-last-index returns 0 for incorrect haystack') {
+        @include assert-equal(
+            str-last-index(1234, 'arm'),
+            0,
+            '0 for incorrect haystack');
+    }
+    @include it('str-last-index returns 0 for incorrect needle') {
+        @include assert-equal(
+            str-last-index('hamster', 12),
+            0,
+            '0 for incorrect needle');
+    }
+    @include it('str-last-index returns the correct index for large sequence') {
+        $longstr: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum';
+        @include assert-equal(
+            str-last-index($longstr, 'laborum'),
+            (str-length($longstr) - str-length('laborum') + 1),
+            'correct index for long string');
+    }
+}

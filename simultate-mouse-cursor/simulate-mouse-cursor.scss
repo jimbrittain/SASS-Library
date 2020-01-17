@@ -1,0 +1,8 @@
+@mixin simulate-mouse-cursor {
+    @include __cursor(hand);
+    &:hover { @include __cursor(hand); }
+    &:active { 
+        @include __cursor(hand);
+        @include __cursor(grabbing); 
+    }
+}

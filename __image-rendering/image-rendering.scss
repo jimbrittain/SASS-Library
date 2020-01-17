@@ -1,0 +1,71 @@
+@mixin __image-rendering($val, $includeInterpolation: false){
+    $includeInterpolation: if($includeInterpolation == true, true, false);
+
+    @if is-image-rendering-value($val) or is-reserved-variable($val) {
+        $args: ();
+        $ms-value: '';
+        @if is-reserved-variable($val) {
+            $args: append($args, $val);
+            $ms-value: $val;
+        } @else {
+            $val: deprecated-image-rendering-value($val);
+            $args: image-rendering-value-fallbacks($val);
+            $ms-value: ms-interpolation-from-image-rendering-value(nth($args, length($args)));
+        }
+        @if ($includeInterpolation) {
+            @include __ms-interpolation-mode($ms-value); }
+
+        @for $i from 1 through length($args) {
+            $val: safe-unquote(nth($args,$i));
+            @if str-index($val, '-moz') != 1 and str-index($val, '-ms') != 1 and str-index($val, '-o') != 1 and str-index($val, '-webkit') != 1 { 
+                -o-image-rendering: $val; }
+            image-rendering: $val;
+        }
+    }
+}
+@mixin __ms-interpolation-mode($val){
+    @if is-ms-interpolation-mode-value($val) or is-reserved-variable($val) {
+        -ms-interpolation-mode: $val; }}
+
+@function is-ms-interpolation-mode-value($val) {
+    $list: (bicubic nearest-neighbour);
+    @return if(index($list,$val) != null, true, false); }
+
+@function ms-interpolation-from-image-rendering-value($val, $reverse:false){
+    $mslist: (bicubic nearest-neighbour nearest-neighbour bicubic bicubic);
+    $irlist: (smooth crisp-edges pixelated high-quality auto);
+    @if ($reverse == false) {
+        @if (index($irlist, $val) != null) {
+            @return nth($mslist, index($irlist,$val));
+        }
+    }
+    @if (index($mslist, $val) != null) {
+        @return nth($irlist, index($mslist,$val)); }
+    @return $val; }
+
+@function image-rendering-value-fallbacks($val){
+    $list: (auto smooth high-quality crisp-edges pixelated);
+    $fall: ((optimizeSpeed auto) (optimizeQuality auto smooth) (optimizeQuality auto smooth high-quality) (optimizeSpeed -webkit-optimize-contrast -moz-crisp-edges crisp-edges) (optimizeSpeed -webkit-optimize-contrast -moz-crisp-edges crisp-edges pixelated));
+    @if (index($list,$val) != null){
+        @return nth($fall, index($list,$val));
+    } @else {
+        $l: ();
+        $l: append($l, $val);
+        @return $l; }}
+
+@function is-image-rendering-value($val){
+    $list: (auto smooth high-quality crisp-edges pixelated -webkit-optimize-contrast optimizeQuality optimizeSpeed -moz-crisp-edges);
+    @return if(index($list,$val) != null, true, false);
+
+}
+@function is-image-rendering-value-deprecated($val){
+    $list: (auto smooth high-quality crisp-edges pixelated);
+    @return if(is-image-rendering-value($val) and index($list,$val) == null, true, false); }
+
+@function deprecated-image-rendering-value($val){
+    $oldlist: (-webkit-optimize-contrast optimizeQuality optimizeSpeed -moz-crisp-edges);
+    $newlist: (crisp-edges smooth pixelated crisp-edges);
+    @if (index($oldlist,$val) != null){
+        @return nth($newlist,index($oldlist,$val));
+    } @else {
+        @return $val; }}

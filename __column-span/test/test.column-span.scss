@@ -1,0 +1,53 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/column-span.scss';
+@include describe('__column-span mixin') {
+    @include it('Outputs column-span proceeded by -moz, and -webkit prefixes: none') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-span(none);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-span: none;
+                    -webkit-column-span: none;
+                    column-span: none;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-span proceeded by -moz, and -webkit prefixes: inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-span(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-span: inherit;
+                    -webkit-column-span: inherit;
+                    column-span: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-span proceeded by -moz, and -webkit prefixes: all') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-span(all);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-span: all;
+                    -webkit-column-span: all;
+                    column-span: all;
+                }
+            }
+        }
+    }
+}

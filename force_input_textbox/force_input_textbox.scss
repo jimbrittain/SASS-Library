@@ -1,0 +1,3 @@
+@mixin force_input_textbox {
+    @include __appearance(textfield);
+    @include __box-sizing(content-box); }

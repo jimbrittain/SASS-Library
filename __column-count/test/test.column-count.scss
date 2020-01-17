@@ -1,0 +1,53 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/column-count.scss';
+@include describe('__column-count mixin') {
+    @include it('Outputs column-count proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-count(auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-count: auto;
+                    -webkit-column-count: auto;
+                    column-count: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-count proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-count(3.0);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-count: 3;
+                    -webkit-column-count: 3;
+                    column-count: 3;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-count proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-count(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-count: inherit;
+                    -webkit-column-count: inherit;
+                    column-count: inherit;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,59 @@
+@import 'true';
+@import '../../strip-units/src/strip-units.scss';
+@import '../../zeromeasure/src/zeromeasure.scss';
+@import '../src/isMeasurementAbsolute.scss';
+@import '../src/isMeasurementRelative.scss';
+@import '../src/isMeasurement.scss';
+@import '../src/measureComparisonRelative.scss';
+@import '../src/measureComparisonAbsolute.scss';
+@import '../src/measure.scss';
+@include describe('measure function:') {
+    @include it('for measure(1em,px,16px) = 16px') {
+        @include assert-equal(
+            measure(1em,px,16px),
+            16px,
+            'returns 1em as 16px@16px');
+    }
+    @include it('for measure(1ex,px,16px) = 8.48px') {
+        @include assert-equal(
+            measure(1ex,px,16px),
+            8.48px,
+            'returns 1ex as 8.48px@16px');
+    }
+    @include it('for measure(3ch,px,16px) = 24') {
+        @include assert-equal(
+            measure(3ch,px,16px),
+            24px,
+            'returns 3ch 24px@16px');
+    }
+    @include it('for measure(24px,em,12px) = 2em') {
+        @include assert-equal(
+            measure(24px,em,12px),
+            2em,
+            'returns 2em at 24px@24px');
+    }
+    @include it('for measure(4in,mm,1cm) = 101.6mm') {
+        @include assert-equal(
+            measure(4in,mm,1cm),
+            101.6mm,
+            'returns 101.6mm at 4in@1cm');
+    }
+    @include it('for measure(4em,px,12mm) = 181px approx.') {
+        @include assert-equal(
+            floor(measure(4em,px,12mm)),
+            181px,
+            'returns mm at 4em@12mm');
+    }
+    @include it('for measure(16px,em,16px) = 1em') {
+        @include assert-equal(
+            measure(16px,em,16px),
+            1em,
+            'returns 16px as 1em@16px');
+    }
+    @include it('returns 1cm as 10mm') {
+        @include assert-equal(
+            measure(1cm, mm),
+            10mm,
+            'returns 1cm as 10mm');
+    }
+}

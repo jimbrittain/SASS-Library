@@ -1,0 +1,31 @@
+
+@mixin before_float_fix($reset:false) {
+    $reset: if($reset == true or $reset == 'reset', true, false);
+    @if not($reset) {
+      @include __before {
+                    content: ".";
+                    display: block;
+                    height: 0;
+                    clear: both;
+                    visibility: hidden;
+                    overflow: hidden;
+                    font-size: 0;
+                    line-height: 0;
+                    padding: 0;
+                    margin: 0; }
+    } @else {
+        @include __before {
+            content: none;
+            display: inherit;
+            height: inherit;
+            clear: inherit; 
+            visibility: inherit;
+            overflow: inherit;
+            font-size: inherit;
+            line-height: inherit;
+            padding: inherit;
+            margin: inherit;
+        }
+    }
+}
+@mixin reset_before_float_fix { @include before_float_fix(reset); }

@@ -1,0 +1,14 @@
+@function is-reserved-variable($val:false)
+{
+    @if (type-of($val) == string) {
+        $val: unquote($val);
+    } 
+
+    $reserved: inherit initial unset;
+    @for $i from 1 through length($reserved) {
+        @if (nth($reserved, $i) == $val) {
+            @return true;
+        }
+    }
+    @return false;
+}

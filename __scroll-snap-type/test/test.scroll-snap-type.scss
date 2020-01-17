@@ -1,0 +1,53 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/scroll-snap-type.scss';
+@include describe('__scroll-snap-type mixin') {
+    @include it('Outputs animation-duration proceeded by the -ms, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __scroll-snap-type(mandatory);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-scroll-snap-type: mandatory;
+                    -webkit-scroll-snap-type: mandatory;
+                    scroll-snap-type: mandatory;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-duration proceeded by the -ms, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __scroll-snap-type(mandatory mandatory);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-scroll-snap-type: mandatory mandatory;
+                    -webkit-scroll-snap-type: mandatory mandatory;
+                    scroll-snap-type: mandatory mandatory;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-duration proceeded by the -ms, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __scroll-snap-type(mandatory, mandatory);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-scroll-snap-type: mandatory mandatory;
+                    -webkit-scroll-snap-type: mandatory mandatory;
+                    scroll-snap-type: mandatory mandatory;
+                }
+            }
+        }
+    }
+}

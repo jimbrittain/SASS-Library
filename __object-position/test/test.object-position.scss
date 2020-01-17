@@ -1,0 +1,107 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/object-position.scss';
+@include describe('__object-position mixin') {
+    @include it('Outputs object-position proceeded by the -o prefix') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __object-position(10px 10px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-object-position: 10px 10px;
+                    object-position: 10px 10px;
+                }
+            }
+        }
+    }
+    @include it('Outputs object-position proceeded by the -o prefix') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __object-position(10px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-object-position: 10px;
+                    object-position: 10px;
+                }
+            }
+        }
+    }
+    @include it('Outputs object-position proceeded by the -o prefix') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __object-position(10px bottom);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-object-position: 10px bottom;
+                    object-position: 10px bottom;
+                }
+            }
+        }
+    }
+    @include it('Outputs object-position proceeded by the -o prefix') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __object-position(center left);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-object-position: center left;
+                    object-position: center left;
+                }
+            }
+        }
+    }
+    @include it('Outputs object-position proceeded by the -o prefix') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __object-position(center, left);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-object-position: center left;
+                    object-position: center left;
+                }
+            }
+        }
+    }
+    @include it('Outputs object-position proceeded by the -o prefix') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __object-position(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-object-position: inherit;
+                    object-position: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs object-position proceeded by the -o prefix') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __object-position(100px 100px 100px);
+                }
+            }
+            @include expect {
+                #cheese {}
+            }
+        }
+    }
+}

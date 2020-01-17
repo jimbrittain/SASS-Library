@@ -1,0 +1,16 @@
+@function is-timing-function-value($val){
+    @return if(is-timing-function-keyword($val) or is-timing-function-cubic-bezier($val) or is-timing-function-steps($val), true, false); }
+
+@function is-timing-function-keyword($val){
+    $list: (ease linear ease-in ease-out ease-in-out jump-start jump-end jump-none jump-both start end step-start step-end);
+    @return if(index($list,$val) != null, true, false); }
+@function is-timing-function-cubic-bezier($val){
+    @if type-of($val) == string {
+        @if str-index($val, 'cubic-bezier(') == 1 and str-last-index($val,')') == str-length($val) {
+            @return true; }}
+    @return false; }
+@function is-timing-function-steps($val){
+    @if type-of($val) == string {
+        @if str-index($val, 'steps(') == 1 and str-last-index($val,')') == str-length($val) {
+            @return true; }}
+    @return false; }

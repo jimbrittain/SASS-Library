@@ -1,0 +1,118 @@
+@import 'true';
+@import '../src/is-gradient-value.scss';
+@include describe('is-gradient-value function:') {
+    @include it('is-gradient-value returns true, linear gradient') {
+        @include assert-true(
+            is-gradient-value('linear-gradient(to top left, lightpink, lightpink 5px, white 5px, white 10px)'),
+            'linear-gradient');
+    }
+    @include it('is-gradient-value returns true, repeating linear gradient') {
+        @include assert-true(
+            is-gradient-value('repeating-linear-gradient(to top left, lightpink, lightpink 5px, white 5px, white 10px)'),
+            'repeating-linear-gradient');
+    }
+    @include it('is-gradient-value returns true, radial gradient') {
+        @include assert-true(
+            is-gradient-value('radial-gradient(powderblue, powderblue 8px, white 8px, white 16px)'),
+            'radial-gradient');
+    }
+    @include it('is-gradient-value returns true, repeating radial gradient') {
+        @include assert-true(
+            is-gradient-value('repeating-radial-gradient(powderblue, powderblue 8px, white 8px, white 16px)'),
+            'repeating-radial-gradient');
+    }
+    //WEBKIT
+    @include it('is-gradient-value returns true, -webkit-linear gradient') {
+        @include assert-true(
+            is-gradient-value('-webkit-linear-gradient(to top left, lightpink, lightpink 5px, white 5px, white 10px)'),
+            '-webkit-linear-gradient');
+    }
+    @include it('is-gradient-value returns true, -webkit- repeating linear gradient') {
+        @include assert-true(
+            is-gradient-value('-webkit-repeating-linear-gradient(to top left, lightpink, lightpink 5px, white 5px, white 10px)'),
+            '-webkit-repeating-linear-gradient');
+    }
+    @include it('is-gradient-value returns true, -webkit- radial gradient') {
+        @include assert-true(
+            is-gradient-value('-webkit-radial-gradient(powderblue, powderblue 8px, white 8px, white 16px)'),
+            '-webkit-radial-gradient');
+    }
+    @include it('is-gradient-value returns true, -webkit- repeating radial gradient') {
+        @include assert-true(
+            is-gradient-value('-webkit-repeating-radial-gradient(powderblue, powderblue 8px, white 8px, white 16px)'),
+            '-webkit-repeating-radial-gradient');
+    }
+    //MOZ
+    @include it('is-gradient-value returns true, -moz- linear gradient') {
+        @include assert-true(
+            is-gradient-value('-moz-linear-gradient(to top left, lightpink, lightpink 5px, white 5px, white 10px)'),
+            '-moz-linear-gradient');
+    }
+    @include it('is-gradient-value returns true, -moz- repeating linear gradient') {
+        @include assert-true(
+            is-gradient-value('-moz-repeating-linear-gradient(to top left, lightpink, lightpink 5px, white 5px, white 10px)'),
+            '-moz-repeating-linear-gradient');
+    }
+    @include it('is-gradient-value returns true, -moz- radial gradient') {
+        @include assert-true(
+            is-gradient-value('-moz-radial-gradient(powderblue, powderblue 8px, white 8px, white 16px)'),
+            '-moz-radial-gradient');
+    }
+    @include it('is-gradient-value returns true, -moz- repeating radial gradient') {
+        @include assert-true(
+            is-gradient-value('-moz-repeating-radial-gradient(powderblue, powderblue 8px, white 8px, white 16px)'),
+            '-moz-repeating-radial-gradient');
+    }
+    //MS
+    @include it('is-gradient-value returns true, -ms- linear gradient') {
+        @include assert-true(
+            is-gradient-value('-ms-linear-gradient(to top left, lightpink, lightpink 5px, white 5px, white 10px)'),
+            '-ms-linear-gradient');
+    }
+    @include it('is-gradient-value returns true, -ms- repeating linear gradient') {
+        @include assert-true(
+            is-gradient-value('-ms-repeating-linear-gradient(to top left, lightpink, lightpink 5px, white 5px, white 10px)'),
+            '-ms-repeating-linear-gradient');
+    }
+    @include it('is-gradient-value returns true, -ms- radial gradient') {
+        @include assert-true(
+            is-gradient-value('-ms-radial-gradient(powderblue, powderblue 8px, white 8px, white 16px)'),
+            '-ms-radial-gradient');
+    }
+    @include it('is-gradient-value returns true, -ms- repeating radial gradient') {
+        @include assert-true(
+            is-gradient-value('-ms-repeating-radial-gradient(powderblue, powderblue 8px, white 8px, white 16px)'),
+            '-ms-repeating-radial-gradient');
+    }
+    //O
+    @include it('is-gradient-value returns true, -o- linear gradient') {
+        @include assert-true(
+            is-gradient-value('-o-linear-gradient(to top left, lightpink, lightpink 5px, white 5px, white 10px)'),
+            '-o-linear-gradient');
+    }
+    @include it('is-gradient-value returns true, -o- repeating linear gradient') {
+        @include assert-true(
+            is-gradient-value('-o-repeating-linear-gradient(to top left, lightpink, lightpink 5px, white 5px, white 10px)'),
+            '-o-repeating-linear-gradient');
+    }
+    @include it('is-gradient-value returns true, -o- radial gradient') {
+        @include assert-true(
+            is-gradient-value('-o-radial-gradient(powderblue, powderblue 8px, white 8px, white 16px)'),
+            '-o-radial-gradient');
+    }
+    @include it('is-gradient-value returns true, -o- repeating radial gradient') {
+        @include assert-true(
+            is-gradient-value('-o-repeating-radial-gradient(powderblue, powderblue 8px, white 8px, white 16px)'),
+            '-o-repeating-radial-gradient');
+    }
+    @include it('is-gradient-value returns false, background image') {
+        @include assert-false(
+            is-gradient-value('url(cheese.jpg)'),
+            'out');
+    }
+    @include it('is-gradient-value returns true, conic gradient, no prefixes yet, is supported webkit, experimental') {
+        @include assert-true(
+            is-gradient-value('conic-gradient(red 36deg, orange 36deg 170deg, yellow 170deg)'),
+            'conic-gradient');
+    }
+}

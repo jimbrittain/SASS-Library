@@ -1,0 +1,5 @@
+@mixin __text-decoration-color($var){
+    @if (type-of($var) == 'color' or is-reserved-variable($var)) {
+        -moz-text-decoration-color: $var;
+        -webkit-text-decoration-color: $var;
+        text-decoration-color: $var; }}

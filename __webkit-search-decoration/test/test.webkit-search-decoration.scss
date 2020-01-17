@@ -1,0 +1,39 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/webkit-search-decoration.scss';
+@include describe('__webkit-search-decoration mixin') {
+    @include it('Outputs webkit-search-decoration for included content') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __webkit-search-decoration {
+                        color: red;
+                    }
+                }
+            }
+            @include expect {
+                #cheese::-webkit-search-decoration, #cheese::-webkit-search-results-decoration {
+                    color: red;
+                }
+            }
+        }
+    }
+}
+@include describe('searchdecoration_definitions mixin') {
+    @include it('Outputs webkit-search-decoration for included content') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include searchdecoration_definitions {
+                        color: red;
+                    }
+                }
+            }
+            @include expect {
+                #cheese::-webkit-search-decoration, #cheese::-webkit-search-results-decoration {
+                    color: red;
+                }
+            }
+        }
+    }
+}

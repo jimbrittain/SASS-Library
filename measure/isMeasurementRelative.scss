@@ -1,0 +1,9 @@
+@function isMeasurementRelative($unit){
+    $unit: if(type-of($unit) == number and not(unitless($unit)), unit($unit), $unit);
+    $relativeValues: 'em' 'ex' 'rem' 'vw' 'vh' 'vmax' 'vmin' '%' 'rem' 'ch';
+    $index: index($relativeValues, $unit);
+    @return if(not $index, false, true);
+}
+@function measure_isRelative($unit){ //used for backwards compatability
+    @return isMeasurementRelative($unit);
+}

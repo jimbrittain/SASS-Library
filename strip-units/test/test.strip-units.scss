@@ -1,0 +1,51 @@
+@import 'true';
+@import '../src/strip-units.scss';
+@include describe('strip-units function:') {
+    @include it('strip-units returns a unitless number') {
+        @include assert-true(
+            unitless(strip-units(0em)),
+            'A unitless number is returned');
+    }
+    @include it('strip-units returns the correct whole number') {
+        @include assert-equal(
+            strip-units(1em),
+            1,
+            'Strip units returns the correct number');
+    }
+    @include it('strip-units returns the correct negative whole number') {
+        @include assert-equal(
+            strip-units(-1em),
+            -1,
+            'Strip units returns the correct negative number');
+    }
+    @include it('strip-units returns the correct float number') {
+        @include assert-equal(
+            strip-units(1.0012em),
+            1.0012,
+            'Strip units returns the correct float number');
+    }
+    @include it('strip-units returns the correct negative number') {
+        @include assert-equal(
+            strip-units(-1em),
+            -1,
+            'Strip units returns the correct negative number');
+    }
+    @include it('strip-units returns the correct negative float number') {
+        @include assert-equal(
+            strip-units(-1.021em),
+            -1.021,
+            'Strip units returns the correct negative float number');
+    }
+    @include it('strip-units returns 0 if a none number is supplied') {
+        @include assert-equal(
+            strip-units(hello),
+            0,
+            'Strip units returns 0 when a string is supplied');
+    }
+    @include it('strip-units works when a calculation is supplied') {
+        @include assert-equal(
+            strip-units(5em + 5em),
+            10,
+            'Strip units works when a calculation is supplied');
+    }
+}

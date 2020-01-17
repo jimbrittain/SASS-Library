@@ -1,0 +1,22 @@
+$_bi_d: -1 !default;
+@mixin __transition-delay($a1:0s,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){
+    $args: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $args: list-safe-unquote-items($args);
+
+    $safe-args: ();
+    @for $i from 1 through length($args) {
+        $on: nth($args,$i);
+        @if length($args) == 1 and is-reserved-variable($on) {
+            $safe-args: append($safe-args, $on);
+        } @else if is-time($on) {
+            $safe-args: append($safe-args, $on);
+        } @else {
+            @warn 'An invalid value "' + $on + '" {' + type-of($on) + '} was supplied to __transition-delay'; }}
+    @if length($safe-args) > 0 {
+        $safe-args: list-change-separator($safe-args, ',');
+        -moz-transition-delay: $safe-args;
+        -ms-transition-delay: $safe-args;
+        -o-transition-delay: $safe-args; 
+        -webkit-transition-delay: $safe-args;
+        transition-delay: $safe-args; }
+}

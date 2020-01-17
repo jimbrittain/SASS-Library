@@ -1,0 +1,20 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/is-url-value.scss';
+@include describe('is-url-value function:') {
+    @include it('is-url-value returns true for url("cheese.jpg")') {
+        @include assert-true(
+            is-url-value(url("cheese.jpg")),
+            '');
+    }
+    @include it('is-url-value returns true for \'url("cheese.jpg")\'') {
+        @include assert-true(
+            is-url-value('url("cheese.jpg")'),
+            '');
+    }
+    @include it('is-url-value returns true for "url(\'cheese.jpg\')"') {
+        @include assert-true(
+            is-url-value("url('cheese.jpg')"),
+            '');
+    }
+}

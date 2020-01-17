@@ -1,0 +1,35 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/resolve-sides-to-list.scss';
+@include describe('resolve-sides-to-list function:') {
+    @include it('1. resolve-sides-to-list, (unset), (unset unset unset unset)') {
+        @include assert-equal(
+            resolve-sides-to-list(unset),
+            (unset unset unset unset),
+            '');
+        }
+    @include it('2. resolve-sides-to-list, (1px), (1px 1px 1px 1px)') {
+        @include assert-equal(
+            resolve-sides-to-list(1px),
+            (1px 1px 1px 1px),
+            '');
+        }
+    @include it('3. resolve-sides-to-list, (1% 2%), (1% 2% 1% 2%)') {
+        @include assert-equal(
+            resolve-sides-to-list(1% 2%),
+            (1% 2% 1% 2%),
+            '');
+        }
+    @include it('4. resolve-sides-to-list, (1em 2em 3em), (1em 2em 3em 2em)') {
+        @include assert-equal(
+            resolve-sides-to-list(1em 2em 3em),
+            (1em 2em 3em 2em),
+            '');
+        }
+    @include it('5. resolve-sides-to-list, (1in 2in 3in 4in), (1in 2in 3in 4in)') {
+        @include assert-equal(
+            resolve-sides-to-list(1in 2in 3in 4in),
+            (1in 2in 3in 4in),
+            '');
+        }
+}

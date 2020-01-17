@@ -1,0 +1,118 @@
+$urlcodes: ();
+$urlcodes: list-unshift($urlcodes, (' ' '%20')); //ur
+$urlcodes: list-unshift($urlcodes, ('!' '%21'));
+$urlcodes: list-unshift($urlcodes, ('%' '%22'));
+$urlcodes: list-unshift($urlcodes, ('#' '%23'));
+$urlcodes: list-unshift($urlcodes, ('$' '%24'));
+$urlcodes: list-unshift($urlcodes, ('%' '%25')); //ur
+$urlcodes: list-unshift($urlcodes, ('&' '%26'));
+$urlcodes: list-unshift($urlcodes, ("'" '%27'));
+$urlcodes: list-unshift($urlcodes, ('(' '%28'));
+$urlcodes: list-unshift($urlcodes, (')' '%29'));
+$urlcodes: list-unshift($urlcodes, ('*' '%2A'));
+$urlcodes: list-unshift($urlcodes, ('+' '%2B'));
+$urlcodes: list-unshift($urlcodes, (',' '%2C'));
+$urlcodes: list-unshift($urlcodes, ('-' '%2D')); //ur
+$urlcodes: list-unshift($urlcodes, ('.' '%2E')); //ur
+$urlcodes: list-unshift($urlcodes, ('/' '%2F'));
+$urlcodes: list-unshift($urlcodes, (':' '%3A'));
+$urlcodes: list-unshift($urlcodes, (';' '%3B'));
+$urlcodes: list-unshift($urlcodes, ('<' '%3C')); //ur
+$urlcodes: list-unshift($urlcodes, ('=' '%3D'));
+$urlcodes: list-unshift($urlcodes, ('>' '%3E')); //ur
+$urlcodes: list-unshift($urlcodes, ('?' '%3F'));
+$urlcodes: list-unshift($urlcodes, ('@' '%40'));
+$urlcodes: list-unshift($urlcodes, ('[' '%5B'));
+$urlcodes: list-unshift($urlcodes, ("\\" '%5C')); //ur
+$urlcodes: list-unshift($urlcodes, (']' '%5D'));
+$urlcodes: list-unshift($urlcodes, ('^' '%5E')); //ur
+$urlcodes: list-unshift($urlcodes, ('_' '%5F')); //ur
+$urlcodes: list-unshift($urlcodes, ('`' '%60')); //ur
+$urlcodes: list-unshift($urlcodes, ('{' '%7B')); //ur
+$urlcodes: list-unshift($urlcodes, ('|' '%7C')); //ur
+$urlcodes: list-unshift($urlcodes, ('}' '%7D')); //ur
+$urlcodes: list-unshift($urlcodes, ('~' '%7E')); //ur
+
+
+@function url-decode-single-segment($chrs) {
+    @if type-of($chrs) == string and str-length($chrs) == 3 {
+        $found: '';
+        @for $n from 1 through length($urlcodes) {
+            $on: nth($urlcodes, $n);
+            @if $chrs == nth($on, 2) {
+                $found: nth($on, 1);
+            }
+        }
+        @return $found;
+    } @else {
+        @return '';
+    }
+}
+@function url-encode-single-character($chr) {
+    @if type-of($chr) == string and str-length($chr) == 1 {
+        $replace: '';
+        @for $n from 1 through length($urlcodes) {
+            $on: nth($urlcodes, $n);
+            @if $chr == nth($on, 1) {
+                $replace: nth($on, 2);
+            }
+        }
+        @if $replace == '' {
+            @return $chr;
+        } @else {
+            @return $replace;
+        }
+    } @else {
+        @return $chr;
+    }
+}
+@function url-decode($str) {
+    $decoded-str: '';
+    @if type-of($str) == string {
+        $n: 1;
+        @while $n < (str-length($str) + 1) {
+            $s: str-slice($str, $n, $n + 2);
+            $dec: '';
+            $dec: if(str-slice($s,1,1) == '%', url-decode-single-segment($s), $s);
+            @if str-length($dec) == 1 {
+                $n: $n + 3;
+                $decoded-str: $decoded-str + $dec;
+            } @else {
+                $s: str-slice($str, $n, $n);
+                $decoded-str: $decoded-str + $s;
+                $n: $n + 1;
+            }
+        }
+        @return $decoded-str;
+    } @else {
+        @return $str;
+    }
+}
+@function url-encode($str, $ignore:false) {
+    $ignoreList: ();
+    @if type-of($ignore) == 'list' {
+        $ignoreList: $ignore;
+    } @else if ($ignore != false and type-of($ignore) == string) {
+        $ignoreList: append($ignoreList, $ignore); }
+
+    $encoded-str: '';
+    @if type-of($str) == string {
+        @for $n from 1 through str-length($str) {
+            $s: str-slice($str, $n, $n);
+            @if index($ignore, $s) != null {
+                $encoded-str: $encoded-str + $s;
+            } @else {
+                $encoded-str: $encoded-str + url-encode-single-character($s); }
+        }
+        @return $encoded-str;
+    } @else {
+        @return $str;
+    }
+}
+@function url-encode-ignore-reserved($str) {
+    $urlencoding_list: ('.' '-' '_' '~' ':' '&' '=' '?' '/' '[' ']' '#' '$' '+');
+    @return url-encode($str, $urlencoding-list);
+}
+@function typical-url-encode($str){ 
+    $urlencoding_typical_safe: ('.' '-' '_' '~');
+    @return url-encode($str, $urlencoding_typical_safe); }

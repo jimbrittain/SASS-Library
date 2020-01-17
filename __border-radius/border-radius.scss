@@ -1,0 +1,67 @@
+$_bi_d: -1;
+
+@mixin __border-radius($a1:none,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){ //only really need 8 here;
+    $args: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+
+    @if type-of($a1) == list and type-of(nth($a1,1)) == list and type-of(nth($a1,2)) == list {
+        $a2: nth($a1,2);
+        $a1: nth($a1,1); }
+
+    @if type-of($a1) == list and type-of($a2) == list {
+        $args: ();
+        $a1: list-change-separator($a1, ' ');
+        $a2: list-change-separator($a2, ' ');
+        $args: append($args, $a1);
+        $args: append($args, $a2); 
+        $args: list-safe-unquote-items($a1) + safe-unquote(' / ') + list-safe-unquote-items($a2);
+    } @else {
+        $args: list-change-separator($args, ' ');
+        $args: list-safe-unquote-items($args); 
+        @if length($args) > 4 {
+            $str: '';
+            @for $i from 1 through length($args) {
+                @if $i != 1 { $str: $str + ' '; }
+                $str: $str + nth($args, $i);
+                @if $i == 4 { $str: $str + ' /'; }}
+            $args: safe-unquote($str); }}
+
+    -moz-border-radius: $args; 
+    -webkit-border-radius: $args;
+    border-radius: $args; }
+
+@mixin __border-bottom-right-radius($a1:0, $a2:$_bi_d){
+    $args: arguments($a1,$a2);
+    $args: list-change-separator($args, ' ');
+    $args: list-safe-unquote-items($args);
+
+    -moz-border-bottom-right-radius: $args;
+    -webkit-border-bottom-right-radius: $args;
+    border-bottom-right-radius: $args; }
+
+@mixin __border-bottom-left-radius($a1:0, $a2:$_bi_d){
+    $args: arguments($a1,$a2);
+    $args: list-change-separator($args, ' ');
+    $args: list-safe-unquote-items($args);
+
+    -moz-border-bottom-left-radius: $args;
+    -webkit-border-bottom-left-radius: $args;
+    border-bottom-left-radius: $args; }
+
+@mixin __border-top-right-radius($a1:0, $a2:$_bi_d){
+    $args: arguments($a1,$a2);
+    $args: list-change-separator($args, ' ');
+    $args: list-safe-unquote-items($args);
+
+    -moz-border-top-right-radius: $args;
+    -webkit-border-top-right-radius: $args;
+    border-top-right-radius: $args; }
+
+@mixin __border-top-left-radius($a1:0, $a2:$_bi_d){
+    $args: arguments($a1,$a2);
+    $args: list-change-separator($args, ' ');
+    $args: list-safe-unquote-items($args);
+
+    -moz-border-top-left-radius: $args;
+    -webkit-border-top-left-radius: $args;
+    border-top-left-radius: $args; }
+

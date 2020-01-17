@@ -1,0 +1,15 @@
+// @name __transform-style
+// @language   sass
+// @dependencies is-reserved-variable
+// @notes removed from w3 wd from 20131126, the two values acceptable are flat, preserve-3d
+
+@mixin __transform-style($value)
+{
+    @if (is-reserved-variable($value) or $value == flat or $value == preserve-3d) {
+        -moz-transform-style: $value;
+        -webkit-transform-style: $value;
+        transform-style: $value;
+    } @else {
+        @warn "transform-style declaration not created: acceptable values are flat, preserve-3d, inherit, initial and unset";
+    }
+}

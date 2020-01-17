@@ -1,0 +1,74 @@
+//requires measure, strip-units, atan2, pow, sqrt
+@mixin __ms-filter-shadow-glow($col,$offset,$blur:1px,$base:$base-font-size){
+    $val: msfilter_shadowglow_str($col, $offset, $blur, $base);
+    @if (type-of($col) == 'string' and is-reserved-variable($col)) or $val == 'none' {
+        filter: safe-unquote($val);
+        -ms-filter: safe-unquote($val);
+    } @else {
+        filter: "#{safe-unquote($val)}";
+        -ms-filter: #{safe-quote($val) };
+    }
+}
+//alias
+@mixin shadowglow($col,$offset,$blur:1px,$base:$base-font-size){ @include __ms-filter-shadow-glow($col,$offset,$blur,$base); }
+
+@function msfilter_shadowglow_str($col, $dir, $blur: 1px, $base:$base-font-size){
+    $type: 'shadow';
+    $strength: 0;
+    $direction: 0;
+    $left: 'a';
+    $top: 'a';
+    $color_string: #000000;
+
+    @if(type-of($col) == 'color'){
+        $col: opacify($col, 1);
+        $color_string: ie-hex-str($color_string);
+      } @else { }
+
+    $blur: if(type-of($blur) == 'number', measure($blur,'px',$base), 1px);
+    $blur: round($blur);
+
+    @if(type-of($dir) == 'list' and length($dir) == 2){
+        $left: nth($dir,1);
+        $top: nth($dir,2);
+        $left: if(type-of($left) != 'number', 0px, measure($left,'px',$base));
+        $top: if(type-of($top) != 'number', 0px, measure($top,'px',$base)); }
+
+    @if($left != 'a' or $top != 'a'){
+        $left: if($left == 'a', 0px, $left);
+        $top: if($top == 'a', 0px, $top); }
+
+    @if($top == 0px and $left == 0px){
+          $type: 'glow';
+          $strength: strip-units(round($left));
+          $str: "progid:DXImageTransform.Microsoft.Glow(Color=" + $col + ",Strength=" + $strength + ")";
+          @return $str;
+    } @else {
+        @if($blur == 0px){
+            $type: 'dropshadow';
+            $left: strip-units(round($left));
+            $top: strip-units(round($top));
+            $str: "progid:DXImageTransform.Microsoft.DropShadow(OffX=" + $left + ",OffY=" + $top + ",Color=" + $col + ",Positive=false)";
+            @return $str;
+        } @else {
+            $type: 'shadow';
+            $y: strip-units($left);
+            $x: strip-units($top);
+            $rad: atan2($y,$x);
+            $angle: 0deg + $rad;
+            $angle: if($angle != 0, round($angle), 0);
+            $angle: 180 - $angle;
+            $angle: strip-units($angle);
+            $y: abs($y);
+            $x: abs($x);
+            $strength: pow($x,2) + pow($y,2);
+            $strength: sqrt($strength);
+            $strength: if(type-of($strength) == 'number', $strength, 1); //not a number hack 1
+            $strength: if($strength > 0 or $strength < 0, $strength, 1); //not a number hack 2
+            $strength: round($strength);
+            $str: "progid:DXImageTransform.Microsoft.Shadow(Color=" + $col + ",Strength=" + $strength + ",Direction=" + $angle + ")";
+            @return $str;
+      }
+  }
+  @return 'none';
+}

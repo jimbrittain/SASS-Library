@@ -1,0 +1,127 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/column-rule.scss';
+@include describe('__column-rule mixin') {
+    @include it('Outputs column-rule proceeded by the -moz, and -webkit prefixes: dotted') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule(dotted);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule: dotted;
+                    -webkit-column-rule: dotted;
+                    column-rule: dotted;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-rule proceeded by the -moz, and -webkit prefixes: solid 6px') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule(solid 6px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule: solid 6px;
+                    -webkit-column-rule: solid 6px;
+                    column-rule: solid 6px;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-rule proceeded by the -moz, and -webkit prefixes: solid blue') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule(solid blue);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule: solid blue;
+                    -webkit-column-rule: solid blue;
+                    column-rule: solid blue;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-rule proceeded by the -moz, and -webkit prefixes: solid blue') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule(solid, blue);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule: solid blue;
+                    -webkit-column-rule: solid blue;
+                    column-rule: solid blue;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-rule proceeded by the -moz, and -webkit prefixes: thick inset blue') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule(thick inset blue);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule: thick inset blue;
+                    -webkit-column-rule: thick inset blue;
+                    column-rule: thick inset blue;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-rule proceeded by the -moz, and -webkit prefixes: thick inset blue') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule(thick, inset, blue);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule: thick inset blue;
+                    -webkit-column-rule: thick inset blue;
+                    column-rule: thick inset blue;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-rule proceeded by the -moz, and -webkit prefixes: inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule: inherit;
+                    -webkit-column-rule: inherit;
+                    column-rule: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-rule proceeded by the -moz, and -webkit prefixes: hamster') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule(hamster);
+                }
+            }
+            @include expect {}
+        }
+    }
+}

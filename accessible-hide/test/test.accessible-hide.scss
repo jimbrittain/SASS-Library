@@ -1,0 +1,25 @@
+@import 'true';
+@import '../src/accessible-hide.scss';
+@include describe('accessible-hide mixin') {
+    @include it('Outputs accessible hide definitions') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include accessible-hide;
+                }
+            }
+            @include expect {
+                #cheese {
+                    display: block;
+                    overflow: hidden;
+                    position: absolute;
+                    left: -10000px;
+                    text-indent: -10000px;
+                    width: 0;
+                    height: 0; 
+                    speak: always;
+                }
+            }
+        }
+    }
+}

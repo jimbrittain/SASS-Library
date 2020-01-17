@@ -1,0 +1,47 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/safe-url.scss';
+@include describe('safe-url function:') {
+    @include it('safe-url returns inherit unaltered') {
+        @include assert-equal(
+            safe-url(inherit),
+            inherit,
+            '');
+    }
+    @include it('safe-url returns inherit unaltered') {
+        @include assert-equal(
+            safe-url('inherit'),
+            inherit,
+            '');
+    }
+    @include it('safe-url returns a url unaltered but unquoted') {
+        @include assert-equal(
+            safe-url(url('image.jpg')),
+            url('image.jpg'),
+            '');
+    }
+    @include it('safe-url returns a url unaltered but unquoted') {
+        @include assert-equal(
+            safe-url('url("image.jpg")'),
+            url('image.jpg'),
+            '');
+    }
+    @include it('safe-url returns a filename quoted with a url') {
+        @include assert-equal(
+            safe-url('image.jpg'),
+            url("image.jpg"),
+            '');
+    }
+    @include it('safe-url returns a filename quoted with a url, encoded') {
+        @include assert-equal(
+            safe-url('another image.jpg'),
+            url("another%20image.jpg"),
+            '');
+    }
+    @include it('safe-url returns a filename quoted with a url, encoded') {
+        @include assert-equal(
+            safe-url('http://www.shavers.co.uk/index.jpg'),
+            url("http://www.shavers.co.uk/index.jpg"),
+            '');
+    }
+}

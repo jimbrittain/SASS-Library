@@ -1,0 +1,9 @@
+@function list-merge($a, $b){
+    $a: if(type-of($a) == list, $a, ($a));
+    @if type-of($b) != list {
+        $a: append($a, $b);
+    } @else {
+        @for $n from 1 through length($b) {
+            $on: nth($b,$n);
+            $a: append($a,$on); }}
+    @return $a; }

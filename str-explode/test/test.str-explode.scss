@@ -1,0 +1,30 @@
+@import 'true';
+@import '../src/str-explode.scss';
+@include describe('str-explode function:') {
+    @include it('str-explode returns list with 0-length delimiter') {
+        @include assert-equal(
+            str-explode('jim', ''),
+            ('j' 'i' 'm'),
+            'breaks up word with 0-length delimiter');
+    }
+    @include it('str-explode returns list with 1-length delimiter') {
+        @include assert-equal(
+            str-explode('hello jim', ' '),
+            ('hello' 'jim'),
+            'breaks up word with 1-length delimiter');
+    }
+    @include it('str-explode returns list with 2-length delimiter') {
+        @include assert-equal(
+            str-explode('hello, jim, morris, cheese', ', '),
+            ('hello' 'jim' 'morris' 'cheese'),
+            'breaks up word with 2-length delimiter');
+    }
+    @include it('str-explode returns list length 1 when no delimiter present') {
+        $list: ();
+        $list: append($list, 'hello jim');
+        @include assert-equal(
+            str-explode('hello jim', ', '),
+            $list,
+            'returns string in 1-length list if no delimiter');
+    }
+}

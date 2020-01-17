@@ -1,0 +1,7 @@
+@mixin __column-count($val:auto){
+    @if  (is-integer($val) and $val > 0) or $val == 'auto' or is-reserved-variable($val) {
+        $val: safe-unquote($val);
+        -moz-column-count: $val;
+        -webkit-column-count: $val;
+        column-count: $val;
+    } @else { @warn 'column-count supplied with an unrecognized value "' + $val + '" {' + type-of($val) + '}'; }}

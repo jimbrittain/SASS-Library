@@ -1,0 +1,139 @@
+//requires strip-units;
+$pi: 3.14159265359 !global;
+@function is-angle-unit($unit) {
+    $list: (grad rad deg turn);
+    @if type-of($unit) == string and index($list, $unit) != null {
+        @return true;
+    } @else if type-of($unit) == number and is-angle($unit) {
+        @return true;
+    } @else { @return false; }}
+
+@function convert-angle($angle, $type) {
+    //sanitise
+    @if not(type-of($angle) == number) {
+        @warn $angle ' not a number for convert-angle';
+        @return $angle; }
+    @if not(is-angle($type) or is-angle-unit($type)) {
+        @warn $type ' not a angle-type for convert-angle';
+        @return $angle; }
+    $type: if(type-of($type) == number, unit($type), $type);
+    
+    $list: deg rad turn grad;
+    $convert:
+        360, //degrees
+        2 * $pi, //
+        1, //turns
+        400;
+    $angle-unit: if(unitless($angle), deg, unit($angle));
+    $angle: strip-units($angle);
+    $angle: $angle / nth($convert, index($list, $angle-unit));
+    $angle: $angle * nth($convert, index($list, $type));
+    @return zeromeasure($type) + $angle; }
+
+@function angle-degree-to-turn($angle) {
+    $angle: if(type-of($angle) == number and unitless($angle), $angle + deg, $angle);
+    @return convert-angle($angle, turn); }
+@function angle-degree-to-radian($angle) {
+    $angle: if(type-of($angle) == number and unitless($angle), $angle + deg, $angle);
+    @return convert-angle($angle, rad); }
+@function angle-degree-to-gradian($angle) {
+    $angle: if(type-of($angle) == number and unitless($angle), $angle + deg, $angle);
+    @return convert-angle($angle, grad); }
+
+@function angle-radian-to-degree($angle) {
+    $angle: if(type-of($angle) == number and unitless($angle), $angle + rad, $angle);
+    @return convert-angle($angle, deg); }
+@function angle-radian-to-turn($angle) {
+    $angle: if(type-of($angle) == number and unitless($angle), $angle + rad, $angle);
+    @return convert-angle($angle, turn); }
+@function angle-radian-to-gradian($angle) {
+    $angle: if(type-of($angle) == number and unitless($angle), $angle + rad, $angle);
+    @return convert-angle($angle, grad); }
+
+@function angle-turn-to-degree($angle) {
+    $angle: if(type-of($angle) == number and unitless($angle), $angle + turn, $angle);
+    @return convert-angle($angle, deg); }
+@function angle-turn-to-radian($angle) {
+    $angle: if(type-of($angle) == number and unitless($angle), $angle + turn, $angle);
+    @return convert-angle($angle, rad); }
+@function angle-turn-to-gradian($angle) {
+    $angle: if(type-of($angle) == number and unitless($angle), $angle + turn, $angle);
+    @return convert-angle($angle, grad); }
+
+@function angle-gradian-to-degree($angle) {
+    $angle: if(type-of($angle) == number and unitless($angle), $angle + grad, $angle);
+    @return convert-angle($angle, deg); }
+@function angle-gradian-to-radian($angle) {
+    $angle: if(type-of($angle) == number and unitless($angle), $angle + grad, $angle);
+    @return convert-angle($angle, rad); }
+@function angle-gradian-to-turn($angle) {
+    $angle: if(type-of($angle) == number and unitless($angle), $angle + grad, $angle);
+    @return convert-angle($angle, turn); }
+
+@function get-angle-type($angle) {
+    $org: $angle;
+    $type: rad;
+
+    @if type-of($angle) == number and is-angle($angle) {
+        @return unit($angle);
+    } @else {
+        $list: (rad grad turn deg);
+        @if not(index($list, $angle) == null) {
+            @return $angle;
+        }
+    }
+    //@else {
+    //    $angle: if(not(unitless($angle)), unit($angle), cheese); }
+    //}
+    @warn 'get-angle-type for ' + $org + ' not defined defaulting to rad';
+    @return 'rad'; }
+
+@function is-angle-degree($angle) { @return if(get-angle-type($angle) == deg, true, false); }
+@function is-angle-radian($angle) { @return if(get-angle-type($angle) == rad, true, false); }
+@function is-angle-turn($angle) { @return if(get-angle-type($angle) == turn, true, false); }
+@function is-angle-gradian($angle) { @return if(get-angle-type($angle) == grad, true, false); }
+
+@function is-angle($angle) {
+    $list: rad deg turn grad;
+    $angle: if(type-of($angle) == number and not(unitless($angle)), unit($angle), $angle);
+    @return if(index($list, $angle), true, false); }
+
+@function rational-angle($angle) {
+    $list: deg rad turn grad;
+    $convert:
+        360, //degrees
+        2 * $pi, //radians
+        1, //turns
+        400; //grad
+    $convert_unit: if(not(unitless($angle)), unit($angle), deg);
+    $convert_index: index($list, $convert_unit);
+    $is-negative: if($angle < 0, true, false);
+    @if not(is-angle($angle)) or ($convert_index < 1 and not(type-of($angle) == number)) {
+        @warn '"' + $angle + '" is not an angle for "rational-angle" function'; 
+        @return $angle; }
+    $angle: strip-units($angle % nth($convert,$convert_index));
+    $angle: if($is-negative == true, nth($convert, $convert_index) - $angle, $angle);
+    @return zeromeasure($convert_unit) + $angle; 
+}
+//function names for backwards compatibility;
+@function depreciatedWarning($old, $new) { @warn '"' + $old + '" is depreciated please use "' + $new + '"'; @return false; }
+
+@function rationalAngle($angle){
+    $dumb: depreciatedWarning('rationalAngle', 'rational-angle');
+    @return rational-angle($angle); }
+@function convertToRadians($angle, $degrees:false) { 
+    $dumb: depreciatedWarning('convertToRadians', 'convert-angle');
+    @return convert-angle(zeromeasure(deg) + $angle, rad); }
+@function isDegrees($angle) { 
+    $dumb: depreciatedWarning('isDegrees', 'is-angle-degree');
+    @return is-angle-degree($angle); }
+@function isRadians($angle) { 
+    $dumb: depreciatedWarning('isRadians', 'is-angle-radian');
+    @return is-angle-radian($angle); }
+@function radiansToDegrees($angle) {
+    $dumb: depreciatedWarning('radiansToDegrees', 'convert-angle');
+    @return convert-angle(zeromeasure(rad) + $angle, rad); }
+@function degreesToRadians($angle) {
+    $dumb: depreciatedWarning('degreesToRadians', 'convert-angle');
+    @return convert-angle(zeromeasure(deg) + $angle, deg); }
+

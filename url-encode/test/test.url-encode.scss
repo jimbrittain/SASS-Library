@@ -1,0 +1,35 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/url-encode.scss';
+@include describe('url-encode function:') {
+    @include it('url-encode works') {
+        @include assert-equal(
+            url-encode('cheese on toast'),
+            'cheese%20on%20toast',
+            'Correctly encodes a url');
+    }
+    @include it('url-encode works, ignoring a full-stop') {
+        @include assert-equal(
+            url-encode('cheese on toast.jpg', '.'),
+            'cheese%20on%20toast.jpg',
+            'Correctly encodes a url, ignoring a full-stop');
+    }
+    @include it('url-encode works') {
+        @include assert-equal(
+            url-encode('cheese[1]=1'),
+            'cheese%5B1%5D%3D1',
+            'Correctly encodes a url');
+    }
+    @include it('url-decode works') {
+        @include assert-equal(
+            url-decode('cheese%5B1%5D%3D1'),
+            'cheese[1]=1',
+            'Correctly encodes a url');
+    }
+    @include it('url-decode url-encode equals url encode') {
+        @include assert-equal(
+            url-encode('cheese[1]=1'),
+            url-encode(url-decode('cheese%5B1%5D%3D1')),
+            'Correctly encodes a url');
+    }
+}

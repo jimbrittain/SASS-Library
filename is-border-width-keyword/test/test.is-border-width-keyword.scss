@@ -1,0 +1,24 @@
+@import 'true';
+@import '../src/is-border-width-keyword.scss';
+@include describe('is-border-width-keyword function:') {
+    @include it('is-border-width-keyword returns true, thick') {
+        @include assert-true(
+            is-border-width-keyword(thick),
+            'thick');
+    }
+    @include it('is-border-width-keyword returns true, medium') {
+        @include assert-true(
+            is-border-width-keyword(medium),
+            'medium');
+    }
+    @include it('is-border-width-keyword returns true, thin') {
+        @include assert-true(
+            is-border-width-keyword(thin),
+            'thin');
+    }
+    @include it('is-border-width-keyword returns false, none') {
+        @include assert-false(
+            is-border-width-keyword(none),
+            'none, false');
+    }
+}

@@ -1,0 +1,24 @@
+@function measureComparisonRelative($unit:em) {
+    @if (not(isMeasurementRelative($unit))) {
+        @warn $unit + ' is not a valid unit for measureComparisonRelative';
+        @return 1; }
+    $values: 'em' 'ex' '%' 'vw' 'vh' 'vmin' 'vmax' 'rem' 'ch';
+    $calcs:
+        1 //em
+        0.53 //ex 8.48@16 Arial/Helvetica
+        0.01 //%
+        0.01 //vw
+        0.01 //vh
+        0.01 //vmin
+        0.01 //vmax
+        1 //rem
+        0.5; //ch this is the ridiculous value that W3C recommends, but not quite as stupid as w x h, 0.5 x 1, which they actually specify ffs.
+    $set: 1;
+    $set_index: index($values, $unit);
+    @if (not($set_index)) {
+        @warn $unit + "is not a valid unit for findmeasure_rel";
+    } @else { 
+       $set: nth($calcs, $set_index); }
+    @return $set; }
+
+@function findmeasure_rel($unit) { @return measureComparisonRelative($unit); }

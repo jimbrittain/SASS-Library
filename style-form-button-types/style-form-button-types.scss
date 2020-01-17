@@ -1,0 +1,15 @@
+$_bi_d: -1 !default;
+@mixin style-form-button-types($a1:$_bi_d,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){
+    $args: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    @if not($args == false) and length($args) > 0 {
+        $args: list-change-separator($args, ',');
+        $args: list-safe-unquote-items($args);
+        input[type="button"], input[type="reset"], input[type="submit"], button, #{$args} {
+            @content;
+        }
+    } @else {
+        input[type="button"], input[type="reset"], input[type="submit"], button {
+            @content;
+        }
+    }
+}

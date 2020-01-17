@@ -1,0 +1,135 @@
+@import 'true';
+@import '../../strip-units/src/strip-units.scss';
+@import '../../list-create-exclude/src/list-create-exclude.scss';
+@import '../../zeromeasure/src/zeromeasure.scss';
+@import '../../measure/src/measure.scss';
+@import '../../pow/src/pow.scss';
+@import '../../to-dp/src/to-dp.scss';
+@import '../../multiplynumbers/src/multiplynumbers.scss';
+@import '../../dividenumbers/src/dividenumbers.scss';
+@import '../src/convert-angle.scss';
+@import '../src/trigonometry.scss';
+@import '../../sqrt/src/sqrt.scss';
+@import '../../fact/src/fact.scss';
+
+@include describe('sin function:') {
+    @include it('sin(90deg) = 0.89 ') {
+        @include assert-equal(
+            to-2dp(sin(90deg)),
+            1,
+            'sin(90deg) = 1');
+    }
+    @include it('sin(45deg) = 0.71 ') {
+        @include assert-equal(
+            to-2dp(sin(45deg)),
+            0.71,
+            'sin(45deg) = 0.71');
+    }
+    @include it('sin(0deg) = 0 ') {
+        @include assert-equal(
+            to-2dp(sin(0deg)),
+            0,
+            'sin(0) = 0');
+    }
+}
+
+@include describe('cos function:') {
+    @include it('cos(90deg) = 0') {
+        @include assert-equal(
+            to-2dp(cos(90deg)),
+            0,
+            'cos(90deg) = 0');
+    }
+    @include it('cos(45deg) = 0') {
+        @include assert-equal(
+            to-2dp(cos(45deg)),
+            0.71,
+            'cos(45deg) = 0.71');
+    }
+    @include it('cos(0deg) = 1') {
+        @include assert-equal(
+            to-2dp(cos(0deg)),
+            1,
+            'cos(0deg) = 1');
+    }
+}
+
+@include describe('tan function:') {
+    @include it('tan(89deg) = 57.29') {
+        @include assert-equal(
+            to-2dp(tan(89deg)),
+            57.29,
+            'tan(89deg) = 57.29');
+    }
+    @include it('tan(45deg) = 1') {
+        @include assert-equal(
+            to-2dp(tan(45deg)),
+            1,
+            'tan(45deg) = 1');
+    }
+    @include it('tan(0deg) = 0') {
+        @include assert-equal(
+            to-2dp(tan(0deg)),
+            0,
+            'tan(0deg) = 0');
+    }
+}
+
+@include describe('atan function:') {
+    @include it('atan(1) = 0.785398163397') {
+        @include assert-equal(
+            to-2dp(atan(1)),
+            0.79rad,
+            'atan(1) = 0.79rad');
+    }
+    @include it('atan(1,deg) = 45') {
+        @include assert-equal(
+            round(atan(1,deg)),
+            45deg,
+            'atan(1,deg) = 45deg');
+    }
+}
+
+@include describe('asin function:') {
+    @include it('asin(1) = 1.57') {
+        @include assert-equal(
+            to-2dp(asin(1)),
+            1.57rad,
+            'atan(1) = 1.57rad');
+    }
+    @include it('asin(1,deg) = 90deg') {
+        @include assert-equal(
+            round(asin(1,deg)),
+            90deg,
+            'asin(1,deg) = 90deg');
+    }
+}
+@include describe('acos function:') {
+    @include it('acos(0) = 1.57') {
+        @include assert-equal(
+            to-2dp(acos(0)),
+            1.57rad,
+            'acos(0) = 1.57rad');
+    }
+    @include it('acos(0,deg) = 90deg') {
+        @include assert-equal(
+            to-2dp(acos(0,deg)),
+            90deg,
+            'acos(0) = 90deg');
+    }
+}
+
+@include describe('atan2 function:') {
+    @include it('atan2(1,2) = 0.46') {
+        @include assert-equal(
+            to-2dp(atan2(1,2)),
+            0.46rad,
+            'atan2(1,2) = 0.46rad');
+    }
+    @include it('atan2(1,2,deg) = 26.57deg') {
+        @include assert-equal(
+            to-2dp(atan2(1,2,deg)),
+            26.57deg,
+            'atan2(1,2,deg) = 26.57deg');
+    }
+}

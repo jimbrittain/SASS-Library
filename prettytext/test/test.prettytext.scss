@@ -1,0 +1,57 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/prettytext.scss';
+@include describe('prettytext mixin') {
+    @include it('Outputs prettytext definitions roceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include prettytext;
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-rendering: optimizeLegibility;
+
+                    -moz-font-feature-settings: "kern=1", "liga=1";
+                    -moz-font-feature-settings: "kern" 1, "liga" 1;
+                    -ms-font-feature-settings: "kern" 1, "liga" 1;
+                    -o-font-feature-settings: "kern" 1, "liga" 1;
+                    -webkit-font-feature-settings: "kern" 1, "liga" 1;
+                    font-feature-settings: "kern" 1, "liga" 1; 
+
+                    -webkit-font-variant-ligatures: common-ligatures;
+                    font-variant-ligatures: common-ligatures;
+
+                    -moz-font-kerning: normal;
+                    -webkit-font-kerning: normal;
+                    font-kerning: normal;
+                }
+            }
+        }
+    }
+    @include it('Outputs prettytext(false) reverse declarations') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include prettytext(false);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-rendering: auto;
+                    -moz-font-feature-settings: normal;
+                    -ms-font-feature-settings: normal;
+                    -o-font-feature-settings: normal;
+                    -webkit-font-feature-settings: normal;
+                    font-feature-settings: normal; 
+                    -webkit-font-variant-ligatures: normal;
+                    font-variant-ligatures: normal;
+                    -moz-font-kerning: auto;
+                    -webkit-font-kerning: auto;
+                    font-kerning: auto;
+                }
+            }
+        }
+    }
+}

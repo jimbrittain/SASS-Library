@@ -1,0 +1,28 @@
+@import 'true';
+@import '../src/list-merge.scss';
+@include describe('list-merge function:') {
+    @include it('a single list with contents of both lists') {
+        @include assert-equal(
+            list-merge(1 2 3, 4 5 6),
+            (1 2 3 4 5 6),
+            'A single list from two lists');
+    }
+    @include it('a single list from one list and a single value') {
+        @include assert-equal(
+            list-merge(1 2 3, 4),
+            (1 2 3 4),
+            'A single list from one list and one single value');
+    }
+    @include it('a single list from a single value and one list') {
+        @include assert-equal(
+            list-merge(1, 2 3 4),
+            (1 2 3 4),
+            'A single list from single value and one list');
+    }
+    @include it('a single list which preserves inner lists') {
+        @include assert-equal(
+            list-merge(1 2 (3 4), 5 6 (7 8)),
+            (1 2 (3 4) 5 6 (7 8)),
+            'a single list which preserves inner lists');
+    }
+}

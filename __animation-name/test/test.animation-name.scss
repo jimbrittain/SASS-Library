@@ -1,0 +1,73 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/animation-name.scss';
+@include describe('__animation-namemixin') {
+    @include it('Outputs animation-name proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-name(myanimation);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-name: myanimation;
+                    -moz-animation-name: myanimation;
+                    -webkit-animation-name: myanimation;
+                    animation-name: myanimation;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-name when quoted') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-name('myanimation');
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-name: myanimation;
+                    -moz-animation-name: myanimation;
+                    -webkit-animation-name: myanimation;
+                    animation-name: myanimation;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-name when multiple, quoted, space separated') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-name('myanimation' 'hamster');
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-name: myanimation, hamster;
+                    -moz-animation-name: myanimation, hamster;
+                    -webkit-animation-name: myanimation, hamster;
+                    animation-name: myanimation, hamster;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-name when multiple, quoted, comma separated') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-name('myanimation', 'hamster');
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-name: myanimation, hamster;
+                    -moz-animation-name: myanimation, hamster;
+                    -webkit-animation-name: myanimation, hamster;
+                    animation-name: myanimation, hamster;
+                }
+            }
+        }
+    }
+}

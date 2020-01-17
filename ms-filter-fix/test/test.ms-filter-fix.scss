@@ -1,0 +1,18 @@
+@import 'true';
+@import '../src/ms-filter-fix.scss';
+@include describe('ms-filter-fix mixin') {
+    @include it('Outputs ms-filter-fix, ms-zoom, 1') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include ms-filter-fix;
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-zoom: 1;
+                }
+            }
+        }
+    }
+}

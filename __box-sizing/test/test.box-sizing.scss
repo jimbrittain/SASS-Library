@@ -1,0 +1,47 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/box-sizing.scss';
+@include describe('__box-sizing mixin') {
+    @include it('Outputs box-sizing proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __box-sizing(content-box);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-box-sizing: content-box;
+                    -webkit-box-sizing: content-box;
+                    box-sizing: content-box;
+                }
+            }
+        }
+    }
+    @include it('Outputs box-sizing proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __box-sizing(border-box);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-box-sizing: border-box;
+                    -webkit-box-sizing: border-box;
+                    box-sizing: border-box;
+                }
+            }
+        }
+    }
+    @include it('Outputs box-sizing proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __box-sizing(padding-box);
+                }
+            }
+            @include expect {}
+        }
+    }
+}

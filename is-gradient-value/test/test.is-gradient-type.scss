@@ -1,0 +1,119 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/is-gradient-value.scss';
+@include describe('is-gradient-value function:') {
+    @include it('is-gradient-type returns true, linear gradient') {
+        @include assert-true(
+            is-gradient-type('linear-gradient'),
+            'linear-gradient');
+    }
+    @include it('is-gradient-type returns true, repeating linear gradient') {
+        @include assert-true(
+            is-gradient-type('repeating-linear-gradient'),
+            'repeating-linear-gradient');
+    }
+    @include it('is-gradient-type returns true, radial gradient') {
+        @include assert-true(
+            is-gradient-type('radial-gradient'),
+            'radial-gradient');
+    }
+    @include it('is-gradient-type returns true, repeating radial gradient') {
+        @include assert-true(
+            is-gradient-type('repeating-radial-gradient'),
+            'repeating-radial-gradient');
+    }
+    //WEBKIT
+    @include it('is-gradient-type returns true, -webkit-linear gradient') {
+        @include assert-true(
+            is-gradient-type('-webkit-linear-gradient'),
+            '-webkit-linear-gradient');
+    }
+    @include it('is-gradient-type returns true, -webkit- repeating linear gradient') {
+        @include assert-true(
+            is-gradient-type('-webkit-repeating-linear-gradient'),
+            '-webkit-repeating-linear-gradient');
+    }
+    @include it('is-gradient-type returns true, -webkit- radial gradient') {
+        @include assert-true(
+            is-gradient-type('-webkit-radial-gradient'),
+            '-webkit-radial-gradient');
+    }
+    @include it('is-gradient-type returns true, -webkit- repeating radial gradient') {
+        @include assert-true(
+            is-gradient-type('-webkit-repeating-radial-gradient'),
+            '-webkit-repeating-radial-gradient');
+    }
+    //MOZ
+    @include it('is-gradient-type returns true, -moz- linear gradient') {
+        @include assert-true(
+            is-gradient-type('-moz-linear-gradient'),
+            '-moz-linear-gradient');
+    }
+    @include it('is-gradient-type returns true, -moz- repeating linear gradient') {
+        @include assert-true(
+            is-gradient-type('-moz-repeating-linear-gradient'),
+            '-moz-repeating-linear-gradient');
+    }
+    @include it('is-gradient-type returns true, -moz- radial gradient') {
+        @include assert-true(
+            is-gradient-type('-moz-radial-gradient'),
+            '-moz-radial-gradient');
+    }
+    @include it('is-gradient-type returns true, -moz- repeating radial gradient') {
+        @include assert-true(
+            is-gradient-type('-moz-repeating-radial-gradient'),
+            '-moz-repeating-radial-gradient');
+    }
+    //MS
+    @include it('is-gradient-type returns true, -ms- linear gradient') {
+        @include assert-true(
+            is-gradient-type('-ms-linear-gradient'),
+            '-ms-linear-gradient');
+    }
+    @include it('is-gradient-type returns true, -ms- repeating linear gradient') {
+        @include assert-true(
+            is-gradient-type('-ms-repeating-linear-gradient'),
+            '-ms-repeating-linear-gradient');
+    }
+    @include it('is-gradient-type returns true, -ms- radial gradient') {
+        @include assert-true(
+            is-gradient-type('-ms-radial-gradient'),
+            '-ms-radial-gradient');
+    }
+    @include it('is-gradient-type returns true, -ms- repeating radial gradient') {
+        @include assert-true(
+            is-gradient-type('-ms-repeating-radial-gradient'),
+            '-ms-repeating-radial-gradient');
+    }
+    //O
+    @include it('is-gradient-type returns true, -o- linear gradient') {
+        @include assert-true(
+            is-gradient-type('-o-linear-gradient'),
+            '-o-linear-gradient');
+    }
+    @include it('is-gradient-type returns true, -o- repeating linear gradient') {
+        @include assert-true(
+            is-gradient-type('-o-repeating-linear-gradient'),
+            '-o-repeating-linear-gradient');
+    }
+    @include it('is-gradient-type returns true, -o- radial gradient') {
+        @include assert-true(
+            is-gradient-type('-o-radial-gradient'),
+            '-o-radial-gradient');
+    }
+    @include it('is-gradient-type returns true, -o- repeating radial gradient') {
+        @include assert-true(
+            is-gradient-type('-o-repeating-radial-gradient'),
+            '-o-repeating-radial-gradient');
+    }
+    @include it('is-gradient-type returns false, background image') {
+        @include assert-false(
+            is-gradient-type('url(cheese.jpg)'),
+            'out');
+    }
+    @include it('is-gradient-type returns true, conic gradient, no prefixes yet, is supported webkit, experimental') {
+        @include assert-true(
+            is-gradient-type('conic-gradient'),
+            'conic-gradient');
+    }
+}

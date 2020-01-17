@@ -1,0 +1,32 @@
+@mixin __writing-mode($val) {
+    $list: ();
+    @if $val == 'lr' or $val=='lr-tb'  or $val == 'horizontal-tb' {
+        $list: append($list, 'horizontal-tb'); //std
+        $list: list-unshift($list, if($val == 'lr-tb', 'lr-tb', 'lr')); //backup
+    } @else if ($val == 'rl' or $val == 'rl-tb') {
+        $list: append($list, 'horizontal-tb'); //std
+        $list: list-unshift($list, if($val == 'rl-tb', 'rl-tb', 'rl')); //backup
+    } @else if ($val == 'tb' or $val == 'vertical-lr') {
+        $list: append($list, 'vertical-lr'); //std
+        $list: list-unshift($list, 'tb'); //backup
+    } @else if ($val == 'tb-rl' or $val == 'vertical-rl') {
+        $list: append($list, 'vertical-rl'); //std
+        $list: list-unshift($list, 'tb-rl'); //backup
+    } @else if ($val == 'sideways-rl') {
+        $list: append($list, 'vertical-rl'); //std
+        $list: append($list, 'sideways-rl'); //weird -moz inclusion, had to for sideways-lr
+        $list: list-unshift($list, 'tb-rl'); //oldest fallback;
+    } @else if ($val == 'sideways-lr') {
+        $list: false; //sideways-lr does not have a none moz equivalent, so no fallback possible
+        -moz-writing-mode: sideways-lr;
+    }
+    $list: if(type-of($list) != list or length($list) < 1, $list, list-safe-unquote-items($list));
+    @if (type-of($list) == list) {
+        @for $i from 1 through length($list) {
+            $val: nth($list, $i);
+            -moz-writing-mode: $val;
+            -ms-writing-mode: $val;
+            -webkit-writing-mode: $val;
+            writing-mode: $val; }
+    }
+}

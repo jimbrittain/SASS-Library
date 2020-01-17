@@ -1,0 +1,11 @@
+@mixin __object-fit($value) {
+    $value: if(type-of($value) == 'string', to-lower-case($value), $value);
+    @if is-valid-object-fit-value($value) {
+        -o-object-fit: $value;
+        object-fit: $value;
+    } @else {
+        @warn '"' + $value + '" {' + type-of($value) + '} is not a valid value for __object-fit'; }}
+
+@function is-valid-object-fit-value($val){
+    $list: (contain cover fill none scale-down);
+    @return if(type-of($val) == 'string' and (is-reserved-variable($val) or index($list, $val) != null), true, false); }

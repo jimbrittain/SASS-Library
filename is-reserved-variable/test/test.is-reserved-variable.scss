@@ -1,0 +1,23 @@
+@import 'true';
+@import '../src/is-reserved-variable.scss';
+@include describe('is-reserved-variable function for Sass') {
+    @include it('Reserved Variables (unset, initial, inherit) equal true') {
+        @include assert-true(
+            is-reserved-variable(unset), 
+            "Unset is detected as a reserved variable");
+        @include assert-true(
+            is-reserved-variable(initial),
+            "initial is detected as a reserved variable");
+        @include assert-true(
+            is-reserved-variable(inherit),
+            "inherit is detected as a reserved variable");
+    }
+    @include it('Unreserved Variables equal false') {
+        @include assert-false(
+            is-reserved-variable(5em),
+            "5em is not a reserved variable");
+        @include assert-false(
+            is-reserved-variable(solid),
+            "solid is not a reserved variable");
+    }
+}

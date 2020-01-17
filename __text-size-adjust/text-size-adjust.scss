@@ -1,0 +1,17 @@
+@mixin __text-size-adjust($val) {
+    @if type-of($val) == number {
+        $val: if(unitless($val) or unit($val) != '%', (0% + strip-units($val)), $val); }
+    @if is-text-size-adjust-value($val) or is-reserved-variable($val) {
+        -moz-text-size-adjust: $val;
+        -webkit-text-size-adjust: $val;
+        text-size-adjust: $val; 
+    } @else {
+        @warn '"' + $val + '" is not a valid value for text-size-adjust, must be none, auto, <percent> or reserved value'; }}
+
+@function is-text-size-adjust-value($val){
+    $list: (none auto);
+    @if type-of($val) == number {
+        @return if(not(unitless($val)) and unit($val) == '%' and $val > 0 and $val <= 100, true, false);
+    } @else if type-of($val) == string {
+        @return if(index($list,$val) != null, true, false); }
+    @return false; }

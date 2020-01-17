@@ -1,0 +1,16 @@
+// @name __perspective
+// @lan SASS
+// @description prefixed and unprefixed transform-origin properties
+// @version 0.1
+// @author immaturedawn.co.uk
+// @mixin __perspective
+//      @type included
+//      @param {String}
+//      @return prefixed and unprefixed transform-origin properties
+//      @notes -o- not as implemented webkit before support, ms supported unprefixed from ie10
+@mixin __perspective($value)
+{
+    -moz-perspective: $value;
+    -webkit-perspective: $value;
+    perspective: $value;
+}

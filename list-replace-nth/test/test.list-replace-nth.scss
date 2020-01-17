@@ -1,0 +1,65 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/list-replace-nth.scss';
+@include describe('list-replace-nth function:') {
+    @include it('list replace nth, 1 index') {
+        @include assert-equal(
+            list-replace-nth((1 2 3 4 5 6), 1, 6),
+            (6 2 3 4 5 6),
+            'Replaces index 1 value');
+    }
+    @include it('list replace nth, 6 index') {
+        @include assert-equal(
+            list-replace-nth((1 2 3 4 5 6), 6, 1),
+            (1 2 3 4 5 1),
+            'Replaces index 6 value');
+    }
+    @include it('list replace nth, -1 index') {
+        @include assert-equal(
+            list-replace-nth((1 2 3 4 5 6), -1, 1),
+            (1 2 3 4 5 1),
+            'Replaces index -1 value');
+    }
+    @include it('list replace nth, -6 index') {
+        @include assert-equal(
+            list-replace-nth((1 2 3 4 5 6), -6, 6),
+            (6 2 3 4 5 6),
+            'Replaces index -6 value');
+    }
+    @include it('list replace nth, matches separator') {
+        @include assert-equal(
+            list-replace-nth((1, 2, 3, 4, 5, 6), 1, 6),
+            (6, 2, 3, 4, 5, 6),
+            'Replaces index 1 value, matches separator');
+    }
+    @include it('list replace nth, string index, does nothing') {
+        @include assert-equal(
+            list-replace-nth((1 2 3 4 5 6), '1', 6),
+            (1 2 3 4 5 6),
+            'Does not replace index "1" value');
+    }
+    @include it('list replace nth, 0 index, does nothing') {
+        @include assert-equal(
+            list-replace-nth((1 2 3 4 5 6), 0, 6),
+            (1 2 3 4 5 6),
+            'Does not replace index 0 value');
+    }
+    @include it('list replace nth, 1.8 index, does nothing') {
+        @include assert-equal(
+            list-replace-nth((1 2 3 4 5 6), 1.8, 6),
+            (1 2 3 4 5 6),
+            'Does not replace index with a floating  value');
+    }
+    @include it('list replace nth, greater than length index, does nothing') {
+        @include assert-equal(
+            list-replace-nth((1 2 3 4 5 6), 7, 6),
+            (1 2 3 4 5 6),
+            'Does not replace index 7 value');
+    }
+    @include it('list replace nth, greater than length abs index, does nothing') {
+        @include assert-equal(
+            list-replace-nth((1 2 3 4 5 6), -7, 6),
+            (1 2 3 4 5 6),
+            'Does not replace index -7 value');
+    }
+}

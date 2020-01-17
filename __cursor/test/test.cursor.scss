@@ -1,0 +1,160 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/cursor.scss';
+@include describe('__cursor mixin') {
+    @include it('Outputs cursor pointer includes hand') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __cursor(pointer);
+                }
+            }
+            @include expect {
+                #cheese {
+                    cursor: hand;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    @include it('Outputs cursor hand includes pointer') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __cursor(hand);
+                }
+            }
+            @include expect {
+                #cheese {
+                    cursor: hand;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    @include it('Outputs cursor grab includes move, -moz and -webkit bollocks') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __cursor(grab);
+                }
+            }
+            @include expect {
+                #cheese {
+                    cursor: move;
+                    cursor: -moz-grab;
+                    cursor: -webkit-grab;
+                    cursor: grab;
+                }
+            }
+        }
+    }
+    @include it('Outputs cursor url is okay') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __cursor(url('hand.svg'));
+                }
+            }
+            @include expect {
+                #cheese {
+                    cursor: url('hand.svg');
+                }
+            }
+        }
+    }
+    @include it('is-url-value works') {
+        @include assert-true(
+            is-url-value(url('morris.svg')),
+            'testing');
+    }
+    @include it('Outputs cursor url is okay') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __cursor(url('ham.svg') 5 5);
+                }
+            }
+            @include expect {
+                #cheese {
+                    cursor: url('ham.svg') 5 5;
+                }
+            }
+        }
+    }
+    @include it('Outputs cursor url is okay') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __cursor(url("hyper.cur"), auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    cursor: url('hyper.cur'), auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs cursor url is okay') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __cursor(url('cursor2.png') 2 2, url('cursor1.png'), pointer);
+                }
+            }
+            @include expect {
+                #cheese {
+                    cursor: url('cursor2.png') 2 2, url('cursor1.png'), hand;
+                    cursor: url('cursor2.png') 2 2, url('cursor1.png'), pointer;
+                }
+            }
+        }
+    }
+    @include it('Outputs cursor url is okay') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __cursor(url('cursor2.png') url('cursor1.png') pointer);
+                }
+            }
+            @include expect {
+                #cheese {
+                    cursor: url('cursor2.png'), url('cursor1.png'), hand;
+                    cursor: url('cursor2.png'), url('cursor1.png'), pointer;
+                }
+            }
+        }
+    }
+    @include it('Outputs cursor url is okay') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __cursor(zoom-out);
+                }
+            }
+            @include expect {
+                #cheese {
+                    cursor: -moz-zoom-out; 
+                    cursor: -webkit-zoom-out;
+                    cursor: zoom-out;
+                }
+            }
+        }
+    }
+    @include it('Outputs cursor url is okay') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __cursor(url('cheese.png') 5 5 pointer);
+                }
+            }
+            @include expect {
+                #cheese {
+                    cursor: url('cheese.png') 5 5, hand; 
+                    cursor: url('cheese.png') 5 5, pointer; 
+                }
+            }
+        }
+    }
+}

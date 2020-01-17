@@ -1,0 +1,19 @@
+@import 'true';
+@import '../src/float_fix.scss';
+@include describe('float_fix mixin') {
+    @include it('Outputs min-height and overflow hidden float fix') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include float_fix;
+                }
+            }
+            @include expect {
+                #cheese {
+                    min-height: 1%;
+                    overflow: hidden;
+                }
+            }
+        }
+    }
+}

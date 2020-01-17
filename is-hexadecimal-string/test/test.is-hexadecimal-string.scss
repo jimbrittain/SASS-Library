@@ -1,0 +1,16 @@
+@import 'true';
+@import '../src/is-hexadecimal-string.scss';
+@include describe('is-hexadecimal-string function:') {
+    @include it('is-hexadecimal-string: true, AABBCC') {
+        @include assert-true( is-hexadecimal-string('AABBCC')); }
+    @include it('is-hexadecimal-string: true, ff00cc'){
+        @include assert-true( is-hexadecimal-string('ff00cc')); }
+    @include it('is-hexadecimal-string: true, 12345'){
+        @include assert-true( is-hexadecimal-string('12345')); }
+    @include it('is-hexadecimal-string: false, xx11233'){
+        @include assert-false( is-hexadecimal-string('xx11233')); }
+    @include it('is-hexadecimal-string: false, cheese'){
+        @include assert-false( is-hexadecimal-string('cheese')); }
+    @include it('is-hexadecimal-string: false, 111111 {number}'){
+        @include assert-false( is-hexadecimal-string(111111)); }
+}

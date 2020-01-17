@@ -1,0 +1,16 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/yui_reset.scss';
+@include describe('__yui_reset mixin') {
+    @include it('Outputs yui_reset proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output(false) {
+                @include __yui_reset;
+            }
+            @include contains(false){
+                sup {vertical-align: text-top;}
+                sub {vertical-align: text-bottom;}
+            }
+        }
+    }
+}

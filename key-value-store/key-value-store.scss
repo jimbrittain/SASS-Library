@@ -1,0 +1,300 @@
+//this whole thing could be rewritten as $key, $value which is more common, so re-write; new-key-value is-key-value
+@function new-key-value($key, $value) {
+    @if type-of($key) == 'string' {
+        $l: ();
+        $l: append($l, $key);
+        $l: append($l, $value);
+        @return $l;
+    } @else {
+        @warn '`new-key-value` was supplied a {' + type-of($key) + '} rather than {string} for key';
+        @return false; }}
+
+@function is-key-value($kv) {
+    @if type-of($kv) == 'list' and length($kv) == 2 and type-of(nth($kv,1)) == string {
+        @return true; }
+    @return false; }
+
+@function key-value-get-key($kv) { @return if(is-key-value($kv), nth($kv,1), false); }
+@function key-value-get-value($kv) { @return if(is-key-value($kv), nth($kv,2), false); }
+@function key-value-set-key($kv, $key){
+    @if is-key-value($kv) and is-string($key) {
+        $l: ();
+        $l: append($l, $key);
+        $l: append($l, nth($kv,2));
+        @return $l;
+    } @else {
+        @warn 'cannot set key for key value'; 
+        @return $kv; }}
+@function key-value-set-value($kv, $val) {
+    @if is-key-value($kv) {
+        $l: ();
+        $l: append($l, nth($kv,1));
+        $l: append($l, $val);
+        @return $l;
+    } @else {
+        @warn 'not key-value';
+        @return $kv; }}
+
+@function is-key-value-store($store){
+    @if type-of($store) == list {
+        $iskvs: true;
+        @each $kv in $store {
+            @if not(is-key-value($kv)) {
+                $iskvs: false; }}
+        @return if($iskvs == false, false, true); //explicit;
+    }
+    @return false; }
+
+@function key-value-store-list-keys($store) {
+    $l: ();
+    @if is-key-value-store($store) {
+        @each $kv in $store {
+            $l: append($l, key-value-get-key($kv));
+        }
+    } @else { @warn '`key-value-store-list-keys` passed an invalid key-value-store'; }
+    @return $l; }
+@function key-value-store-list-values($store) {
+    $l: ();
+    @if is-key-value-store($store) {
+        @each $kv in $store {
+            $l: append($l, key-value-get-value($kv));
+        }
+    } @else { @warn '`key-value-store-list-values` passed an invalid key-value-store'; }
+    @return $l; }
+@function key-value-store-reverse-order($store){
+    $l: ();
+    @if is-key-value-store($store) {
+        @each $kv in $store {
+            $l: list-unshift($l, $kv);
+        }
+    } @else { @warn '`key-value-store-reverse-order` passed an invalid key-value-store'; }
+    @return $l; }
+
+@function key-value-store-find-key-nth($store, $key) {
+    @if is-key-value-store($store) {
+        $key: if(is-key-value($key), key-value-get-key($key), $key);
+        @if type-of($key) == string {
+            @for $i from 1 through length($store) {
+                $on: nth($store, $i);
+                @if key-value-get-key($on) == $key { @return $i; }
+    }}}
+    @return false; }
+
+@function key-value-store-find-key-value($store, $key) {
+    @if is-key-value-store($store) {
+        $n: key-value-store-find-key-nth($store, $key);
+        @return if($n != false, nth($store, $n), false);
+    } @else {
+        @warn '`key-value-store-find-key-value`: list is not a key-value-store'; }
+    @return false; }
+
+@function key-value-store-get-key-value($store, $key) {
+    @return key-value-store-find-key-value($store, $key); }
+
+@function key-value-store-get-value-for-key($store, $key){
+    @if is-key-value-store($store) {
+        $n: key-value-store-find-key-nth($store, $key);
+        @if $n != false {
+            @return key-value-get-value(nth($store, $n));
+        } @else {
+            @warn '`key-value-store-get-value-for-key`: ' + $key + ', does not exist in key-value-store'; }
+    } @else {
+        @warn '`key-value-store-get-value-for-key`: list is not a key-value-store'; }
+    @return false; }
+
+@function key-value-store-has-key($store, $key) {
+    $has: false;
+    $key: if(is-key-value($key), key-value-get-key($key), $key);
+    @if type-of($key) == 'string' {
+        $n: key-value-store-find-key-nth($store, $key);
+        $has: if($n != false, true, false); }
+    @return $has; }
+
+@function key-value-store-has-value($store, $value, $loose: true) {
+    $has: false;
+    @if is-key-value-store($store) {
+        $m: 1;
+        @while $has == false and $m <= length($store) {
+            $v: key-value-get-value(nth($store, $m));
+            @if ($v == $value) {
+                $has: true;
+            } @else if $loose == true and type-of($v) == 'list' and not(type-of($value) == 'list') {
+                @for $n from 1 through length($v) {
+                    $sv: nth($v, $n);
+                    @if $sv == $value {
+                        $has: true; }}}
+            $m: $m + 1; }}
+    @return $has; }
+
+@function key-value-store-set-key-value($store, $kv, $val:'%r414fad', $must-exist: false) {
+    @if is-key-value-store($store) {
+        @if not(is-key-value($kv)) and $val != '%r414fad' {
+            $kv: new-key-value($kv, $val); }
+        @if is-key-value($kv){
+            $n: key-value-store-find-key-nth($store, key-value-get-key($kv));
+            @if $n != false {
+                $store: list-replace-nth($store, $n, $kv);
+                @return $store;
+            } @else if $must-exist != true {
+                $store: append($store, $kv);
+                @return $store;
+            }
+        } @else { @warn '`key-value-store-set-key-value` supplied an invalid key-value pair'; }
+    } @else { @warn '`key-value-store-set-key-value` supplied an invalid key-value-store'; }
+    @warn 'key-value-store-set-key-value has failed';
+    @return $store; }
+
+@function key-value-store-set-key-value-strict($store, $p, $val:'%r414fad') {
+    @if not(is-key-value($p)) and $val == '%r414fad' {
+        @warn '`key-value-store-set-key-value-strict` was supplied a none valid key-value';
+        @return $store; } 
+    @return key-value-store-set-key-value($store, $p, $val, true); }
+
+@function key-value-store-remove-key($store, $key) {
+    $removed: false;
+    @if is-key-value-store($store) {
+        $n: key-value-store-find-key-nth($store, $key);
+        @if $n != false {
+            $len: length($store);
+            $store: list-remove-nth($store, $n);
+            @return $store;
+        } @else {
+            @warn 'Key `' + $key + ' not found in key-value-store for `remove-key-from-key-value-store`'; }
+    } @else {
+        @warn 'List supplied for `remove-key-from-key-value-store` not a key-value-store'; }
+    @return $store; }
+
+@function key-value-store-delete-key($store, $key){ @return key-value-store-remove-key($store, $key); } //alias for remove-key
+
+@function key-value-store-remove-key-value($store, $kv, $val:'%r414fad') {
+    @if is-key-value-store($store) {
+        @if not(is-key-value($kv)) and type-of($kv) == 'string' and $val != '%r414fad' {
+            $kv: new-key-value($kv, $val); }
+        @if is-key-value($kv) {
+            $n: key-value-store-find-key-nth($store, $kv);
+            @if $n != false {
+                $v: key-value-get-value(nth($store, $n));
+                @if $v == key-value-get-value($kv) {
+                    $store: list-remove-nth($store, $n);
+                } @else if type-of($v) == 'list' {
+                    $i: 1;
+                    $search: key-value-get-value($kv);
+                    @while $i <= length($v) {
+                        @if nth($v, $i) == $search {
+                            $v: list-remove-nth($v, $i);
+                            $i: $i - 1; }
+                        $i: $i + 1; }
+                    @if length($v) > 0 {
+                        $kv: new-key-value(key-value-get-key($kv), $v);
+                        $store: list-replace-nth($store, $n, $kv);
+                    } @else {
+                        $store: list-remove-nth($store, $n);
+                    }
+                }
+            }
+        } @else { @warn '`key-value-store-remove-key-value` supplied an invalid key-value to search to remove'; }
+    } @else { @warn '`key-value-store-remove-key-value` supplied an invalid key-value-store'; }
+    @return $store; }
+
+@function key-value-store-remove-value($store, $val) {
+    @if is-key-value-store($store) {
+        @if key-value-store-has-value($store, $val) {
+            $i: 1;
+            @while $i <= length($store) {
+                $v: key-value-get-value(nth($store, $i));
+                @if ($v == $val) {
+                    $store: list-remove-nth($store, $i);
+                    $i: $i - 1;
+                } @else if type-of($v) == list and length($v) > 0 {
+                    $j: 1;
+                    @while $j <= length($v) {
+                        @if nth($v,$j) == $val {
+                            $v: list-remove-nth($v, $j);
+                            $j: $j - 1; }
+                        $j: $j + 1; }
+                    @if length($v) > 0 {
+                        $kv: new-key-value(key-value-get-key(nth($store, $i)), $v);
+                        $store: list-replace-nth($store, $i, $kv);
+                    } @else {
+                        $store: list-remove-nth($store, $i);
+                        $i: $i - 1; }
+                }
+                $i: $i + 1;
+            }
+        }
+    } @else { @warn '`key-value-store-remove-value` supplied an invalid key-value-store'; }
+    @return $store; }
+
+@function key-value-store-replace-key-value($store, $kv, $val:'%r414fad') {
+    @if is-key-value-store($store) {
+        @if not(is-key-value($kv)) {
+             @if type-of($kv) == string and $val != '%r414fad' {
+                $kv: new-key-value($kv, $val); }}
+        @if is-key-value($kv) {
+            $n: key-value-store-find-key-nth($store, key-value-get-key($kv));
+            @if $n != false {
+                $store: list-replace-nth($store, $n, $kv);
+                @return $store;
+            } @else { @warn '`key-value-store-replace-key-value` cannot replace ' + get-key-value-key($kv) + ' as that key does not exist'; }
+        } @else { @warn '`key-value-store-replace-key-value` was supplied an invalid key value as a replacement'; }
+    } @else { @warn '`key-value-store-replace-key-value` supplied an invalid key-value-store'; }
+    @return $store; }
+
+@function key-value-store-add-key-value($store, $kv, $val: '%r414fad') {
+    @if is-key-value-store($store) {
+        @if type-of($kv) == string and $val != '%r414fad' {
+            $kv: new-key-value($kv, $val); }
+        @if is-key-value-store($kv) {
+            @each $a in $kv {
+                $store: key-value-store-add-key-value($store, $a);
+            }
+        } @else if is-key-value($kv) and not(key-value-store-has-key($store, $kv)) {
+            $store: append($store, $kv);
+        } @else { @warn '`key-value-store-add-key-value` supplied an invalid key-value for adding or the value exists'; }
+    } @else { @warn '`key-value-store-add-key-value` supplied an invalid key-value-store'; }
+    @return $store; }
+
+@function key-value-store-append-key-value($store, $kv, $val:'%r414fad', $must-exist: false) {
+    @if is-key-value-store($store) {
+        @if type-of($kv) == string and $val != '%r414fad' {
+            $kv: new-key-value($kv, $val); }
+        @if is-key-value($kv) {
+            $n: key-value-store-find-key-nth($store, $kv);
+            @if $n != false {
+                $ov: key-value-get-value(nth($store, $n));
+                $ov: append($ov, key-value-get-value($kv));
+                $kv: key-value-set-value($kv, $ov);
+                $store: key-value-store-replace-key-value($store, $kv);
+            } @else if ($must-exist == false) {
+                $store: key-value-store-add-key-value($store, $kv);
+            } @else {
+                @warn 'key: `' + key-value-get-key($kv) + '` does not exist and you have specified that it must';
+            }
+        } @else { @warn 'Unable to convert key value pair to a key-value'; }
+    } @else { @warn 'Not a key-value-store supplied to `key-value-store-append-key-value'; }
+    @return $store; }
+@function key-value-store-append-key-value-strict($store, $kv, $val:'%r414fad') { @return key-value-store-append-key-value($store, $kv, $val, true); }
+@function key-value-store-combine($store, $sublist, $must-exist: false) {
+    @if is-key-value-store($store) and is-key-value-store($sublist) {
+        @each $kv in $sublist {
+            @if $must-exist == true {
+                $store: key-value-store-append-key-value-strict($store, $kv);
+            } @else {
+                $store: key-value-store-append-key-value($store, $kv);
+            }
+        }}
+    @return $store; }
+@function key-value-store-combine-existing($store, $sublist) { @return key-value-store-combine($store, $sublist, true); }
+
+@function key-value-store-missing-keys($store, $substore) {
+    $missing: '';
+    @if is-key-value-store($store) and is-key-value-store($substore) {
+        $existing: key-value-store-list-keys($store);
+        $new: key-value-store-list-keys($substore);
+        @for $i from 1 through length($new) {
+            $on: nth($new,$i);
+            @if index($existing, $on) == null {
+                @if $missing != '' {
+                    $missing: append($missing, $on);
+                } @else { $missing: ($on); }}}}
+    @return if($missing == '', (), $missing); }

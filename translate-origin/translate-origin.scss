@@ -1,0 +1,41 @@
+@function translate-origin($x, $y, $angle, $originX:1, $originY:1){
+    $originX: if($originX != 1, -1, 1);
+    $originY: if($originY != 1, -1, 1);
+    $angle: convert-angle($angle, deg);
+    $angle: rational-angle($angle);
+    $angle: strip-units($angle);
+
+    $base-x: px;
+    $base-y: px;
+    $no-base-x: true;
+    $no-base-y: true;
+
+    @if not(unitless($x)) {
+        $base-x: unit($x);
+        $no-base-x: false;
+        $x: strip-units($x); }
+    @if not(unitless($y)) {
+        $base-y: unit($y);
+        $no-base-y: false;
+        $y: strip-units($y); }
+
+    $x: abs($x);
+    $y: abs($y);
+    @if($angle >= 0 and $angle <= 90){
+        $x: multiply-numbers($x, multiply-numbers($originX, 1));
+        $y: multiply-numbers($y, multiply-numbers($originY, -1));
+    } @else if ($angle >= 90 and $angle <= 180){
+        $x: multiply-numbers($x, multiply-numbers($originX, 1));
+        $y: multiply-numbers($y, multiply-numbers($originY, 1));
+    } @else if ($angle >= 180 and $angle <= 270){
+        $x: multiply-numbers($x, multiply-numbers($originX, -1));
+        $y: multiply-numbers($y, multiply-numbers($originY, 1));
+    } @else if ($angle >= 270 and $angle <= 360){
+        $x: multiply-numbers($x, multiply-numbers($originX, -1));
+        $y: multiply-numbers($y, multiply-numbers($originY, -1)); }
+    $x: if($no-base-x == true, strip-units($x), zeromeasure($base-x) + strip-units($x));
+    $y: if($no-base-y == true, strip-units($y), zeromeasure($base-y) + strip-units($y));
+    @return ($x, $y); }
+
+@function translateOrigin($x, $y, $angle, $originX:1, $originY:1){
+    @return translate-origin($x, $y, $angle, $originX, $originY); }

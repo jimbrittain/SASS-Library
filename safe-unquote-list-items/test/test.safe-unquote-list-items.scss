@@ -1,0 +1,35 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/safe-unquote-list-items.scss';
+@include describe('safe-unquote-list-items function:') {
+    @include it('safe-unquote-list-items returns the corrected list') {
+        $list: (1 2 "inherit" 3 4 "unset" "inherit" "both" all);
+        @include assert-equal(
+            safe-unquote-list-items($list),
+            (1 2 inherit 3 4 unset inherit both all),
+            '');
+    }
+    @include it('safe-unquote-list-items returns the corrected list; recursive') {
+        $sublist: ("inherit" "inherit");
+        $list: (1 2 "inherit" 3 4 $sublist);
+        @include assert-equal(
+            safe-unquote-list-items($list),
+            (1 2 inherit 3 4 (inherit inherit)),
+            '');
+    }
+    @include it('safe-unquote-list-items returns the corrected list; not recursive') {
+        $sublist: ("inherit" "inherit");
+        $list: (1 2 "inherit" 3 4 $sublist);
+        @include assert-equal(
+            safe-unquote-list-items($list, false),
+            (1 2 inherit 3 4 ("inherit" "inherit")),
+            '');
+    }
+    @include it('list-safe-unquote-items alias for safe-unquote-list-items') {
+        $list: (1 2 "inherit" 3 4 "unset" "inherit" "both" all);
+        @include assert-equal(
+            list-safe-unquote-items($list),
+            (1 2 inherit 3 4 unset inherit both all),
+            '');
+    }
+}

@@ -1,0 +1,37 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/text-size-adjust.scss';
+@include describe('__text-size-adjust mixin') {
+    @include it('Outputs text-size-adjust proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-size-adjust(100%);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-text-size-adjust: 100%;
+                    -webkit-text-size-adjust: 100%;
+                    text-size-adjust: 100%;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-size-adjust proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-size-adjust(auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-text-size-adjust: auto;
+                    -webkit-text-size-adjust: auto;
+                    text-size-adjust: auto;
+                }
+            }
+        }
+    }
+}

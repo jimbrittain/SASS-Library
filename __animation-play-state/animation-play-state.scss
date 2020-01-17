@@ -1,0 +1,16 @@
+$_bi_d: -1;
+@mixin __animation-play-state($a1:none,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){
+    $args: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $args: list-change-separator($args, ',');
+    $args: list-safe-unquote-items($args);
+    @for $i from 1 through length($args) {
+        @if not(is-animation-play-state-variable(nth($args,$i)) or is-reserved-variable(nth($args,$i))) {
+            @warn 'The animation-play-state variable supplied is invalid "' + nth($args,$i) + '"'; }}
+
+    -o-animation-play-state: $args;
+    -moz-animation-play-state: $args;
+    -webkit-animation-play-state: $args;
+    animation-play-state: $args; }
+
+@function is-animation-play-state-variable($val) {
+    @return if($val == 'paused' or $val == 'running', true, false); }

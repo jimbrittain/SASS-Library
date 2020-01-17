@@ -1,0 +1,63 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/column-rule-width.scss';
+@include describe('__column-rule-width mixin') {
+    @include it('Outputs column-rule-width proceeded by the -moz, and -webkit prefixes; keyword') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule-width(thin);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule-width: thin;
+                    -webkit-column-rule-width: thin;
+                    column-rule-width: thin;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-rule-width proceeded by the -moz, and -webkit prefixes; length') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule-width(10px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule-width: 10px;
+                    -webkit-column-rule-width: 10px;
+                    column-rule-width: 10px;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-rule-width proceeded by the -moz, and -webkit prefixes; global') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule-width(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule-width: inherit;
+                    -webkit-column-rule-width: inherit;
+                    column-rule-width: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs nothin on invalid column-rule-width') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule-width(hamster);
+                }
+            }
+            @include expect {}
+        }
+    }
+}

@@ -1,0 +1,155 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/font-feature-settings.scss';
+@include describe('__font-feature-settings mixin') {
+    @include it('Outputs font-feature-settings proceeded by the -o, -moz, and -webkit prefixes: "smcp zero"') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __font-feature-settings(smcp zero);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-font-feature-settings: "smcp=1", "zero=1";
+                    -moz-font-feature-settings: "smcp" 1, "zero" 1;
+                    -ms-font-feature-settings: "smcp" 1, "zero" 1;
+                    -o-font-feature-settings: "smcp" 1, "zero" 1;
+                    -webkit-font-feature-settings: "smcp" 1, "zero" 1;
+                    font-feature-settings: "smcp" 1, "zero" 1;
+                }
+            }
+        }
+    }
+    @include it('Outputs font-feature-settings proceeded by the -o, -moz, and -webkit prefixes: "smcp, zero"') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __font-feature-settings(smcp, zero);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-font-feature-settings: "smcp=1", "zero=1";
+                    -moz-font-feature-settings: "smcp" 1, "zero" 1;
+                    -ms-font-feature-settings: "smcp" 1, "zero" 1;
+                    -o-font-feature-settings: "smcp" 1, "zero" 1;
+                    -webkit-font-feature-settings: "smcp" 1, "zero" 1;
+                    font-feature-settings: "smcp" 1, "zero" 1;
+                }
+            }
+        }
+    }
+    @include it('Outputs font-feature-settings proceeded by the -o, -moz, and -webkit prefixes: (smcp 0), "(zero 0)"') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __font-feature-settings((smcp 0), (zero 0));
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-font-feature-settings: "smcp=0", "zero=0";
+                    -moz-font-feature-settings: "smcp" 0, "zero" 0;
+                    -ms-font-feature-settings: "smcp" 0, "zero" 0;
+                    -o-font-feature-settings: "smcp" 0, "zero" 0;
+                    -webkit-font-feature-settings: "smcp" 0, "zero" 0;
+                    font-feature-settings: "smcp" 0, "zero" 0;
+                }
+            }
+        }
+    }
+    @include it('Outputs font-feature-settings proceeded by the -o, -moz, and -webkit prefixes: "(smcp 0) (zero 0)"') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __font-feature-settings((smcp 0), (zero 0));
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-font-feature-settings: "smcp=0", "zero=0";
+                    -moz-font-feature-settings: "smcp" 0, "zero" 0;
+                    -ms-font-feature-settings: "smcp" 0, "zero" 0;
+                    -o-font-feature-settings: "smcp" 0, "zero" 0;
+                    -webkit-font-feature-settings: "smcp" 0, "zero" 0;
+                    font-feature-settings: "smcp" 0, "zero" 0;
+                }
+            }
+        }
+    }
+    @include it('Outputs font-feature-settings proceeded by the -o, -moz, and -webkit prefixes: "smcp 0"') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __font-feature-settings(smcp 0);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-font-feature-settings: "smcp=0";
+                    -moz-font-feature-settings: "smcp" 0;
+                    -ms-font-feature-settings: "smcp" 0;
+                    -o-font-feature-settings: "smcp" 0;
+                    -webkit-font-feature-settings: "smcp" 0;
+                    font-feature-settings: "smcp" 0;
+                }
+            }
+        }
+    }
+    @include it('Outputs font-feature-settings proceeded by the -o, -moz, and -webkit prefixes: "smcp 0, zero 0"') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __font-feature-settings(smcp 0, zero 0);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-font-feature-settings: "smcp=0", "zero=0";
+                    -moz-font-feature-settings: "smcp" 0, "zero" 0;
+                    -ms-font-feature-settings: "smcp" 0, "zero" 0;
+                    -o-font-feature-settings: "smcp" 0, "zero" 0;
+                    -webkit-font-feature-settings: "smcp" 0, "zero" 0;
+                    font-feature-settings: "smcp" 0, "zero" 0;
+                }
+            }
+        }
+    }
+    @include it('Outputs font-feature-settings proceeded by the -o, -moz, and -webkit prefixes: normal') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __font-feature-settings(normal);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-font-feature-settings: normal;
+                    -ms-font-feature-settings: normal;
+                    -o-font-feature-settings: normal;
+                    -webkit-font-feature-settings: normal;
+                    font-feature-settings: normal;
+                }
+            }
+        }
+    }
+    @include it('Outputs font-feature-settings proceeded by the -o, -moz, and -webkit prefixes: inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __font-feature-settings(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-font-feature-settings: inherit;
+                    -ms-font-feature-settings: inherit;
+                    -o-font-feature-settings: inherit;
+                    -webkit-font-feature-settings: inherit;
+                    font-feature-settings: inherit;
+                }
+            }
+        }
+    }
+}

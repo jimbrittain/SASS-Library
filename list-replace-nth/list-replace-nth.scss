@@ -1,0 +1,23 @@
+@function list-replace-nth($list, $index, $value) {
+    $r: ();
+    @if type-of($index) == number and $index != 0 and abs($index) < (length($list) + 1) and round($index) == $index {
+        $index: if($index < 0, length($list) + $index + 1, $index);
+        @for $i from 1 through length($list) {
+            @if $i == $index {
+                $r: append($r, $value);
+            } @else {
+                $r: append($r, nth($list, $i)); }}
+            $r: list-change-separator($r, list-separator($list));
+            @return $r;
+    } @else {
+        $str: 'Supplied index, "' + $index +'" {' + type-of($index) + '} ';
+        @if type-of($index) != number {
+            $str: $str + ' is not a number';
+        } @else if $index == 0 {
+            $str: $str + ' is 0, remember Sass is a 1-index list';
+        } @else if round($index) != $index {
+            $str: $str + ' is not an interger';
+        } @else if abs($index) > length($list) {
+            $str: $str + ' is outside of bounds (' + length($list) + ')'; }
+        @warn $str + ' for list-replace-nth. Value is not replaced';
+        @return $list; }}

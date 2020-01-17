@@ -1,0 +1,25 @@
+@import 'true';
+@import '../src/isMeasurementAbsolute.scss';
+@import '../src/isMeasurementRelative.scss';
+@import '../src/isMeasurement.scss';
+@include describe('isMeasurement function:') {
+    $list: 'px' 'in' 'cm' 'mm' 'pc' 'pt' 'Q' 'em' 'ex' 'rem' 'vw' 'vh' 'vmax' 'vmin' '%' 'rem' 'ch';
+    @for $i from 1 through length($list) {
+        $measurement: nth($list, $i);
+        @include it('Returns true when ' + $measurement + ' as parameter') {
+            @include assert-true(
+                isMeasurement($measurement),
+                'True for ' + $measurement);
+        }
+    }
+    @include it('Returns true when a number with measurement unit supplied') {
+        @include assert-true(
+            isMeasurement(110px),
+            'True for 110px');
+    }
+    @include it('Returns false when deg as parameter') {
+        @include assert-false(
+            isMeasurement(0deg),
+            'False for 0deg');
+    }
+}

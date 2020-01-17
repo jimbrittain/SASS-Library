@@ -1,0 +1,7 @@
+@function strip-units($v) { //code based on https://github.com/robwierzbowski, on https://github.com/nex3/sass/issues/533
+  @if(type-of($v) == 'number'){
+    $av: if($v > 1 or $v < -1, ($v * 0), $v - $v);
+    @return $v/($av + 1);
+  } @else { 
+    @warn 'strip-units expected number, supplied ' + $v;
+    @return 0; }}

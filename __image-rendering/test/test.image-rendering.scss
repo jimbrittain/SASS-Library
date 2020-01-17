@@ -1,0 +1,204 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/image-rendering.scss';
+@include describe('__image-rendering mixin') {
+    @include it('Outputs image-rendering proceeded by the -o, -moz prefixes: auto') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __image-rendering(auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-image-rendering: optimizeSpeed;
+                    image-rendering: optimizeSpeed;
+                    -o-image-rendering: auto;
+                    image-rendering: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs image-rendering proceeded by the -o, -moz prefixes: inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __image-rendering(inherit, true);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-interpolation-mode: inherit;
+                    -o-image-rendering: inherit;
+                    image-rendering: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs image-rendering proceeded by the -o, -moz prefixes: smooth') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __image-rendering(smooth, true);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-interpolation-mode: bicubic;
+                    -o-image-rendering: optimizeQuality;
+                    image-rendering: optimizeQuality;
+                    -o-image-rendering: auto;
+                    image-rendering: auto;
+                    -o-image-rendering: smooth;
+                    image-rendering: smooth;
+                }
+            }
+        }
+    }
+    @include it('Outputs image-rendering proceeded by the -o, -moz prefixes: high-quality') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __image-rendering(high-quality, true);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-interpolation-mode: bicubic;
+                    -o-image-rendering: optimizeQuality;
+                    image-rendering: optimizeQuality;
+                    -o-image-rendering: auto;
+                    image-rendering: auto;
+                    -o-image-rendering: smooth;
+                    image-rendering: smooth;
+                    -o-image-rendering: high-quality;
+                    image-rendering: high-quality;
+                }
+            }
+        }
+    }
+    @include it('Outputs image-rendering proceeded by the -o, -moz prefixes: crisp-edges') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __image-rendering(crisp-edges,true);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-interpolation-mode: nearest-neighbour;
+                    -o-image-rendering: optimizeSpeed;
+                    image-rendering: optimizeSpeed;
+                    image-rendering: -webkit-optimize-contrast;
+                    image-rendering: -moz-crisp-edges;
+                    -o-image-rendering: crisp-edges;
+                    image-rendering: crisp-edges;
+                }
+            }
+        }
+    }
+    @include it('Outputs image-rendering proceeded by the -o, -moz prefixes: pixelated') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __image-rendering(pixelated,true);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-interpolation-mode: nearest-neighbour;
+                    -o-image-rendering: optimizeSpeed;
+                    image-rendering: optimizeSpeed;
+                    image-rendering: -webkit-optimize-contrast;
+                    image-rendering: -moz-crisp-edges;
+                    -o-image-rendering: crisp-edges;
+                    image-rendering: crisp-edges;
+                    -o-image-rendering: pixelated;
+                    image-rendering: pixelated;
+                }
+            }
+        }
+    }
+    @include it('Outputs image-rendering proceeded by the -o, -moz prefixes: optimizeQuality') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __image-rendering(optimizeQuality,true);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-interpolation-mode: bicubic;
+                    -o-image-rendering: optimizeQuality;
+                    image-rendering: optimizeQuality;
+                    -o-image-rendering: auto;
+                    image-rendering: auto;
+                    -o-image-rendering: smooth;
+                    image-rendering: smooth;
+                }
+            }
+        }
+    }
+    @include it('Outputs image-rendering proceeded by the -o, -moz prefixes: optimizeSpeed') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __image-rendering(optimizeSpeed, true);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-interpolation-mode: nearest-neighbour;
+                    -o-image-rendering: optimizeSpeed;
+                    image-rendering: optimizeSpeed;
+                    image-rendering: -webkit-optimize-contrast;
+                    image-rendering: -moz-crisp-edges;
+                    -o-image-rendering: crisp-edges;
+                    image-rendering: crisp-edges;
+                    -o-image-rendering: pixelated;
+                    image-rendering: pixelated;
+                }
+            }
+        }
+    }
+    @include it('Outputs image-rendering proceeded by the -o, -moz prefixes: -webkit-optimize-contrast') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __image-rendering(-webkit-optimize-contrast, true);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-interpolation-mode: nearest-neighbour;
+                    -o-image-rendering: optimizeSpeed;
+                    image-rendering: optimizeSpeed;
+                    image-rendering: -webkit-optimize-contrast;
+                    image-rendering: -moz-crisp-edges;
+                    -o-image-rendering: crisp-edges;
+                    image-rendering: crisp-edges;
+                }
+            }
+        }
+    }
+    @include it('Outputs image-rendering proceeded by the -o, -moz prefixes: -moz-crisp-edges') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __image-rendering(-moz-crisp-edges, true);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-interpolation-mode: nearest-neighbour;
+                    -o-image-rendering: optimizeSpeed;
+                    image-rendering: optimizeSpeed;
+                    image-rendering: -webkit-optimize-contrast;
+                    image-rendering: -moz-crisp-edges;
+                    -o-image-rendering: crisp-edges;
+                    image-rendering: crisp-edges;
+                }
+            }
+        }
+    }
+}

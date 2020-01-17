@@ -1,0 +1,83 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/break-inside.scss';
+@include describe('__break-inside mixin') {
+    @include it('Outputs break-inside proceeded page-break-inside and webkit-column-break-inside: avoid') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __break-inside(avoid);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-column-break-inside: avoid;
+                    page-break-inside: avoid;
+                    break-inside: avoid;
+                }
+            }
+        }
+    }
+    @include it('Outputs break-inside proceeded page-break-inside and webkit-column-break-inside: auto') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __break-inside(auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-column-break-inside: auto;
+                    page-break-inside: auto;
+                    break-inside: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs break-inside proceeded page-break-inside and webkit-column-break-inside: avoid-column') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __break-inside(avoid-column);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-column-break-inside: avoid;
+                    page-break-inside: avoid;
+                    break-inside: avoid-column;
+                }
+            }
+        }
+    }
+    @include it('Outputs break-inside proceeded page-break-inside: page') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __break-inside(page);
+                }
+            }
+            @include expect {
+                #cheese {
+                    page-break-inside: auto;
+                    break-inside: page;
+                }
+            }
+        }
+    }
+    @include it('Outputs break-inside proceeded page-break-inside: avoid-page') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __break-inside(avoid-page);
+                }
+            }
+            @include expect {
+                #cheese {
+                    page-break-inside: avoid;
+                    break-inside: avoid-page;
+                }
+            }
+        }
+    }
+}

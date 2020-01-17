@@ -1,0 +1,9 @@
+@mixin __text-align-last($val:auto){
+    @if is-text-align-last-value($val) or is-reserved-variable($val) {
+        $val: safe-unquote($val);
+        -moz-text-align-last: $val; //as of 201402 -moz prefix only prefix in use
+        text-align-last: $val; }}
+
+@function is-text-align-last-value($val){
+    $list: (auto start end left right center justify);
+    @return if(index($list,$val) != null, true, false); }

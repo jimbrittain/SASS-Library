@@ -1,0 +1,29 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/resize.scss';
+@include describe('is-resize-value function:') {
+    @include it('is-resize-value: none, true') { @include assert-true(is-resize-value(none)); }
+    @include it('is-resize-value: vertical, true') { @include assert-true(is-resize-value(vertical)); }
+    @include it('is-resize-value: horizontal, true') { @include assert-true(is-resize-value(horizontal)); }
+    @include it('is-resize-value: both, true') { @include assert-true(is-resize-value(both)); }
+    @include it('is-resize-value: block, true') { @include assert-true(is-resize-value(block)); }
+    @include it('is-resize-value: inline, true') { @include assert-true(is-resize-value(inline)); }
+    @include it('is-resize-value: "none", true') { @include assert-true(is-resize-value("none")); }
+    @include it('is-resize-value: hamster, false') { @include assert-false(is-resize-value(hamster)); }
+}
+@include describe('__resize mixin') {
+    @include it('Outputs resize, no prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __resize(none);
+                }
+            }
+            @include expect {
+                #cheese {
+                    resize: none;
+                }
+            }
+        }
+    }
+}

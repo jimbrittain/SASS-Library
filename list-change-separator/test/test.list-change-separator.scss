@@ -1,0 +1,46 @@
+@import 'true';
+@import '../src/list-change-separator.scss';
+@include describe('list-change-separator function:') {
+    @include it('list-change-separator returns the correct list') {
+        @include assert-equal(
+            list-change-separator((1 2 3 4)),
+            (1 2 3 4),
+            'No parameter. Without does not modify, space separated');
+    }
+    @include it('list-change-separator returns the correct list') {
+        @include assert-equal(
+            list-change-separator((1, 2, 3, 4)),
+            (1, 2, 3, 4),
+            'No parameter. Without does not modify, space separated');
+    }
+    @include it('list-change-separator returns the correct list: ,') {
+        @include assert-equal(
+            list-change-separator((1 2 3 4), ','),
+            (1, 2, 3, 4),
+            '"," as parameter, space list to comma');
+    }
+    @include it('list-change-separator returns the correct list: comma') {
+        @include assert-equal(
+            list-change-separator((1 2 3 4), 'comma'),
+            (1, 2, 3, 4),
+            '"comma" as parameter, space list to comma');
+    }
+    @include it('list-change-separator returns the correct list: comma') {
+        @include assert-equal(
+            list-change-separator((1 2 3 4), ', '),
+            (1, 2, 3, 4),
+            '", " as parameter, space list to comma');
+    }
+    @include it('list-change-separator returns the corret list') {
+        @include assert-equal(
+            list-change-separator((1, 2, 3, 4), ' '),
+            (1 2 3 4),
+            '" " as parameter, comma list to space');
+    }
+    @include it('list-change-separator returns the corret list') {
+        @include assert-equal(
+            list-change-separator((1, 2, 3, 4), 'space'),
+            (1 2 3 4),
+            '"space" as parameter, comma list to space');
+    }
+}

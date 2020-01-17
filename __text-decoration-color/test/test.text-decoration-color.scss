@@ -1,0 +1,37 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/text-decoration-color.scss';
+@include describe('__text-decoration-color mixin') {
+    @include it('Outputs text-decoration-color proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-decoration-color(#000);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-text-decoration-color: #000;
+                    -webkit-text-decoration-color: #000;
+                    text-decoration-color: #000;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-decoration-color proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-decoration-color(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-text-decoration-color: inherit;
+                    -webkit-text-decoration-color: inherit;
+                    text-decoration-color: inherit;
+                }
+            }
+        }
+    }
+}

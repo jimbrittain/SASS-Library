@@ -1,0 +1,35 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/arguments.scss';
+@include describe('arguments function:') {
+    @include it('arguments returns single list of arguments') {
+        @include assert-equal(
+            arguments(1 2 3 4 5 6),
+            (1 2 3 4 5 6),
+            'A single list is returned');
+    }
+    @include it('arguments returns a single list of arguments') {
+        @include assert-equal(
+            arguments(1, 2, 3, 4, 5, 6),
+            (1 2 3 4 5 6),
+            'A single list is returned');
+    }
+    @include it('arguments returns a single list of arguments') {
+        @include assert-equal(
+            arguments((1, 2, 3, 4, 5, 6)),
+            (1, 2, 3, 4, 5, 6),
+            'A single list is returned');
+    }
+    @include it('arguments returns single list of arguments') {
+        @include assert-equal(
+            arguments((1 2 3 4 5 6)),
+            (1 2 3 4 5 6),
+            'A single list is returned');
+    }
+    @include it('arguments returns single list of arguments') {
+        @include assert-equal(
+            arguments((1 2 3 4 5 6), 1),
+            ((1 2 3 4 5 6) 1),
+            'A single list is returned');
+    }
+}

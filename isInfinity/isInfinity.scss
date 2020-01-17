@@ -1,0 +1,14 @@
+@function isInfinity($v){
+  @if type-of($v) == 'number' {
+    @if(isNaN($v) != true){
+      $myInfinity: 1/0;
+      @return if($myInfinity == $v, true, false);
+    } @else {
+      @warn "isInfinity was supplied a NaN";
+      @return false; }
+  } @else {
+    @if (type-of($v) == 'string' && $v == 'Infinity') {
+        @return true;
+    } @else {
+        @warn "isInfinity was not supplied a number.";
+        @return false; }}}

@@ -1,0 +1,9 @@
+@mixin style-number-of-elements($val, $elem) {
+    @if round($val) == $val and $val > 0 and unitless($val) {
+        #{$elem}:nth-last-child(n + #{$val}), #{$elem}:nth-last-child(n + #{$val}) ~ * {
+            @content;
+        }
+    } @else {
+        @warn 'style-number-of-elements warning: improper 1st condition, none number';
+    }
+}

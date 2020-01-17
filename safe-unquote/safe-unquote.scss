@@ -1,0 +1,5 @@
+@function safe-unquote($str) {
+    @if type-of($str) == string {
+       @return unquote($str);
+    }
+    @return $str; }

@@ -1,0 +1,49 @@
+@import 'true';
+@import '../src/isMeasurementAbsolute.scss';
+@include describe('isMeasurementAbsolute function:') {
+    @include it('Returns true when px as parameter') {
+        @include assert-true(
+            isMeasurementAbsolute(px),
+            'True for px');
+    }
+    @include it('Returns true when in as parameter') {
+        @include assert-true(
+            isMeasurementAbsolute(in),
+            'True for in');
+    }
+    @include it('Returns true when cm as parameter') {
+        @include assert-true(
+            isMeasurementAbsolute(cm),
+            'True for cm');
+    }
+    @include it('Returns true when mm as parameter') {
+        @include assert-true(
+            isMeasurementAbsolute(mm),
+            'True for mm');
+    }
+    @include it('Returns true when pc as parameter') {
+        @include assert-true(
+            isMeasurementAbsolute(pc),
+            'True for pc');
+    }
+    @include it('Returns true when pt as parameter') {
+        @include assert-true(
+            isMeasurementAbsolute(pt),
+            'True for pt');
+    }
+    @include it('Returns true when Q as parameter') {
+        @include assert-true(
+            isMeasurementAbsolute(Q),
+            'True for Q');
+    }
+    @include it('Returns true when 100Q as parameter') {
+        @include assert-true(
+            isMeasurementAbsolute(100Q),
+            'True for 100Q');
+    }
+    @include it('Returns false when em as parameter') {
+        @include assert-false(
+            isMeasurementAbsolute(em),
+            'False for em');
+    }
+}

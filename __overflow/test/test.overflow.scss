@@ -1,0 +1,67 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/overflow.scss';
+@include describe('__overflow mixin') {
+    @include it('Outputs overflow 1 args') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __overflow(hidden);
+                }
+            }
+            @include expect {
+                #cheese {
+                    overflow: hidden;
+                }
+            }
+        }
+    }
+    @include it('Outputs overflow 2 args') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __overflow(visible inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    overflow: visible inherit;
+                }
+            }
+        }
+    }
+}
+@include describe('__overflow-x mixin') {
+    @include it('Outputs overflow-x and ms prefixed') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __overflow-x(hidden);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-overflow-x: hidden;
+                    overflow-x: hidden;
+                }
+            }
+        }
+    }
+}
+@include describe('__overflow-y mixin') {
+    @include it('Outputs overflow-y and ms prefixed') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __overflow-y(visible);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-overflow-y: visible;
+                    overflow-y: visible;
+                }
+            }
+        }
+    }
+}

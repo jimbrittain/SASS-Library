@@ -1,0 +1,74 @@
+@mixin contain-child-images($constraint:'both', $dominant: '') {
+    overflow: hidden; 
+    picture, img, video {
+        display: block;
+        margin: 0;
+        padding: 0;
+        width: auto;
+        height: auto;
+        min-width: 100%;
+        min-height: 100%;
+        @if $constraint == 'width' {
+            max-width: 100%;
+        } @else if $constraint == 'height' {
+            max-height: 100%;
+        } @else if $constraint == 'both' {
+            @if $dominant == 'width' {
+                //@warn "constrain-child-images is being called with a constraint of both and a dominant of both, this will deform the images in older browsers";
+                min-width: auto;
+                max-height: 100%;
+                min-height: 0;
+            } @else if $dominant == 'height' {
+                //@warn "constrain-child-images is being called with a constraint of both and a dominant of both, this will deform the images in older browsers";
+                min-height: auto;
+                max-width: 100%;
+                min-width: 0;
+            } @else {
+                //@warn "constrain-child-images is being called with a constraint of both and a dominant of both, this will deform the images in older browsers";
+                max-width: 100%;
+                max-height: 100%;
+                min-width: 0;
+                min-height: 0;
+            }
+        }
+    }
+    picture {
+        @if $constraint == 'width' {
+            width: 100%;
+        } @else if $constraint == 'height' {
+            height: 100%;
+        } @else {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    @supports (object-fit:contain) or (-o-object-fit:contain){
+        & picture, & img, & video {
+            @if $constraint == 'height' {
+                width: auto;
+            } @else {
+                width: 100%; }
+            @if $constraint == 'width' {
+                height: auto;
+            } @else {
+                height: 100%; }
+            max-height: none;
+            max-width: none;
+            min-height: 0;
+            min-width: 0;
+            @include __object-fit(contain);
+            @include __object-position(50% 50%); }
+    }
+    @supports ((transform:translate) and (not(object-fit:contain)) and (not(-o-object-fit:contain))) {
+        & picture, & img, & video {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            @include __transform(translate(-50%, -50%));
+        }
+    }
+}

@@ -1,0 +1,221 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/text-emphasis.scss';
+@include describe('is-text-emphasis-position-value') {
+    @include it('is-text-emphasis-position-value: true, over right') {
+        @include assert-true(is-text-emphasis-position-value(over right)); }
+    @include it('is-text-emphasis-position-value: true, over, right') {
+        @include assert-true(is-text-emphasis-position-value(over, right)); }
+    @include it('is-text-emphasis-position-value: true, under left') {
+        @include assert-true(is-text-emphasis-position-value(left under)); }
+    @include it('is-text-emphasis-position-value: true, under, left') {
+        @include assert-true(is-text-emphasis-position-value(left, under)); }
+    @include it('is-text-emphasis-position-value: false, under over') {
+        @include assert-false(is-text-emphasis-position-value(under over)); }
+    @include it('is-text-emphasis-position-value: false, under, over') {
+        @include assert-false(is-text-emphasis-position-value(under, over)); }
+    @include it('is-text-emphasis-position-value: false, right left') {
+        @include assert-false(is-text-emphasis-position-value(right left)); }
+    @include it('is-text-emphasis-position-value: false, right right') {
+        @include assert-false(is-text-emphasis-position-value(right left)); }
+
+    @include it('is-text-emphasis-position-value: true, initial') {
+        @include assert-true(is-text-emphasis-position-value(initial)); }
+    @include it('is-text-emphasis-position-value: true, inherit') {
+        @include assert-true(is-text-emphasis-position-value(inherit)); }
+    @include it('is-text-emphasis-position-value: true, unset') {
+        @include assert-true(is-text-emphasis-position-value(unset)); }
+}
+
+@include describe('is-text-emphasis-style-value') {
+    @include it('is-text-emphasis-style-value: true, none ') {
+        @include assert-true(is-text-emphasis-style-value(none)); }
+    @include it('is-text-emphasis-style-value: true, x') {
+        @include assert-true(is-text-emphasis-style-value(x)); }
+    @include it('is-text-emphasis-style-value: true, 点') {
+        @include assert-true(is-text-emphasis-style-value('点')); }
+    @include it('is-text-emphasis-style-value: true, uni25B2'){
+        @include assert-true(is-text-emphasis-style-value('\25B2')); }
+    @warn 'failing here';
+    @include it('is-text-emphasis-style-value: true, *'){
+        @include assert-true(is-text-emphasis-style-value('*')); }
+    @include it('is-text-emphasis-style-value: true, filled') {
+        @include assert-true(is-text-emphasis-style-value(filled)); }
+    @include it('is-text-emphasis-style-value: true, dot') {
+        @include assert-true(is-text-emphasis-style-value(dot)); }
+    @include it('is-text-emphasis-style-value: true, circle') {
+        @include assert-true(is-text-emphasis-style-value(circle)); }
+    @include it('is-text-emphasis-style-value: true, double-circle') {
+        @include assert-true(is-text-emphasis-style-value(double-circle)); }
+    @include it('is-text-emphasis-style-value: true, triangle') {
+        @include assert-true(is-text-emphasis-style-value(triangle)); }
+    @include it('is-text-emphasis-style-value: true, sesame') {
+        @include assert-true(is-text-emphasis-style-value(sesame)); }
+    @include it('is-text-emphasis-style-value: true, filled dot') {
+        @include assert-true(is-text-emphasis-style-value(filled dot)); }
+    @include it('is-text-emphasis-style-value: true, inherit') {
+        @include assert-true(is-text-emphasis-style-value(inherit)); }
+    @include it('is-text-emphasis-style-value: true, unset') {
+        @include assert-true(is-text-emphasis-style-value(unset)); }
+    @include it('is-text-emphasis-style-value: true, initial') {
+        @include assert-true(is-text-emphasis-style-value(initial)); }
+
+    @include it('is-text-emphasis-style-value: false, foo') {
+        @include assert-false(is-text-emphasis-style-value(foo)); }
+    @include it('is-text-emphasis-style-value: false, filled filled') {
+        @include assert-false(is-text-emphasis-style-value(filled filled)); }
+    @include it('is-text-emphasis-style-value: false, open filled') {
+        @include assert-false(is-text-emphasis-style-value(open filled)); }
+    @include it('is-text-emphasis-style-value: false, circle dot') {
+        @include assert-false(is-text-emphasis-style-value(circle dot)); }
+}
+@include describe('__text-emphasis-style mixin') {
+    @include it('outputs w3c and webkit: inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis-style(inherit); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis-style: inherit;
+                    text-emphasis-style: inherit; }}}}
+    @include it('outputs w3c and webkit: none') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis-style(none); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis-style: none;
+                    text-emphasis-style: none; }}}}
+    @include it('outputs w3c and webkit: filled double-circle') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis-style(filled double-circle); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis-style: filled double-circle;
+                    text-emphasis-style: filled double-circle; }}}}
+    @include it('outputs w3c and webkit: open triangle') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis-style(open triangle); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis-style: open triangle;
+                    text-emphasis-style: open triangle; }}}}}
+@include describe('__text-emphasis-position mixin') {
+    @include it('outputs w3c and webkit: inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis-position(inherit); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis-position: inherit;
+                    text-emphasis-position: inherit; }}}}
+    @include it('outputs w3c and webkit: under right') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis-position(under right); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis-position: under right;
+                    text-emphasis-position: under right; }}}}
+    @include it('outputs w3c and webkit: left over') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis-position(left over); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis-position: left over;
+                    text-emphasis-position: left over; }}}}}
+@include describe('__text-emphasis-color mixin') {
+    @include it('outputs w3c and webkit: initial') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis-color(initial); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis-color: initial;
+                    text-emphasis-color: initial; }}}}
+    @include it('outputs w3c and webkit: teal') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis-color(teal); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis-color: teal;
+                    text-emphasis-color: teal; }}}}
+    @include it('outputs w3c and webkit: #000') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis-color(#000); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis-color: #000;
+                    text-emphasis-color: #000; }}}}
+    @include it('outputs w3c and webkit: transparent') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis-color(transparent); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis-color: transparent;
+                    text-emphasis-color: transparent; }}}}}
+@include describe('__text-emphasis mixin'){
+    @include it('outputs w3c and webkit: none'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis(none); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis: none;
+                    text-emphasis: none; }}}}
+    @include it('outputs w3c and webkit: unset'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis(unset); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis: unset;
+                    text-emphasis: unset; }}}}
+    @include it('outputs w3c and webkit: filled sesame #555'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis(filled sesame #555); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis: filled sesame #555;
+                    text-emphasis: filled sesame #555; }}}}
+    @include it('outputs w3c and webkit: filled sesame, #555'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis(filled sesame, #555); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis: filled sesame #555;
+                    text-emphasis: filled sesame #555; }}}}
+
+    @include it('outputs w3c and webkit: filled, sesame, #555'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-emphasis(filled, sesame, #555); }}
+            @include expect {
+                #cheese {
+                    -webkit-text-emphasis: filled sesame #555;
+                    text-emphasis: filled sesame #555; }}}}
+}

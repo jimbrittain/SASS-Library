@@ -1,0 +1,52 @@
+@import 'true';
+@import '../src/boolean-switch.scss';
+@include describe('boolean-switch function:') {
+    @include it('boolean-switch switches a boolean: true to false') {
+        @include assert-equal(
+            boolean-switch(true),
+            false,
+            'Switches a boolean');
+    }
+    @include it('boolean-switch switches a boolean: false to true') {
+        @include assert-equal(
+            boolean-switch(false),
+            true,
+            'Switches a boolean');
+    }
+    @include it('boolean-switch switches a number: 1 to 0') {
+        @include assert-equal(
+            boolean-switch(1),
+            0,
+            'Switches a number');
+    }
+    @include it('boolean-switch switches a number: 0 to 1') {
+        @include assert-equal(
+            boolean-switch(0),
+            1,
+            'Switches a number');
+    }
+    @include it('boolean-switch switches a string: "true" to "false"') {
+        @include assert-equal(
+            boolean-switch('true'),
+            'false',
+            'Switches a string');
+    }
+    @include it('boolean-switch switches a string: "false" to "true"') {
+        @include assert-equal(
+            boolean-switch('false'),
+            'true',
+            'Switches a string');
+    }
+    @include it('boolean-switch switches a number: forced boolean') {
+        @include assert-equal(
+            boolean-switch(1, true),
+            false,
+            'Switches a number');
+    }
+    @include it('boolean-switch switches a string: forced boolean') {
+        @include assert-equal(
+            boolean-switch('true', true),
+            false,
+            'Switches a string'); 
+    }
+}

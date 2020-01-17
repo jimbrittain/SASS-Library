@@ -1,0 +1,24 @@
+@import 'true';
+@import '../src/is-list-single-level.scss';
+@include describe('strip-units function:') {
+    @include it('is-single-level: true list of single level') {
+        @include assert-true(
+            (1 2 3 4 5 6),
+            'A unitless number is returned');
+    }
+    @include it('is-single-level: true number') {
+        @include assert-true(
+            1,
+            'A unitless number is returned');
+    }
+    @include it('is-single-level: true string') {
+        @include assert-true(
+            'heello',
+            'A unitless number is returned');
+    }
+    @include it('is-single-level: false list of multiple level') {
+        @include assert-true(
+            (1 2 3 (4 5) 6),
+            'A unitless number is returned');
+    }
+}

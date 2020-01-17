@@ -1,0 +1,50 @@
+@mixin __text-align($val, $last: $val, $justify: auto, $includeLast: true, $includeJustify: true) {
+    @if (is-text-align-value($val) or is-reserved-variable($val)) {
+        @if type-of($val) == 'list' {
+            $safe-val: ();
+            @for $i from 1 through length($val) {
+                $on: nth($val, $i);
+                @if str-length($on) > 1 {
+                    $safe-val: append($safe-val, safe-unquote($on));
+                } @else {
+                    $on: quote(safe-unquote($on));
+                    $safe-val: append($safe-val, $on); }}
+            $val: $safe-val;
+            $val: list-change-separator($val, ' '); }
+        @if($val == 'justify' or $val == 'justify-all') {
+            @if $includeJustify == true {
+                @include __text-justify($justify);
+                @if $val == justify-all or $includeLast{
+                    $the-last: if($val == 'justify-all', 'justify', $last);
+                    @include __text-align-last($the-last); }}
+        } @else {
+            text-align: $val;
+            @if ($includeLast == true) { 
+                $the-last: if(type-of($last) == 'list', auto, $last);
+                @include __text-align-last($the-last); }
+        }
+    }
+}
+@function is-text-align-value($val) {
+    //decide what to do about block e.g. -moz-center, -webkit-center, fuck em, none-standard deprecated;
+    $list: (left right center justify justify-all start end match-parent);
+    @if (type-of($val) != 'list') {
+        $l: ();
+        $val: append($l, $val); }
+    $good: true;
+    $had-char: false;
+    $had-align: false;
+    @for $i from 1 through length($val) {
+        $on: nth($val,$i);
+        @if (type-of($on) == 'string') {
+            @if index($list,$on) != null {
+                @if not($had-align) {
+                    $had-align: true;
+                } @else { $good: false; }
+            } @else if str-length($on) == 1 {
+                @if not($had-char) {
+                    $had-char: true;
+                } @else { $good: false; }
+            } @else { $good: false; }
+        } @else { $good: false; }}
+    @return if($good == true, true, false); }

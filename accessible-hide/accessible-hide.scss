@@ -1,0 +1,9 @@
+@mixin accessible-hide { 
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    left: -10000px;
+    text-indent: -10000px;
+    width: 0;
+    height: 0; 
+    speak: always; }

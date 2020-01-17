@@ -1,0 +1,11 @@
+@mixin __available-fit {
+    @supports ((width: available) or (width: -webkit-fill-available) or (width: fill-available) or (width: -moz-available) or (width: -webkit-available)) {
+        & {
+            width: -webkit-fill-available;
+            width: fill-available;
+            width: -moz-available;
+            width: -webkit-available;
+            width: available;
+        }
+    }
+}

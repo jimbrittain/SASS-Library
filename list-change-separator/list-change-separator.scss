@@ -1,0 +1,8 @@
+@function list-change-separator($list, $separator: list-separator($list)) {
+    @if not(type-of($list) == list) {
+        @warn '"' + $list + '" {' + type-of($list) + '} is not a valid list for list-change-separator';
+        @return $list; }
+    $separator: if($separator == 'space' or $separator == ' ' or $separator == 'SPACE' or $separator == 'Space', 'space', 'comma'); //this only allows one or other, probably should be written better;
+    @if not(list-separator($list) == $separator) {
+        $list: join($list, (), $separator); }
+    @return $list; }

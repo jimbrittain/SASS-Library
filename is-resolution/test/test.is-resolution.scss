@@ -1,0 +1,29 @@
+@import 'true';
+@import '../src/is-resolution.scss';
+@include describe('is-resolution function:') {
+    @include it('is-resolution returns true: dpi') {
+        @include assert-true(
+            is-resolution(0dpi),
+            'true: dpi');
+    }
+    @include it('is-resolution returns true: dpcm') {
+        @include assert-true(
+            is-resolution(5dpcm),
+            'true: dpcm');
+    }
+    @include it('is-resolution returns true: dppx') {
+        @include assert-true(
+            is-resolution(-8dppx),
+            'true: dppx');
+    }
+    @include it('is-resolution returns false: em') {
+        @include assert-false(
+            is-resolution(3em),
+            'false: em');
+    }
+    @include it('is-resolution returns false: unitless') {
+        @include assert-false(
+            is-resolution(3),
+            'false: unitless');
+    }
+}

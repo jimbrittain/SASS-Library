@@ -1,0 +1,13 @@
+@import 'true';
+@import '../src/is-shape-value.scss';
+@include describe('is-circular-shape-value function:') {
+    @include it('is-circular-shape-value: circle, true') {
+        @include assert-true( is-circular-shape-value(circle));
+    }
+    @include it('is-circular-shape-value: "ellipse", true') {
+        @include assert-true( is-circular-shape-value("ellipse"));
+    }
+    @include it('is-circular-shape-value: rect, false') {
+        @include assert-false( is-circular-shape-value('rect'));
+    }
+}

@@ -1,0 +1,20 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/isNaN.scss';
+@include describe('isNaN function:') {
+    @include it('isNaN returns true for 0/0') {
+        @include assert-true(
+            isNaN(0/0),
+            '0 divided by zero');
+    }
+    @include it('isNaN returns true for 10%0') {
+        @include assert-true(
+            isNaN(10%0),
+            '10 modulo zero');
+    }
+    @include it('isNaN returns true for sqrt(0)') {
+        @include assert-true(
+            isNaN(sqrt(0)),
+            'sqrt(0)');
+    }
+}

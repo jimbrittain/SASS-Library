@@ -1,0 +1,69 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/style-form-button-types.scss';
+@include describe('style-form-button-types mixin') {
+    @include it('style-form-button-types, no additions') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include style-form-button-types {
+                        color: red;
+                    }
+                }
+            }
+            @include contains(false) {
+                #cheese input[type="button"], #cheese input[type="reset"], #cheese input[type="submit"], #cheese button {
+                    color: red;
+                }
+            }
+        }
+    }
+    @include it('style-form-button types, 1 addition') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include style-form-button-types('a.button') {
+                        color: red;
+                    }
+                }
+            }
+            @include contains(false) {
+                #cheese input[type="button"], #cheese input[type="reset"], #cheese input[type="submit"], #cheese button, #cheese a.button {
+                    color: red;
+                }
+            }
+        }
+    }
+    @include it('style-form-button types, 2 addition, space separated') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include style-form-button-types('a.button' 'a.smallbutton') {
+                        color: red;
+                    }
+                }
+            }
+            @include contains(false) {
+                #cheese input[type="button"], #cheese input[type="reset"], #cheese input[type="submit"], #cheese button, #cheese a.button, #cheese a.smallbutton {
+                    color: red;
+                }
+            }
+        }
+    }
+    @include it('style-form-button types, 2 addition, comma separated') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include style-form-button-types('a.button', 'a.smallbutton') {
+                        color: red;
+                    }
+                }
+            }
+            @include contains(false) {
+                #cheese input[type="button"], #cheese input[type="reset"], #cheese input[type="submit"], #cheese button, #cheese a.button, #cheese a.smallbutton {
+                    color: red;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+@function is-decimal-string($str) {
+    $list: ('0' '1' '2' '3' '4' '5' '6' '7' '8' '9');
+    $valid: false;
+    @if type-of($str) == string and str-length($str) > 0{
+        $valid: true;
+        $i: 1;
+        @while $i <= str-length($str) and $valid == true {
+            $char: str-slice($str,$i,$i);
+            @if index($list,$char) == null { $valid: false; }
+            $i: $i + 1;
+        }
+    }
+    @return $valid; }

@@ -1,0 +1,11 @@
+@function cast-to-string($val) {
+    @if type-of($val) not string {
+        @if type-of($val) == map {
+            $val: inspect($val);
+        } @else if $val == null {
+            $val: 'null';
+        } @else {
+            $val: unquote("") + $val;
+        }
+    }
+    @return $val; }

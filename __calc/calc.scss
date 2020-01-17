@@ -1,0 +1,24 @@
+@mixin __calc($prop, $val:false) {
+    @if ($val == false and type-of($prop) == 'string' and str-index($prop, 'calc(') != null) {
+        @if (str-index($prop, ':') != null) {
+            $iprop: str-slice($prop, 1, (str-index($prop, ':') - 1));
+            $ival: str-slice($prop, (str-index($prop, ':') + 1));
+            $iprop: safe-unquote($iprop);
+            @if (str-index($ival, ';') != null) { $ival: str-slice($ival, 1, (str-index($ival, ';') - 1)); }
+            #{$iprop}: #{(safe-unquote(str-replace($ival, 'calc(', '-moz-calc(')))};
+            #{$iprop}: #{(safe-unquote(str-replace($ival, 'calc(', '-webkit-calc(')))};
+            #{$iprop}: #{(safe-unquote($ival))};
+        }
+    } @else if (type-of($prop) == 'string' and type-of($val) == 'string'){
+        $val: safe-unquote($val);
+        #{$prop}: -moz-calc(#{$val});
+        #{$prop}: -webkit-calc(#{$val});
+        #{$prop}: calc(#{$val}); 
+    } @else {
+        @if ($val == false) {
+            @warn 'The property-value pair, "' + $prop + '":"' + $val + '", is not valid for __calc mixin';
+        } @else {
+            @warn 'The property-value string, "' + $prop + '", is not valid as does not contain calc for __calc mixin';
+        }
+    }
+}

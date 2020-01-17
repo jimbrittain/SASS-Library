@@ -1,0 +1,119 @@
+@import 'true';
+@import '../src/is-length.scss';
+@include describe('is-length function:') {
+    @include it('is-length returns true for cap') {
+        @include assert-true(
+            is-length(1cap),
+            'cap:true');
+    }
+    @include it('is-length returns true for ch') {
+        @include assert-true(
+            is-length(1ch),
+            'ch:true');
+    }
+    @include it('is-length returns true for ex') {
+        @include assert-true(
+            is-length(1ex),
+            'ex:true');
+    }
+    @include it('is-length returns true for em') {
+        @include assert-true(
+            is-length(1em),
+            'em:true');
+    }
+    @include it('is-length returns true for ic') {
+        @include assert-true(
+            is-length(1ic),
+            'ic:true');
+    }
+    @include it('is-length returns true for lh') {
+        @include assert-true(
+            is-length(1lh),
+            'lh:true');
+    }
+    @include it('is-length returns true for rem') {
+        @include assert-true(
+            is-length(1rem),
+            'rem:true');
+    }
+    @include it('is-length returns true for rlh') {
+        @include assert-true(
+            is-length(1rlh),
+            'rlh:true');
+    }
+    @include it('is-length returns true for vh') {
+        @include assert-true(
+            is-length(1vh),
+            'vh:true');
+    }
+    @include it('is-length returns true for vw') {
+        @include assert-true(
+            is-length(1vw),
+            'vw:true');
+    }
+    @include it('is-length returns true for vi') {
+        @include assert-true(
+            is-length(1vi),
+            'vi:true');
+    }
+    @include it('is-length returns true for vb') {
+        @include assert-true(
+            is-length(1vb),
+            'vb:true');
+    }
+    @include it('is-length returns true for vmin') {
+        @include assert-true(
+            is-length(1vmin),
+            'vmin:true');
+    }
+    @include it('is-length returns true for vmax') {
+        @include assert-true(
+            is-length(1vmax),
+            'vmax:true');
+    }
+    @include it('is-length returns true for px') {
+        @include assert-true(
+            is-length(1px),
+            'px:true');
+    }
+    @include it('is-length returns true for cm') {
+        @include assert-true(
+            is-length(1cm),
+            'cm:true');
+    }
+    @include it('is-length returns true for mm') {
+        @include assert-true(
+            is-length(1mm),
+            'mm:true');
+    }
+    @include it('is-length returns true for Q') {
+        @include assert-true(
+            is-length(1Q),
+            'Q:true');
+    }
+    @include it('is-length returns true for in') {
+        @include assert-true(
+            is-length(1in),
+            'in:true');
+    }
+    @include it('is-length returns true for pc') {
+        @include assert-true(
+            is-length(1pc),
+            'pc:true');
+    }
+    @include it('is-length returns true for pt') {
+        @include assert-true(
+            is-length(1pt),
+            'pt:true');
+    }
+    @include it('is-length returns true for mozmm') {
+        @include assert-true(
+            is-length(1mozmm),
+            'mozmm:true');
+    }
+    @include it('is-length returns false for s') {
+        @include assert-false(
+            is-length(1s),
+            's:false');
+    }
+}

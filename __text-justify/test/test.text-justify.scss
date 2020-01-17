@@ -1,0 +1,236 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/text-justify.scss';
+@include describe('__text-justify mixin') {
+    @include it('Outputs text-justify proceeded by the -ms- version, and text-align: justify') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-justify;
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: justify;
+                    -ms-text-justify: newspaper;
+                    text-justify: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-justify proceeded by the -ms- version, no text-align: justify on false 2nd param') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-justify(newspaper, false);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-text-justify: newspaper;
+                    text-justify: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-justify proceeded by the -ms- version: none') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-justify(none);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: left;
+                    -ms-text-justify: auto;
+                    text-justify: none;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-justify proceeded by the -ms- version: auto') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-justify(auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: justify;
+                    -ms-text-justify: auto;
+                    text-justify: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-justify proceeded by the -ms- version, inter-word') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-justify(inter-word);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: justify;
+                    -ms-text-justify: inter-word;
+                    text-justify: inter-word;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-justify proceeded by the -ms- version: inter-character') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-justify(inter-character);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: justify;
+                    -ms-text-justify: distribute;
+                    text-justify: inter-character;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-justify proceeded by the -ms- version: distribute') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-justify(distribute);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: justify;
+                    -ms-text-justify: distribute;
+                    text-justify: distribute;
+                    text-justify: inter-character;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-justify proceeded by the -ms- version: distribute-all-lines') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-justify(distribute-all-lines);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: justify;
+                    -ms-text-justify: distribute-all-lines;
+                    text-justify: distribute;
+                    text-justify: inter-character;
+                    -moz-text-align-last: justify;
+                    text-align-last: justify;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-justify proceeded by the -ms- version: distribute-center-last') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-justify(distribute-center-last);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: justify;
+                    -ms-text-justify: distribute-center-last;
+                    text-justify: distribute;
+                    text-justify: inter-character;
+                    -moz-text-align-last: center;
+                    text-align-last: center;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-justify proceeded by the -ms- version: distribute-center-last, suppress text-align-last') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-justify(distribute-center-last, true, false);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: justify;
+                    -ms-text-justify: distribute-center-last;
+                    text-justify: distribute;
+                    text-justify: inter-character;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-justify proceeded by the -ms- version: inter-cluster') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-justify(inter-cluster);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: justify;
+                    -ms-text-justify: inter-cluster;
+                    text-justify: inter-word;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-justify proceeded by the -ms- version: inter-ideograph') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-justify(inter-ideograph);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: justify;
+                    -ms-text-justify: inter-ideograph;
+                    text-justify: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-justify proceeded by the -ms- version: kashida') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-justify(kashida);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: justify;
+                    -ms-text-justify: kashida;
+                    text-justify: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-justify proceeded by the -ms- version: newspaper') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-justify(newspaper);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: justify;
+                    -ms-text-justify: newspaper;
+                    text-justify: auto;
+                }
+            }
+        }
+    }
+}

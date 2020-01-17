@@ -1,0 +1,4 @@
+@function toggle_boolean($bool){ 
+    $bool: if(type-of($bool) == bool, $bool, cast-to-boolean($bool));
+    @return if($bool == true, false, true); }
+

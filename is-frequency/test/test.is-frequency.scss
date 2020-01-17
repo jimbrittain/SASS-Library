@@ -1,0 +1,24 @@
+@import 'true';
+@import '../src/is-frequency.scss';
+@include describe('is-frequency function:') {
+    @include it('is-frequency returns true: Hz') {
+        @include assert-true(
+            is-frequency(0Hz),
+            'true: Hz');
+    }
+    @include it('is-frequency returns true: kHz') {
+        @include assert-true(
+            is-frequency(5kHz),
+            'true: kHz');
+    }
+    @include it('is-frequency returns false: em') {
+        @include assert-false(
+            is-frequency(3em),
+            'false: em');
+    }
+    @include it('is-frequency returns false: unitless') {
+        @include assert-false(
+            is-frequency(3),
+            'false: unitless');
+    }
+}

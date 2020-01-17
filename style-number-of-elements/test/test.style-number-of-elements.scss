@@ -1,0 +1,20 @@
+@import 'true';
+@import '../src/style-number-of-elements.scss';
+@include describe('style-number-of-elements mixin') {
+/*    @include it('Outputs, delete when done') {
+        @include assert {
+            @include output {
+                nav {
+                    @include style-number-of-elements(3, a) {
+                        color: blue;
+                    }
+                }
+            }
+            @include expect {
+                nav {
+                    color: blue;
+                }
+            }
+        }
+    }*/
+}

@@ -1,0 +1,46 @@
+@import 'true';
+@import '../src/is-boolean.scss';
+@include describe('is-boolean function:') {
+    @include it('is-boolean returns false') {
+        @include assert-false(
+            is-boolean(1em),
+            '1em is not a boolean');
+    }
+    @include it('is-boolean returns false') {
+        @include assert-false(
+            is-boolean('1'),
+            '"1" is not a boolean');
+    }
+    @include it('is-boolean returns true on loose for "1"') {
+        @include assert-true(
+            is-boolean('1', true),
+            '"1" is a boolean when loose');
+    }
+}
+@include describe('is-binary function:') {
+    @include it('is-binary returns true for 1') {
+        @include assert-true(
+            is-binary(1),
+            '"1" is a boolean when loose');
+    }
+    @include it('is-binary returns true for 0') {
+        @include assert-true(
+            is-binary(0),
+            '"1" is a boolean when loose');
+    }
+    @include it('is-binary returns true for "0"') {
+        @include assert-false(
+            is-binary("0"),
+            '"1" is a boolean when loose');
+    }
+    @include it('is-binary returns false for 0em') {
+        @include assert-false(
+            is-binary(0em),
+            '"1" is a boolean when loose');
+    }
+    @include it('is-binary returns false for 1px') {
+        @include assert-false(
+            is-binary(1px),
+            '"1" is a boolean when loose');
+    }
+}

@@ -1,0 +1,281 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/key-value-store.scss';
+@include describe('key-value-store class:') {
+    @include it('new-key-value') {
+        @include assert-equal(
+            new-key-value('standards', 'make it so'),
+            ('standards' 'make it so'),
+            '');
+    }
+    @include it('new-key-value:false, number as key') {
+        @include assert-false( new-key-value(1, 'make it so')); }
+    @include it('new-key-value:false, length as key') {
+        @include assert-false( new-key-value(1em, 'make it so')); }
+    @include it('new-key-value:true, quoted length as key') {
+        @include assert-true( new-key-value('1em', 'make it so')); }
+    @include it('new-key-value:false, list as key') {
+        @include assert-false( new-key-value(nine eight, 'cheese')); }
+
+    $stds: new-key-value('standards', 'make it so');
+    $moz: new-key-value('moz', 'firefox' 'firebird' 'thunderbird');
+    $none-list: (1 'cheese');
+    $none-list2: ('moz' 'firefox' 'netscape');
+    @include it('is-key-value: a string key, a string value') {
+        @include assert-true(is-key-value($stds)); }
+    @include it('is-key-value: list with a value of list') {
+        @include assert-true(is-key-value($moz)); }
+    @include it('is-key-value false on list with a number for key and a string value') {
+        @include assert-false(is-key-value($none-list)); }
+    @include it('is-key-value false on list with a length of 3') {
+        @include assert-false(is-key-value($none-list2)); }
+
+    @include it('key-value-get-value: returns value') {
+        @include assert-equal(
+            key-value-get-value($stds),
+            'make it so',
+            ''); 
+    }
+    @include it('key-value-get-value: false on none key-value, plus a warning') {
+        @include assert-false(key-value-get-value($none-list2)); }
+
+    @include it('key-value-set-value: sets value') {
+        @include assert-equal(
+            nth(key-value-set-value($stds, 'make it not so'), 2),
+            'make it not so',
+            ''); 
+    }
+    @include it('key-value-get-key: gets key') {
+        @include assert-equal(
+            key-value-get-key($moz),
+            'moz', '');
+    }
+    @include it('key-value-set-key: sets key') {
+        @include assert-equal(
+            nth(key-value-set-key($moz, 'mozr'), 1),
+            'mozr', '');
+    }
+    $store: ($stds $moz);
+    $not-store: ($stds $moz (1 'cheese'));
+    @include it('is-key-value-store: true for list with acceptable key-values') {
+        @include assert-true(is-key-value-store($store)); }
+    @include it('is-key-value-store: false for list with an unacceptable key-values') {
+        @include assert-false(is-key-value-store($not-store)); }
+    @include it('key-value-store-list-keys: returns space-separated list of keys') {
+        @include assert-equal(
+            key-value-store-list-keys($store),
+            ('standards' 'moz'));
+    }
+    @include it('key-value-store-list-values: returns space-separated list of values') {
+        @include assert-equal(
+            key-value-store-list-values($store),
+            ('make it so' ('firefox' 'firebird' 'thunderbird')));
+    }
+    @include it('key-value-store-reverse-order: reverses the order of the current organisation') {
+        @include assert-equal(
+            key-value-store-list-keys(key-value-store-reverse-order($store)),
+            ('moz' 'standards'));
+    }
+    $k1: new-key-value('standards', 'linear-gradient');
+    $k2: new-key-value('moz', '-moz-linear-gradient');
+    $k3: new-key-value('webkit', '-webkit-linear-gradient');
+    $k4: new-key-value('ms', '-ms-linear-gradient');
+    $k5: new-key-value('opera', '-o-linear-gradient');
+    $k6: new-key-value('khtml', '-khtml-linear-gradient');
+    $k7: new-key-value('does not exist', 'morris dancing');
+    $k8: new-key-value('robot', ('elliot' 'darlene' 'carla' 'shayla'));
+    $big-store: ($k1 $k2 $k3 $k4 $k5 $k6);
+    $bigger-store: ($k1 $k2 $k3 $k4 $k5 $k6 $k8);
+    
+    @include it('key-value-store-find-key-nth: returns number of kv when given key') {
+        @include assert-equal( key-value-store-find-key-nth($big-store, 'webkit'), 3);
+    }
+    @include it('key-value-store-find-key-nth: returns number of kv when given key-value') {
+        @include assert-equal( key-value-store-find-key-nth($big-store, $k3), 3);
+    }
+    @include it('key-value-store-get-key-value: returns key value when supplied a valid given key') {
+        @include assert-equal( key-value-store-get-key-value($big-store, 'standards'), ('standards' 'linear-gradient'));
+    }
+    @include it('key-value-store-get-key-value: returns false when supplied an invalid given key') {
+        @include assert-false( key-value-store-get-key-value($big-store, 'apple'));
+    }
+    @include it('key-value-store-get-value-for-key: returns value when supplied a valid given key') {
+        @include assert-equal( key-value-store-get-value-for-key($big-store, 'standards'), 'linear-gradient');
+    }
+    @include it('key-value-store-get-value-for-key: returns false when supplied an invalid given key') {
+        @include assert-false( key-value-store-get-value-for-key($big-store, 'apple'));
+    }
+    @include it('key-value-store-has-key: returns true when supplied a valid given key') {
+        @include assert-true( key-value-store-has-key($big-store, 'standards'));
+    }
+    @include it('key-value-store-has-key: returns false when supplied an invalid given key') {
+        @include assert-false( key-value-store-has-key($big-store, 'apple'));
+    }
+    @include it('key-value-store-has-value: returns true when supplied a valid given value, 1st level') {
+        @include assert-true( key-value-store-has-value($bigger-store, '-o-linear-gradient'));
+    }
+    @include it('key-value-store-has-value: returns true when supplied a valid given value, 2nd level') {
+        @include assert-true( key-value-store-has-value($bigger-store, 'shayla'));
+    }
+    @include it('key-value-store-has-value: returns false when supplied an invalid given key') {
+        @include assert-false( key-value-store-has-value($bigger-store, 'apple'));
+    }
+    $kv1: ('standards' 'color');
+    $kv2: ('mozilla' '-moz-color');
+    $small-store: ($kv1 $kv2);
+    @include it('key-value-store-set-key-value: returns store with added key value when given a key-value doesnt exist') {
+        @include assert-equal(
+            key-value-store-set-key-value($small-store, 'webkit', '-webkit-color'),
+            ($kv1 $kv2 ('webkit' '-webkit-color')));
+    }
+    @include it('key-value-store-set-key-value: returns store with amended key value when given a key-value that does exist') {
+        @include assert-equal(
+            key-value-store-set-key-value($small-store, 'mozilla', '-webkit-color'),
+            ($kv1 ('mozilla' '-webkit-color')));
+    }
+    $kv3: ('opera' '-o-color');
+    @include it('key-value-store-set-key-value: returns store with added key value when given a key-value pair that doesnt exist') {
+        @include assert-equal(
+            key-value-store-set-key-value($small-store, $kv3),
+            ($kv1 $kv2 $kv3));
+    }
+    $kv3: ('opera' '-o-color');
+    @include it('key-value-store-set-key-value: returns store with amended key value when given a key-value pair that does exist') {
+        @include assert-equal(
+            key-value-store-set-key-value($small-store, new-key-value('mozilla', '-webkit-color')),
+            ($kv1 ('mozilla' '-webkit-color')));
+    }
+    @include it('key-value-store-set-key-value-strict: returns store without added key value when given a key-value doesnt exist') {
+        @include assert-equal(
+            key-value-store-set-key-value-strict($small-store, 'webkit', '-webkit-color'),
+            $small-store);
+    }
+    @include it('key-value-store-set-key-value-strict: returns store with amended key value when given a key-value that does exist') {
+        @include assert-equal(
+            key-value-store-set-key-value-strict($small-store, 'mozilla', '-webkit-color'),
+            ($kv1 ('mozilla' '-webkit-color')));
+    }
+    @include it('key-value-store-set-key-value-strict: returns store without added key value when given a key-value pair that doesnt exist') {
+        @include assert-equal(
+            key-value-store-set-key-value-strict($small-store, $kv3),
+            $small-store);
+    }
+    @include it('key-value-store-set-key-value-strict: returns store with amended key value when given a key-value pair that does exist') {
+        @include assert-equal(
+            key-value-store-set-key-value-strict($small-store, new-key-value('mozilla', '-webkit-color')),
+            ($kv1 ('mozilla' '-webkit-color')));
+    }
+    
+    @include it('key-value-store-remove-key: returns store without key-value for given key') {
+        @include assert-equal( key-value-store-remove-key($big-store, 'webkit'),
+            ($k1 $k2 $k4 $k5 $k6));
+    }
+    @include it('key-value-store-remove-key: returns store without key-value for given key-value') {
+        @include assert-equal( key-value-store-remove-key($big-store, $k3),
+            ($k1 $k2 $k4 $k5 $k6));
+    }
+    @include it('key-value-store-remove-key: returns store unchanged when key-value does not exist') {
+        @include assert-equal( key-value-store-remove-key($big-store, $k7), $big-store);
+    }
+    @include it('key-value-store-remove-key-value: returns store with the whole key-value removed when key-value exists') {
+        @include assert-equal(key-value-store-remove-key-value($big-store, $k3),
+            ($k1 $k2 $k4 $k5 $k6));
+    }
+    @include it('key-value-store-remove-key-value: returns store unchanged when key-value does not exists, key') {
+        @include assert-equal(key-value-store-remove-key-value($big-store, new-key-value('cheese','toast')),
+            ($k1 $k2 $k3 $k4 $k5 $k6));
+    }
+    @include it('key-value-store-remove-key-value: returns store unchanged when key-value does not exists, value') {
+        @include assert-equal(key-value-store-remove-key-value($big-store, new-key-value('webkit','toast')),
+            ($k1 $k2 $k3 $k4 $k5 $k6));
+    }
+    $kv8: ('design' ('cheese' 'toast' 'cheese' 'toast'));
+    $kv9: ('design' ('cheese' 'cheese'));
+    $kv10: ('morris' 'cheese');
+    $ss: ($k1 $k2 $kv8);
+    $ss2: ($k1 $k2 $kv9);
+    $ss3: ($k1 $k2 $kv8 $kv9 $kv10);
+    @include it('key-value-store-remove-key-value: returns store with sublist removed  when key-value does not exists, list containing value') {
+        @include assert-equal(key-value-store-remove-key-value($ss, new-key-value('design','cheese')),
+            ($k1 $k2 ('design' ('toast' 'toast'))));
+    }
+    @include it('key-value-store-remove-key-value: returns store unchanged when key-value only existing within list') {
+        @include assert-equal(key-value-store-remove-key-value($ss2, new-key-value('design','cheese')),
+            ($k1 $k2));
+    }
+    @include it('key-value-store-remove-value: returns store with values removed, sublist existing, sublist only, and value') {
+        @include assert-equal(key-value-store-remove-value($ss3, 'cheese'),
+            ($k1 $k2 ('design' ('toast' 'toast'))));
+    }
+    @include it('key-value-store-replace-key-value: returns store with replaced key-value when key exists') {
+        @include assert-equal(key-value-store-replace-key-value($ss2, new-key-value('design','cheese')),
+            ($k1 $k2 ('design' 'cheese')));
+    }
+    @include it('key-value-store-replace-key-value: returns store with replaced key-value when key exists') {
+        @include assert-equal(key-value-store-replace-key-value($ss2, 'design','cheese'),
+            ($k1 $k2 ('design' 'cheese')));
+    }
+    @include it('key-value-store-replace-key-value: returns unchanged when key does not exist') {
+        @include assert-equal(key-value-store-replace-key-value($ss2, 'balls','fire'),
+            $ss2);
+    }
+    @include it('key-value-store-add-key-value: returns store with added key value when doesnt exist') {
+        @include assert-equal(key-value-store-add-key-value($ss2, 'balls', 'fire'),
+            ($k1 $k2 $kv9 ('balls' 'fire')));
+    }
+    @include it('key-value-store-add-key-value: returns store with added key value when doesnt exist') {
+        @include assert-equal(key-value-store-add-key-value($ss2, new-key-value('balls','fire')),
+            ($k1 $k2 $kv9 ('balls' 'fire')));
+    }
+    @include it('key-value-store-add-key-value: returns store unchanged when key value exist') {
+        @include assert-equal(key-value-store-add-key-value($ss2, new-key-value('design','fire')),
+            $ss2);
+    }
+    @include it('key-value-store-add-key-value: returns store with relevant additions when supplied a store as second value') {
+        @include assert-equal(key-value-store-add-key-value($ss2, $ss3),
+            ($k1 $k2 $kv9 ('morris' 'cheese')));
+    }
+    @include it('key-value-store-append-key-value: returns store with key-value appended when key does not exit') {
+        @include assert-equal(key-value-store-append-key-value($ss2, 'morris', 'cheese'),
+            ($k1 $k2 $kv9 ('morris' 'cheese')));
+    }
+    @include it('key-value-store-append-key-value: returns store with key-value appended when key does not exit') {
+        @include assert-equal(key-value-store-append-key-value($ss2, new-key-value('morris', 'cheese')),
+            ($k1 $k2 $kv9 ('morris' 'cheese')));
+    }
+    @include it('key-value-store-append-key-value: returns store with key-value appended to value when key exits') {
+        @include assert-equal(key-value-store-append-key-value($ss2, 'design', 'slice'),
+            ($k1 $k2 ('design' ('cheese' 'cheese' 'slice'))));
+    }
+    @include it('key-value-store-append-key-value: returns store with key-value appended to value when key exits') {
+        @include assert-equal(key-value-store-append-key-value(($k1 $k2 ('design' 'cheese')), 'design', 'slice'),
+            ($k1 $k2 ('design' ('cheese' 'slice'))));
+    }
+    @include it('key-value-store-append-key-value-strict: returns store unchanged when key does not exit') {
+        @include assert-equal(key-value-store-append-key-value-strict($ss2, new-key-value('morris', 'cheese')),
+            $ss2);
+    }
+    $o1: ('jack' 'packard');
+    $o2: ('rich' 'evans');
+    $o3: ('jay' 'bauman');
+    $o4: ('mike' 'stokasa');
+    $l1: ($o1 $o2);
+    $l2: ($o3 $o4);
+    $l3: ($o1 $o3);
+    @include it('key-value-store-combine: returns the lists combined') {
+        @include assert-equal(key-value-store-combine($l1, $l2),
+            ($o1 $o2 $o3 $o4));
+    }
+    @include it('key-value-store-combine: returns the lists combined') {
+        @include assert-equal(key-value-store-combine($l1, $l1),
+            (('jack' ('packard' 'packard')) ('rich' ('evans' 'evans'))));
+    }
+    @include it('key-value-store-combine-existing: returns the lists combined') {
+        @include assert-equal(key-value-store-combine-existing($l1, $l3),
+            (('jack' ('packard' 'packard')) ('rich' 'evans' )));
+    }
+    @include it('key-value-store-missing-keys: returns a list of keys in 2nd but not in 1st') {
+        @include assert-equal(key-value-store-missing-keys($l1, $l3),
+            ('jay'));
+    }
+}

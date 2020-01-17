@@ -1,0 +1,40 @@
+@import 'true';
+@import '../src/does-list-contain-list.scss';
+@include describe('does-list-contain-list function:') {
+    @include it('does-list-contain-list returns true for list within lists') {
+        $list: (0 1 2 3 (2, 3) 4);
+        @include assert-true(
+            does-list-contain-list($list),
+            'list with lists: true');
+    }
+    @include it('does-list-contain-list returns true for list within lists') {
+        $list: (0 1 2 3 (2 3) 4);
+        @include assert-true(
+            does-list-contain-list($list),
+            'list with lists: true');
+    }
+    @include it('does-list-contain-list returns true for list within lists') {
+        $list: (0, 1, 2, 3, (2, 3), 4);
+        @include assert-true(
+            does-list-contain-list($list),
+            'list with lists: true');
+    }
+    @include it('does-list-contain-list returns true for list within lists') {
+        $list: (0, 1, 2, 3, (2 3), 4);
+        @include assert-true(
+            does-list-contain-list($list),
+            'list with lists: true');
+    }
+    @include it('does-list-contain-list returns false for no list within lists') {
+        $list: (0, 1, 2, 3, 4);
+        @include assert-false(
+            does-list-contain-list($list),
+            'list with lists: false');
+    }
+    @include it('does-list-contain-list returns false for no string') {
+        $list: '(0, 1, 2, 3, 4)';
+        @include assert-false(
+            does-list-contain-list($list),
+            'list with lists: false');
+    }
+}

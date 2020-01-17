@@ -1,0 +1,13 @@
+@function strip-spaces($str) {
+    @if type-of($str) == list {
+        $r: ();
+        @for $i from 1 through length($str) {
+            $r: append($r, strip-spaces(nth($str,$i))); }
+        $r: list-change-separator($r, list-separator($str));
+        @return $r; }
+    $str: if(type-of($str) == string, $str, cast-to-string($str));
+    $r: '';
+    @for $n from 1 through str-length($str) {
+        $s: str-slice($str, $n, $n);
+        @if $s != " " { $r: $r + $s; }}
+    @return $r; }

@@ -1,0 +1,69 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/column-rule-style.scss';
+@include describe('__column-rule-style mixin') {
+    @include it('Outputs column-rule-style proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule-style(none);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule-style: none;
+                    -webkit-column-rule-style: none;
+                    column-rule-style: none;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-rule-style proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule-style(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule-style: inherit;
+                    -webkit-column-rule-style: inherit;
+                    column-rule-style: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-rule-style proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule-style(double double);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule-style: double double;
+                    -webkit-column-rule-style: double double;
+                    column-rule-style: double double;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-rule-style proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule-style(double, groove, double);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule-style: double groove double;
+                    -webkit-column-rule-style: double groove double;
+                    column-rule-style: double groove double;
+                }
+            }
+        }
+    }
+}

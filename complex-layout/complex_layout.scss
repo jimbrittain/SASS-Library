@@ -1,0 +1,214 @@
+$all_complex_layouts: () !global;
+
+@function find_complex_layout($full){
+  $found: false;
+  @if(length($all_complex_layouts) > 0){
+    @for $i from 1 through length($all_complex_layouts){
+      $on: nth($all_complex_layouts, $i);
+      @if($full == nth($on,1)){
+        $found: $on;
+        @return $on; }}}
+  @return $found; }
+
+
+@mixin complex_3col_layout($container, $outer, $inner, $middlewrapper, $middle, $right,  $left){
+  //middlesection, outermiddlesection, innermiddlesection, contentwrapper, content, supplementarycontent, navigation, supplementarycontent
+  // based on the work of http://matthewjamestaylor.com/blog/perfect-3-column.htm
+  
+  $temp_holder: list-create($container, $outer, $inner, $left, $right);
+  $all_complex_layouts: append($all_complex_layouts, $temp_holder) !global;
+  
+  #{$container} { overflow: visible; }
+  #{$outer} { 
+    margin: 0 auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    min-height: 1%;
+    @include __overflow-x(hidden); }
+  #{$outer}[id] { margin-left: -1px; }
+  
+  #{$right} { 
+    float: right;
+    z-index: 10;
+    position: relative;
+    overflow: hidden; }
+  #{$right}[id] { margin-left: 1px; }
+  
+  #{$left} {
+    float: left;
+    z-index: 11;
+    position: relative;
+    overflow: hidden; }
+  #{$left}[id] { margin-right: -1px; }
+  
+  #{$middle} { 
+    width: 100%;
+    min-height: 1%;
+    float: left;
+    z-index: 12;
+    position: relative;
+    overflow: visible; }
+  #{$middle}[id] { margin-right: -1px; }
+  
+  #{$inner} { 
+    //width: 100%;
+    min-height: 1%;
+    padding-top: 0;
+    padding-bottom: 0; 
+    @include ie6_htmlstar_hack { width: auto; }
+    @include ie7_htmlstar_hack { width: auto; }
+    @include ie8_htmlstar_hack { width: 100%; }
+  }
+  #{$inner}[id] { padding-bottom: 0.1px; }
+  
+  #{$middlewrapper} {
+    float: right;
+    width: 100%;
+    position: relative;
+    min-height: 1%;
+    z-index: 0; }
+  #{$middlewrapper}[id] { margin-right: -1px; }
+  #{$container}.hide-both #{$right}, #{$container}.hide-both #{$left}, #{$container}.hide-left #{$left}, #{$container}.hide-right #{$right} { display: none; }
+}
+@mixin set_complex_3col_sizes($fullwrapper, $left_size, $right_size, $defaultpad:0, $base-unit:"px", $base: $base-font-size){
+  $est: find_complex_layout($fullwrapper);
+  @if($est != false){
+    $container: nth($est,1);
+    $outer: nth($est,2);
+    $inner: nth($est,3);
+    $left: nth($est,4);
+    $right: nth($est,5);
+    
+    $left_padleft: 0;
+    $left_width: 0;
+    $left_padright: 0;
+    
+    $right_padleft: 0;
+    $right_width: 0;
+    $right_padright: 0;
+    
+    $defaultpad_right: 0;
+    $defaultpad_left: 0;
+    
+    $container_base: 'a';
+    $outer_base: 'a';
+    $inner_base: 'a';
+    $middlewrapper_base: 'a';
+    $middle_base: 'a';
+    $right_base: 'a';
+    $left_base: 'a';
+    @if(type-of($base) == 'list' and length($base) == 7){
+      $container_base: nth($base,1);
+      $outer_base: nth($base,2);
+      $inner_base: nth($base,3);
+      $middlewrapper_base: nth($base,4);
+      $middle_base: nth($base,5);
+      $right_base: nth($base,6);
+      $left_base: nth($base,7);
+    } @else if(type-of($base) == 'number'){ $container_base: $base; }
+    $container_base: if(type-of($container_base) != 'number', $base_font_size, $container_base);
+    $outer_base: if(type-of($outer_base) != 'number', $container_base, $outer_base);
+    $inner_base: if(type-of($inner_base) != 'number', $container_base, $inner_base);
+    $middlewrapper_base: if(type-of($middlewrapper_base) != 'number', $container_base, $middlewrapper_base);
+    $middle_base: if(type-of($middle_base) != 'number', $container_base, $middle_base);
+    $right_base: if(type-of($right_base) != 'number', $container_base, $right_base);
+    $left_base: if(type-of($left_base) != 'number', $container_base, $left_base);
+    
+    @if(type-of($defaultpad) == 'list' and length($defaultpad) == 2){
+      $on: nth($defaultpad,1);
+      $defaultpad_right: if(type-of($on) == 'number', $on, 0);
+      $on: nth($defaultpad,2);
+      $defaultpad_left: if(type-of($on) == 'number', $on, 0);
+    } @else {
+      @if(type-of($defaultpad) == 'number'){
+        $defaultpad_right: $defaultpad;
+        $defaultpad_left: $defaultpad; }}
+    
+    @if(type-of($left_size) == 'list' and length($left_size) == 3){
+      $left_width: nth($left_size, 2); //middle value
+      $left_padright: nth($left_size, 3); //right value
+      $left_padleft: nth($left_size, 1); //left value
+    } @else if(type-of($left_size) == 'number'){
+      $left_width: $left_size;
+    } @else if(type-of($left_size) == 'string' and $left_size == 'none'){
+      $left_width: 0;
+      $left_padright: 0;
+      $left_padleft: 0;
+    } @else { @warn "Complex Layout: Left Size incorrectly established."; }
+    
+    @if(type-of($right_size) == 'list' and length($right_size) == 3){
+      $right_width: nth($right_size, 2);
+      $right_padright: nth($right_size, 3);
+      $right_padleft: nth($right_size, 1);
+    } @else if(type-of($right_size) == 'number'){
+      $right_width: $right_size;
+    } @else if(type-of($right_size) == 'string' and $right_size == 'none'){
+      $right_width: 0;
+      $right_padright: 0;
+      $right_padleft: 0;
+    } @else { @warn "Complex Layout: Right Size incorrectly established."; }
+    
+    $left_width: measure($left_width, 'px', $left_base);
+    $left_padright: measure($left_padright, 'px', $left_base);
+    $left_padleft: measure($left_padleft, 'px', $left_base);
+    $right_width: measure($right_width, 'px', $right_base);
+    $right_padright: measure($right_padright, 'px', $right_base);
+    $right_padleft: measure($right_padleft, 'px', $right_base);
+    $defaultpad_right: measure($defaultpad_right, 'px', $container_base);
+    $defaultpad_left: measure($defaultpad_left, 'px', $container_base);
+    
+    $right_fullwidth: addnumbers($right_width, $right_padleft, $right_padright);
+    $left_fullwidth: addnumbers($left_width, $left_padleft, $left_padright);
+    
+    #{$outer}, #{$container}.show-all #{$outer} {
+      padding-right: measure($right_fullwidth, $base_unit, $outer_base);
+      padding-left: measure($left_fullwidth, $base_unit, $outer_base);
+      //@include ie6_htmlstar_hack { width:100%; } 
+      //@include ie7_htmlstar_hack { width:100%; }
+      //@include ie8_htmlstar_hack { width:100%; }
+      width: 100%;
+    }
+    #{$container} {
+      padding-right: measure(addnumbers($right_fullwidth,$left_fullwidth),$base_unit,$container_base);
+      //@include ie6_htmlstar_hack { padding-right: measure(addnumbers($right_fullwidth,$left_fullwidth),$base_unit,$container_base); }
+      //@include ie7_htmlstar_hack { padding-right: measure(addnumbers($right_fullwidth,$left_fullwidth),$base_unit,$container_base); }
+      //@include ie8_htmlstar_hack { padding-right: measure(addnumbers($right_fullwidth,$left_fullwidth),$base_unit,$container_base); }
+    }
+    
+    #{$right} { 
+      @if(unitless($right_fullwidth) == 0){
+        display: none;
+        margin-right: 0;
+      } @else {
+        margin-right: measure(subtractnumbers(0,$right_width, $right_padleft), $base_unit, $right_base);
+        width: measure($right_width, $base_unit, $right_base); }}
+        
+    #{$right}[id] {
+      @include ie6_htmlstar_hack { margin-left: measure($right_padleft, $base_unit, $right_base) !important; }
+      @include ie7_htmlstar_hack { margin-left: measure($right_padleft, $base_unit, $right_base) !important; }
+      @include ie8_htmlstar_hack { margin-left: 1px; }
+    }
+    #{$left} { 
+      @if(unitless($left_fullwidth) == 0){
+        display: none;
+        margin-left: 0;
+      } @else {
+        width: measure($left_width, $base_unit, $left_base);
+        margin-left: measure(subtractnumbers(0,$left_width,$left_padright), $base_unit, $left_base); }}
+    
+    #{$container}.show-all #{$inner}, #{$container}.hide-left #{$inner} { 
+      padding-right: if(unitless($right_fullwidth) == 0, measure($defaultpad_right,$base_unit,$inner_base), measure(addnumbers($right_width, $right_padleft, $right_padright), $base_unit, $inner_base));
+    }
+    #{$container}.show-all #{$inner}, #{$container}.hide-right #{$inner} {
+      padding-left: if(unitless($left_fullwidth) == 0, measure($defaultpad_left,$base_unit,$inner_base), measure(addnumbers($left_width, $left_padleft, $left_padright),$base_unit,$inner_base));
+    }
+    #{$container}.hide-right #{$inner}, #{$container}.hide-both #{$inner} { padding-right: measure($defaultpad_right,$base_unit,$inner_base); }
+    #{$container}.hide-left #{$inner}, #{$container}.hide-both #{$inner} { padding-left: measure($defaultpad_left,$base_unit,$inner_base); }
+    
+    #{$inner} {
+      margin-left: measure(subtractnumbers(0,$left_fullwidth),$base_unit,$inner_base);
+      margin-right: measure(subtractnumbers(0, $right_fullwidth),$base_unit,$inner_base); }
+    #{$container}.hide-right #{$inner}, #{$container}.hide-both #{$inner} { margin-right: measure(subtractnumbers(0,$right_fullwidth),$base_unit,$inner_base); }
+    #{$container}.hide-left #{$inner}, #{$container}.hide-both #{$inner} { margin-left: measure(subtractnumbers(0,$left_fullwidth),$base_unit,$inner_base); }
+    
+  } @else { @warn "Complex Layout not established or found for '" + $fullwrapper + "'."; }}

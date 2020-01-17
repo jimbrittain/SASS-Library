@@ -1,0 +1,53 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/cast-to-number.scss';
+@include describe('cast-to-number function:') {
+    @include it('cast-to-number returns correct interger') {
+        @include assert-equal(
+            cast-to-number('123456789'),
+            123456789,
+            'Correct interger');
+    }
+    @include it('cast-to-number returns correct negative interger') {
+        @include assert-equal(
+            cast-to-number('-123456789'),
+            -123456789,
+            'Correct negative interger');
+    }
+    @include it('cast-to-number returns 0 for incorrectly placed hyphen') {
+        @include assert-equal(
+            cast-to-number('1234-56789'),
+            0,
+            'hyphen in middle = 0');
+    }
+    @include it('cast-to-number returns correct float') {
+        @include assert-equal(
+            to-4dp(cast-to-number('12345.6789')),
+            to-4dp(12345.6789),
+            'Correct float');
+    }
+    @include it('cast-to-number returns correct float, decimal-point first') {
+        @include assert-equal(
+            to-4dp(cast-to-number('.1234')),
+            to-4dp(0.1234),
+            'Correct float at decimal-point first');
+    }
+    @include it('cast-to-number returns 0, for multiple decimal-points') {
+        @include assert-equal(
+            cast-to-number('12.34.1234'),
+            0,
+            '0 for multiple decimal points');
+    }
+    @include it('cast-to-number returns 1, for boolean true') {
+        @include assert-equal(
+            cast-to-number(true),
+            1,
+            '1 for boolean true');
+    }
+    @include it('cast-to-number returns 0, for boolean false') {
+        @include assert-equal(
+            cast-to-number(false),
+            0,
+            '0 for boolean false');
+    }
+}

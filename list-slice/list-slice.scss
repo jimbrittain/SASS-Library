@@ -1,0 +1,29 @@
+@function list-slice($list, $startIndex:1, $range:1){
+    // validate $list
+    @if type-of($list) != list {
+        @warn 'list-slice: was not supplied a valid list, supplied "' + $list + '" {' + type-of($list) + '}';
+        @return $list; }
+    //validate startIndex
+    @if type-of($startIndex) == number {
+        $startIndex: round($startIndex);
+        $startIndex: $startIndex % (length($list) + 1);
+    } @else {
+        @warn 'list-slice: was not supplied a valid start-index, supplied "' + $startIndex + '" {' + type-of($startIndex) + '}'; 
+        @return $list; }
+    //validate $range;
+
+    @if(type-of($list) == list){
+        $i: 1;
+        $top_range: if($range > 1, $startIndex + $range, $startIndex + 1);
+        $r: ();
+        @while $i < (length($list) + 1){
+            @if $i >= $startIndex and $i < $top_range {
+                //do nothing;
+            } @else { 
+                $r: append($r, nth($list, $i)); }
+            $i: $i + 1; }
+        $r: list-change-separator($r, list-separator($list));
+        @return $r;
+    }  @else {
+        @warn "list-slice: not supplied a list";
+        @return $list; }}

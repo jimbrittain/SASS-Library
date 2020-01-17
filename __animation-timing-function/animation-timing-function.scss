@@ -1,0 +1,10 @@
+$_bi_d: -1;
+@mixin __animation-timing-function($a1:ease,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){
+    $args: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $args: list-change-separator($args, ',');
+    $args: list-safe-unquote-items($args);
+
+    -o-animation-timing-function: $args;
+    -moz-animation-timing-function: $args;
+    -webkit-animation-timing-function: $args;
+    animation-timing-function: $args; }

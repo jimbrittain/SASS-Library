@@ -1,0 +1,22 @@
+@function measureComparisonAbsolute($unit:px) {
+    @if (not(isMeasurementAbsolute($unit))) {
+        @warn $unit + ' is not a valid unit for measureComparisonAbsolute';
+        @return 1; }
+        $values: 'px' 'in' 'cm' 'mm' 'pc' 'pt' 'q';
+        $calcs:
+            1 //px 1 to 1
+            0.01041666666667 //in 96 to 1
+            0.02645833333333 //cm 37.8 to 1
+            0.26458333333333 //mm 3.78 to 1
+            0.0625 //pc 16 to 1
+            0.75 //pt 1.3 to 1
+            1.058333333333333; //Q 40q to 1cm;
+    $set: 1;
+    $set_index: index($values, $unit);
+    @if (not($set_index)) {
+        @warn $unit + "is not a valid unit for measureComparisonAbsolute";
+    } @else { 
+       $set: nth($calcs, $set_index); }
+    @return $set; 
+}
+@function findmeasure_abs($unit) { @return measureComparisonAbsolute($unit); }

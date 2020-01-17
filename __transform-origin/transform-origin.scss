@@ -1,0 +1,38 @@
+// @name __transform-origin
+//  @lan SASS
+//  @description prefixed and unprefixed transform-origin properties
+//  @version 0.1
+//  @author immaturedawn.co.uk
+
+//  @mixin __transform-origin
+//  @type included
+//  @param {String}
+//  @return prefixed and unprefixed transform-origin properties
+//  @notes -origin-x, -origin-y appear part of earlier spec. created fallback
+//  @TODO validation of values;
+
+$_bi_d: -1 !default;
+@mixin __transform-origin($a1, $a2:$_bi_d, $a3:$_bi_d)
+{
+    $args: arguments($a1,$a2,$a3);
+    $args: list-change-separator($args, ' ');
+    -ms-transform-origin: $args;
+    -moz-transform-origin: $args;
+    -webkit-transform-origin: $args;
+    transform-origin: $args;
+}
+@mixin __transform-origin-x($value)
+{
+    $value: ($value inherit);
+    @include __transform-origin($value);
+}
+@mixin __transform-origin-y($value)
+{
+    $value: (inherit $value);
+    @include __transform-origin($value);
+}
+@mixin __transform-origin-z($value)
+{
+    $value: (inherit inherit $value);
+    @include __transform-origin($value);
+}

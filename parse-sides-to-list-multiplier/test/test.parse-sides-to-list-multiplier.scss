@@ -1,0 +1,41 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/parse-sides-to-list-multiplier.scss';
+@include describe('parse-sides-to-list-multiplier function:') {
+    @include it('1. parse-sides-to-list-multiplier, (1), (1 1 1 1)') {
+        @include assert-equal(
+            parse-sides-to-list-multiplier(1),
+            (1 1 1 1),
+            '');
+        }
+    @include it('2. parse-sides-to-list-multiplier; inherit (0 0 0 0)') {
+        @include assert-equal(
+            parse-sides-to-list-multiplier(inherit),
+            (0 0 0 0),
+            '');
+        }
+    @include it('3. parse-sides-to-list-multiplier; (1em), (1 1 1 1)') {
+        @include assert-equal(
+            parse-sides-to-list-multiplier(1em),
+            (1 1 1 1),
+            '');
+        }
+    @include it('4. parse-sides-to-list-multiplier; (0 2) (1 2 1 2)') {
+        @include assert-equal(
+            parse-sides-to-list-multiplier(0 2),
+            (0 1 0 1),
+            '');
+        }
+    @include it('5. parse-sides-to-list-multiplier; (rtl) (1 1 0 1)') {
+        @include assert-equal(
+            parse-sides-to-list-multiplier(rtl),
+            (1 1 0 1),
+            '');
+        }
+    @include it('6. parse-sides-to-list-multiplier: (inherit 0 1) (2 0 1 0)') {
+        @include assert-equal(
+            parse-sides-to-list-multiplier(inherit 0 1),
+            (0 0 1 0),
+            '');
+        }
+}

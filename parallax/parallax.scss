@@ -1,0 +1,134 @@
+//requires list-unshift, list-create-exclude
+//need to lock behind supported and not(pre
+@mixin parallax ($a1:false,$a2:false,$a3:false,$a4:false,$a5:false,$a6:false,$a7:false,$a8:false,$a9:false){
+    $arg_list: list-create-exclude(false,$a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $fallback_args: nth($arg_list, 1);
+    $arg_list: if(length($arg_list) == 1 and length($fallback_args) > 1, $fallback_args, $arg_list); 
+
+    $dir: 'vertical';
+    @if (nth($arg_list, 1) == 'horizontal' or nth($arg_list, 1) == 'horiz') {
+        $dir: 'horizontal';
+    } @else if (nth($arg_list, 1) == 'vertical' or nth($arg_list,1) == 'vert') {
+        $dir: 'vertical';
+    } @else {
+        $arg_list: list-unshift($arg_list, 'vertical');
+        @warn "parallax direction not specified, assuming vertical";
+    }
+    $perspective: 1px;
+    $levels: 10;
+    $base: 1;
+    // @params dir, perspective, levels, base
+    @if (length($arg_list) > 1) {
+        $p: nth($arg_list, 2);
+        $perspective: if(type-of($p) == number, $p, $perspective);
+    }
+    @if (length($arg_list) > 2) {
+        $l: nth($arg_list, 3);
+        $levels: if(type-of($l) == number and $l > 0, $l, $levels);
+    }
+    @if (length($arg_list) > 3) {
+        $b: nth($arg_list, 4);
+        $base: if(type-of($b) == number and $b > 0, $b, $base);
+    }
+
+    @supports (perspective: 1px)  { //fix for iOS issue
+        perspective: $perspective; //should be variable
+        height: 100vh; //should this be vertical/horizontal
+        @if ($dir == 'vertical') {
+            overflow-x: hidden;
+            overflow-y: auto;
+            @include __scroll-snap-type(proximity y);
+            @include __scroll-snap-destination(0% 0%);
+        } @else {
+            overflow-y: hidden;
+            overflow-x: auto;
+            white-space: nowrap;
+            @include __scroll-snap-type(proximity x);
+            @include __scroll-snap-destination(0% 0%);
+        }
+        @include __perspective-origin(100% 0); //does this need dir?
+        //parallax group (children of children)
+        & > * {
+            position: relative;
+            height: 100vh; //should this be veritcial horizontal?
+            @include __transform-style(preserve-3d);
+            -webkit-overflow-scrolling: touch; //don’t know if will work here, may need to be on outer container;
+            @include __scroll-snap-coordinate(0% 0%);
+            @if ($dir == 'horizontal') {
+                display: inline-block;
+                white-space: normal;
+            }
+        }
+        //parallax layer (children of children)
+        & > * > * {
+            position: absolute;
+            position: -webkit-sticky;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            @include __transform-origin(100% 0); //does this need dir?
+            //@include __transform(translateZ($translateZ) scale($scale));
+        }
+        //this needs to be done on a while; $onlevel > 0
+        & > * {
+            @include parallaxGroupTranslation(1, $perspective, $levels);
+        }
+        //assumes order, deep base, back, fore
+        @media not(prefers-reduce-motion: reduce) {
+            scroll-behavior: auto; //no prefixes known
+            //and all the others;
+        }
+    }
+}
+@mixin parallaxGroupTranslation($base, $perspective, $levels:10){
+    //confirm levels is a number else 10
+    //confirm base is a number between 1 & $levels, default is 1;
+    //
+    $onlevel: 1;
+    @while ($onlevel < $levels) {
+        & > *:nth-child(#{$onlevel}) {
+            $translateZ: ($base - $onlevel) * $perspective;
+            @include parallaxTranslation($translateZ, $perspective);
+            z-index: ($levels - $onlevel) + 1;
+        }
+        $onlevel: $onlevel + 1;
+    }
+}
+@mixin parallaxTranslation($translateZ, $perspective){
+    $scale: (1 + ($translateZ * -1))/$perspective;
+    $scale: abs(strip-units($scale)) + 1;
+    @include __transform(translateZ($translateZ), scale($scale));
+}
+@mixin horizontal-parallax($a1:false,$a2:false,$a3:false,$a4:false,$a5:false,$a6:false,$a7:false,$a8:false,$a9:false)
+{
+    $arg_list: list-create-exclude(false,$a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $fallback_args: nth($arg_list, 1);
+    $arg_list: if(length($arg_list) == 1 and length($fallback_args) > 1, $fallback_args, $arg_list); 
+    $arg-list: list-unshift($arg-list, 'horizontal');
+    @include parallax($arg-list);
+}
+@mixin horiz-parallax($a1:false,$a2:false,$a3:false,$a4:false,$a5:false,$a6:false,$a7:false,$a8:false,$a9:false)
+{
+    $arg_list: list-create-exclude(false,$a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $fallback_args: nth($arg_list, 1);
+    $arg_list: if(length($arg_list) == 1 and length($fallback_args) > 1, $fallback_args, $arg_list); 
+    $arg-list: list-unshift($arg-list, 'horizontal');
+    @include parallax($arg-list);
+}
+@mixin vertical-parallax($a1:false,$a2:false,$a3:false,$a4:false,$a5:false,$a6:false,$a7:false,$a8:false,$a9:false)
+{
+    $arg_list: list-create-exclude(false,$a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $fallback_args: nth($arg_list, 1);
+    $arg_list: if(length($arg_list) == 1 and length($fallback_args) > 1, $fallback_args, $arg_list); 
+    $arg-list: list-unshift($arg-list, 'vertical');
+    @include parallax($arg-list);
+}
+@mixin vert-parallax($a1:false,$a2:false,$a3:false,$a4:false,$a5:false,$a6:false,$a7:false,$a8:false,$a9:false)
+{
+    $arg_list: list-create-exclude(false,$a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $fallback_args: nth($arg_list, 1);
+    $arg_list: if(length($arg_list) == 1 and length($fallback_args) > 1, $fallback_args, $arg_list); 
+    $arg-list: list-unshift($arg-list, 'vertical');
+    @include parallax($arg-list);
+}

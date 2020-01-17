@@ -1,0 +1,56 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/animation-duration.scss';
+@include describe('__animation-duration mixin') {
+    @include it('Outputs animation-duration proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-duration(1s);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-duration: 1s;
+                    -moz-animation-duration: 1s;
+                    -webkit-animation-duration: 1s;
+                    animation-duration: 1s;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-duration when comma-separated list supplied') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-duration(1s, 2s);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-duration: 1s, 2s;
+                    -moz-animation-duration: 1s, 2s;
+                    -webkit-animation-duration: 1s, 2s;
+                    animation-duration: 1s, 2s;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-duration for space-separated list') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-duration(1s 2s);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-duration: 1s, 2s;
+                    -moz-animation-duration: 1s, 2s;
+                    -webkit-animation-duration: 1s, 2s;
+                    animation-duration: 1s, 2s;
+                }
+            }
+        }
+    }
+}

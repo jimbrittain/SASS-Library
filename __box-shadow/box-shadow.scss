@@ -1,0 +1,156 @@
+$_bi_d: -1 !default;
+@mixin __box-shadow($a1:none,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){
+    $args: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $r: false;
+
+    @if length($args) == 1 and (is-reserved-variable(nth($args,1)) or nth($args,1) == 'none') {
+        //filter: $args; //not including anymore due to collision with new standards
+        -ms-filter: $args;
+        -moz-box-shadow: $args;
+        -webkit-box-shadow: $args;
+        box-shadow: $args;
+    } @else {
+        @for $i from 1 through length($args) {
+            $b: single-box-shadow(nth($args,$i));
+            @if $b != false and is-key-value-store($b) {
+                @if $r == false {
+                    $r: $b;
+                } @else {
+                    $r: normalise-browser-key-value-store($r, $b); //creates standards versions of none exisiting values;
+                    $b: normalise-browser-key-value-store($b, $r); //create standards versions of existing but undefined in new values
+                    $r: key-value-store-combine($r, $b); }}}
+        @if $r == false {
+            $b: single-box-shadow($args);
+            @if $b != false and is-key-value-store($b) {
+                $r: $b;
+            }
+        }
+        @if is-key-value-store($r) and length($r) > 0 {
+            //@if key-value-store-has-key($r, 'ie6') { //removed due to collision with new css standards on filter
+            //    $val: key-value-store-get-value-for-key($r, 'ie6');
+            //    @if type-of($val) == string or (type-of($val) == list and length($val) == 1) {
+            //        filter: #{ safe-unquote($val, 'ie6') }; }}
+            @if key-value-store-has-key($r, 'ie7') {
+                $val: key-value-store-get-value-for-key($r, 'ie7');
+                @if type-of($val) == string or (type-of($val) == list and length($val) == 1) {
+                    -ms-filter: #{ safe-unquote($val) }; 
+            }}
+            @if key-value-store-has-key($r, 'prefixed') {
+                $val: key-value-store-get-value-for-key($r, 'prefixed');
+                $val: if(type-of($val) == 'list', list-change-separator($val, ','), $val);
+                -moz-box-shadow: #{ safe-unquote($val) };
+                -webkit-box-shadow: #{ safe-unquote($val) }; }
+            @if key-value-store-has-key($r, 'standards') {
+                $val: key-value-store-get-value-for-key($r, 'standards');
+                $val: if(type-of($val) == 'list', list-change-separator($val, ','), $val);
+                box-shadow: #{ safe-unquote($val) }; }
+        } @else {
+            @warn '__box-shadow unable to create shadows for values (' + $args + ')';
+        }
+    }
+}
+@function single-box-shadow($a1,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){
+    $arg_list: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    @if length($arg_list) == 1 and type-of(nth($arg_list,1)) == list {
+        $arg_list: nth($arg_list,1); }
+
+    $horiz_offset: 0;
+    $vert_offset: 0;
+    $blur_radius: 0;
+    $spread: 0;
+    $color: false;
+    $inset: false;
+    $deg: false;
+    $lengths_added: 1;
+
+    @for $i from 1 through length($arg_list){
+        $on: nth($arg_list, $i);
+        @if(type-of($on) == 'color'){
+            @if($color == false){ 
+                $color: $on; 
+            } @else { @warn "__box-shadow: supplied two colors."; }
+        } @else if type-of($on) == 'string' and $on == 'inset'{
+            $inset: true; 
+        } @else if(type-of($on) == 'number'){
+            @if is-angle($on) and not(is-unitless-zero($on)) {
+                $deg: $on;
+            } @else if is-length($on) {
+                @if($lengths_added == 1){
+                    $horiz_offset: $on;
+                    $lengths_added: $lengths_added + 1;
+                } @else if($lengths_added == 2){
+                    $vert_offset: $on;
+                    $lengths_added: $lengths_added + 1;
+                } @else if($lengths_added == 3){
+                    $blur_radius: $on;
+                    $lengths_added: $lengths_added + 1;
+                } @else if($lengths_added == 4 and $deg == false){
+                    $spread: $on;
+                    $lengths_added: $lengths_added + 1;
+                } @else { @warn "box-shadow: supplied too many lengths."; }
+            }
+        }
+    }
+
+    @if($deg != false){
+        $spread: $blur_radius;
+        $blur_radius: $vert_offset;
+        $vert_offset: 0px;
+        @if($horiz_offset != 0){
+            $hyp: $horiz_offset;
+            $base-unit: 'px';
+            $no-base: true;
+            @if(not(unitless($hyp))){
+                $base-unit: unit($hyp);
+                $no-base: false; 
+                $hyp: strip-units($hyp); }
+            //$deg: degreesToRadians($deg); this shouldn”t be necessary now;
+            $horiz_offset: multiplienumbers($hyp, strip-units(sin($deg)));
+            $vert_offset: multiplienumbers($hyp, strip-units(cos($deg)));
+            $vert_offset: if($no-base == true, 0px + strip-units($vert_offset), zeromeasure($base-unit)) + strip-units($vert_offset);
+            $horiz_offset: if($no-base == true, 0px + strip-units($vert_offset), zeromeasure($base-unit)) + strip-units($horiz_offset);
+            $translated: translate-origin($horiz_offset, $vert_offset, $deg);
+            //$translated: ($horiz_offset $vert_offset);
+            //@warn $deg + '::' + $translated + ':h:' + $horiz_offset + ':v:' + $vert_offset;
+            $horiz_offset: nth($translated, 1);
+            $vert_offset: nth($translated, 2); }}
+
+    $r: '';
+    $str: "";
+    @if($color != false and $lengths_added > 1){
+        $str: return_box-shadow_lengths($horiz_offset, $vert_offset, $blur_radius, $spread);
+        $str: $str + "" + $color;
+        $str: $str + (if($inset == true, " inset", ""));
+        $stds: new-key-value('standards', $str);
+
+        $str: "";
+        $str: if($inset == true, "inset ", "");
+        $str: $str + return_box-shadow_lengths($horiz_offset, $vert_offset, $blur_radius, $spread);
+        $str: $str + "" + $color;
+        $prefix: new-key-value('prefixed', $str);
+        $r: ($stds $prefix);
+
+        $str: "";
+        @if($inset == false){
+            $str: msfilter_shadowglow_str($color, ($horiz_offset $vert_offset), $blur_radius);
+            @if($str != "none"){
+                $r: append($r, new-key-value('ie6', $str));
+                $r: append($r, new-key-value('ie7', $str)); }
+        }
+        @return if(is-key-value-store($r) and length($r) > 0, $r, false);
+    } 
+    @return false; }
+
+@function return_box-shadow_lengths($a1:0, $a2:0, $a3:0, $a4:0){
+    $might_be: "";
+    $a1: if(strip-units($a1) == 0, 0, $a1);
+    $str: $a1 + " ";
+    @if(strip-units($a2) != 0 and not(unitless($a2))){
+        $str: $str + $a2 + " ";
+    } @else { $might_be: "0 "; }
+    @if(strip-units($a3) != 0 and not(unitless($a3))){
+        $str: $str + $might_be + $a3 + " ";
+        $might_be: "";
+    } @else { $might_be: $might_be + "0 "; }
+    @if(strip-units($a4) != 0 and not(unitless($a4))){ $str: $str + $might_be + $a4 + " "; }
+    @return $str; }

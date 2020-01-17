@@ -1,0 +1,11 @@
+//requrires str-last-index;
+@function get-filename($str, $includeExtension: true) {
+    $includeExtension: if($includeExtension != true, false, true);
+    @if(type-of($str) == string) {
+        $filename_start: str-last-index($str, '/') + 1;
+        $str: if($filename_start not null, str-slice($str, $filename_start), $str);
+        $str: if($includeExtension == true, $str, str-slice($str, 1, (-2 - str-length(get-file-extension($str)))));
+        @return $str;
+    } @else {
+        @warn "get-filename() supplied a none-string";
+        @return ''; }}

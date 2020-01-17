@@ -1,0 +1,145 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/user-select.scss';
+@include describe('__user-select mixin') {
+    @include it('__user-select: none') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __user-select('none');
+                }
+            }
+            @include expect {
+                #cheese {
+                    -khtml-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    -webkit-user-select: none;
+                    user-select: none;
+
+                    -webkit-touch-callout: none;
+                }
+            }
+        }
+    }
+    @include it('__user-select: -moz-none') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __user-select('-moz-none');
+                }
+            }
+            @include expect {
+                #cheese {
+                    -khtml-user-select: none;
+                    -moz-user-select: -moz-none;
+                    -ms-user-select: none;
+                    -webkit-user-select: none;
+                    user-select: none;
+
+                    -webkit-touch-callout: none;
+                }
+            }
+        }
+    }
+    @include it('__user-select: element') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __user-select('element');
+                }
+            }
+            @include expect {
+                #cheese {
+                    -khtml-user-select: contain;
+                    -moz-user-select: contain;
+                    -ms-user-select: element;
+                    -webkit-user-select: element;
+                    user-select: contain;
+
+                    -webkit-touch-callout: default;
+                }
+            }
+        }
+    }
+    @include it('__user-select: all') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __user-select('all');
+                }
+            }
+            @include expect {
+                #cheese {
+                    -khtml-user-select: all;
+                    -moz-user-select: all;
+                    -ms-user-select: auto;
+                    -webkit-user-select: auto;
+                    user-select: all;
+
+                    -webkit-touch-callout: default;
+                }
+            }
+        }
+    }
+    @include it('__user-select: contain') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __user-select(contain);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -khtml-user-select: contain;
+                    -moz-user-select: contain;
+                    -ms-user-select: element;
+                    -webkit-user-select: contain;
+                    user-select: contain;
+
+                    -webkit-touch-callout: default;
+                }
+            }
+        }
+    }
+    @include it('__user-select: all') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __user-select(auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -khtml-user-select: auto;
+                    -moz-user-select: auto;
+                    -ms-user-select: auto;
+                    -webkit-user-select: auto;
+                    user-select: auto;
+
+                    -webkit-touch-callout: default;
+                }
+            }
+        }
+    }
+    @include it('__user-select: text') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __user-select(text);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -khtml-user-select: text;
+                    -moz-user-select: text;
+                    -ms-user-select: text;
+                    -webkit-user-select: text;
+                    user-select: text;
+
+                    -webkit-touch-callout: default;
+                }
+            }
+        }
+    }
+}

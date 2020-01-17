@@ -1,0 +1,14 @@
+@import 'true';
+@import '../src/is-unitless-zero.scss';
+@include describe('is-unitless-zero function:') {
+    @include it('is-unitless-zero: true 0') {
+        @include assert-true(
+            is-unitless-zero(0),
+            '');
+    }
+    @include it('is-unitless-zero: false 0em') {
+        @include assert-false(
+            is-unitless-zero(0em),
+            '');
+    }
+}

@@ -1,0 +1,34 @@
+$_bi_d: -1 !default;
+@function produce-gradient($a1,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){
+    $arg_list: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $arg_list: list-change-separator($arg_list, ',');
+    $arg_list: list-safe-unquote-items($arg_list);
+
+    $r: (); //return list;
+    $first: nth($arg_list,1);
+    @if is-gradient-type($first) {
+        @if $first == 'linear-gradient' or $first == 'repeating-linear-gradient' {
+            $r: produce-linear-gradient($arg_list);
+        } @else if $first == 'radial-gradient' or $first == 'repeating-radial-gradient' {
+            $r: produce-radial-gradient($arg_list);
+        } @else if $first == 'conic-gradient' or $first == 'repeating-conic-gradient' {
+            $r: produce-conic-gradient($arg_list); }}
+    @if not(is-gradient-type($first)) or length($r) == 0 {
+        @warn 'produce-gradient has not been able to complete properly';
+        @return false; //uncomment when working
+    } @else {
+        @return if(length($r) > 0, $r, false);
+    }
+    @return false; }
+
+    //these bits need to be inside the background function;
+@function combine-browser-specific-stores($corelist, $sublist){
+    @return key-value-store-combine($corelist, $sublist); }
+
+@function find-browser-specific-value-in-store($store, $browser) {
+    $v: '';
+    @if key-value-store-has-key($store, $browser) {
+        $v: key-value-store-get-value-for-key($store, $browser);
+    }
+    @return $v;
+}

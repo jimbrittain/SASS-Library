@@ -1,0 +1,43 @@
+$_bi_d: -1 !default;
+@mixin __background-size($a1:inherit,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d) {
+    $args: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    @if(type-of($a1) == list and $a2 == $_bi_d and not(does-list-contain-list($a1)) and length($a1) < 3) {
+        $args: ();
+        $args: append($args, $a1); }
+    $args: list-change-separator($args, ',');
+    $args: list-safe-unquote-items($args);
+
+    $safe-args: ();
+    $safe-args: list-change-separator($safe-args, ',');
+
+    @for $n from 1 through length($args){
+        $bk: nth($args,$n);
+
+        @if type-of($bk) != 'list' { 
+            $a: ();
+            $bk: append($a, $bk); }
+
+        $good: true;
+        @if (length($bk) == 1) {
+            $val: nth($bk,1);
+            @if not(is-length($val) or is-percent($val) or $val == auto or is-background-size-value($val)) {
+                $good: false; }
+        } @else if(length($bk) == 2) {
+            @for $i from 1 through length($bk) {
+                $val: nth($bk,$i);
+                @if not(is-length($val) or is-percent($val) or $val == auto){
+                    $good: false; }}}
+
+        @if $good {
+            $bk: list-change-separator($bk, ' ');
+            $safe-args: append($safe-args, $bk); }}
+
+    @if length($safe-args) > 0 {
+        -moz-background-size: $args;
+        -o-background-size: $args;
+        -webkit-background-size: $args;
+        background-size: $args; }}
+
+@function is-background-size-value($val) {
+    $list: (cover contain);
+    @return if(index($list,$value) != null, true, false); }

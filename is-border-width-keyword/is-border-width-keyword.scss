@@ -1,0 +1,3 @@
+@function is-border-width-keyword($val) {
+    $list: (thin medium thick);
+    @return if(index($list,$val) != null, true, false); }

@@ -1,0 +1,21 @@
+//ignores first, should probably be a combination of an implode and list-slice;
+@function list-implode($list, $delimiter: '', $recursive: false) {
+    @if type-of($list) != list {
+        @warn 'list-implode supplied a non-list "' + $list + '" {' + type-of($list) + '}';
+        @return $list; }
+    $delimiter: if(type-of($delimiter) != string, '', $delimiter);
+    $recursive: if($recursive != false, true, false);
+    $str: '';
+    @for $i from 1 through length($list) {
+        $str: if($i != 1, $str + $delimiter, $str);
+        $v: nth($list, $i);
+        $v: if(type-of($v) == list and $recursive == true, list-implode($v, $delimiter, true), $v);
+        $str: $str + $v; }
+    @return $str; }
+
+@function liststrip_sb($list) { //obs
+    @if type-of($list) != list {
+        @warn 'Not list';
+        @return $list; }
+    $list: list-slice($list, 2, length($list - 2));
+    @return list-implode($list, ', '); }

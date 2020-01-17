@@ -1,0 +1,39 @@
+@import 'true';
+@import '../src/is-border-style-value.scss';
+@include describe('is-border-style-value function:') {
+    @include it('is-border-style-value returns true, none') {
+        @include assert-true(
+            is-border-style-value(none),
+            'none: true');
+    }
+    @include it('is-border-style-value returns true, inherit') {
+        @include assert-true(
+            is-border-style-value(inherit),
+            'inherit: true');
+    }
+    @include it('is-border-style-value returns true, 1') {
+        @include assert-true(
+            is-border-style-value(solid),
+            'solid: true');
+    }
+    @include it('is-border-style-value returns true, 2') {
+        @include assert-true(
+            is-border-style-value(solid ridge),
+            '2 values, space separated: true');
+    }
+    @include it('is-border-style-value returns true, 3') {
+        @include assert-true(
+            is-border-style-value(solid ridge double),
+            '3 values, space separated: true');
+    }
+    @include it('is-border-style-value returns true, 4') {
+        @include assert-true(
+            is-border-style-value(solid ridge double groove),
+            '4 values, space separated: true');
+    }
+    @include it('is-border-style-value returns true, 3') {
+        @include assert-true(
+            is-border-style-value((solid, ridge, double)),
+            '3 values, comma separated: true');
+    }
+}

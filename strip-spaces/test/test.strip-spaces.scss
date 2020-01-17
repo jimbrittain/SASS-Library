@@ -1,0 +1,33 @@
+@import 'true';
+@import '../../../globalimport.scss'; //requires list-change-separator;
+@import '../src/strip-spaces.scss';
+@include describe('strip-spaces function:') {
+    @include it('strip-spaces removes leading and trailing spaces') {
+        @include assert-equal(
+            strip-spaces(' hello '),
+            'hello',
+            'leading and trailing');
+    }
+    @include it('strip-spaces removes separating spaces') {
+        @include assert-equal(
+            strip-spaces('hello jim morris'),
+            'hellojimmorris',
+            'separating');
+    }
+    @include it('strip-spaces from lists') {
+        $list: (' hello ', 'jim it', 'works');
+        @include assert-equal(
+            strip-spaces($list),
+            ('hello', 'jimit', 'works'),
+            'list');
+    }
+    @include it('strip-spaces from list and lower lists') {
+        $alist: (' 123 ', '4 5 6');
+        $blist: (' tank ');
+        $list: (' hello ' $alist $blist);
+        @include assert-equal(
+            strip-spaces($list),
+            ('hello' ('123', '456') ('tank')),
+            'list');
+    }
+}

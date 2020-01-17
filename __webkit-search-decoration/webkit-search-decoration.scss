@@ -1,0 +1,10 @@
+@mixin __webkit-search-decoration {
+    &::-webkit-search-decoration, &::-webkit-search-results-decoration { @content; }
+}
+@mixin searchdecoration_definitions { 
+    @warn 'searchdecoration_definitions has been deprecated please use __webkit-search-decoration';
+    @include __webkit-search-decoration {
+        @content;
+    }
+}
+

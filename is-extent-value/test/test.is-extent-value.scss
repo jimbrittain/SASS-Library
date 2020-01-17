@@ -1,0 +1,52 @@
+@import 'true';
+@import '../src/is-extent-value.scss';
+@include describe('is-extent-value function:') {
+    @include it('is-extent-value function: true, farthest-corner') {
+        @include assert-true( is-extent-value(farthest-corner));
+    }
+    @include it('is-extent-value function: true, closest-corner') {
+        @include assert-true( is-extent-value('closest-corner'));
+    }
+    @include it('is-extent-value function: true, farthest-side') {
+        @include assert-true( is-extent-value("farthest-side"));
+    }
+    @include it('is-extent-value function: true, closest-side') {
+        @include assert-true( is-extent-value(closest-side));
+    }
+    @include it('is-extent-value function: false, cover') {
+        @include assert-false( is-extent-value(cover));
+    }
+    @include it('is-extent-value function: false, fucked') {
+        @include assert-false( is-extent-value(fucked));
+    }
+    @include it('is-old-extent-value function: true, cover') {
+        @include assert-true( is-old-extent-value(cover));
+    }
+    @include it('is-old-extent-value function: true, contain') {
+        @include assert-true( is-old-extent-value(contain));
+    }
+    @include it('replace-old-extent-value function: contain = closest-side') {
+        @include assert-equal(
+            replace-old-extent-value(contain),
+            closest-side);
+    }
+    @include it('replace-old-extent-value function: cover = farthest-corner') {
+        @include assert-equal(
+            replace-old-extent-value(cover),
+            farthest-corner);
+    }
+    @include it('replace-old-extent-value function: farthest-side = farthest-side') {
+        @include assert-equal(
+            replace-old-extent-value(farthest-side),
+            farthest-side);
+    }
+    @include it('is-extent-value function, replace-old-extent-value inner: true, cover') {
+        @include assert-true( is-extent-value(replace-old-extent-value(cover)));
+    }
+    @include it('is-extent-value function, replace-old-extent-value inner: true, contain') {
+        @include assert-true( is-extent-value(replace-old-extent-value(contain)));
+    }
+    @include it('is-extent-value function, replace-old-extent-value inner: true, farthest-corner') {
+        @include assert-true( is-extent-value(replace-old-extent-value(farthest-corner)));
+    }
+}

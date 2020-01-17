@@ -1,0 +1,40 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/list-search.scss';
+@include describe('list-search function:') {
+    @include it('list-search true: needle {string}, haystack {string}') {
+        $list: (1 2 3 4 5 6 7 8);
+        $val: 6;
+        @include assert-true(
+            list-search($val, $list),
+            'returns true');
+    }
+    @include it('list-search true: needle {number}, haystack {string}') {
+        $list: 'morris6';
+        $val: 6;
+        @include assert-true(
+            list-search($val, $list),
+            'returns true');
+    }
+    @include it('list-search true: needle {string}, haystack {string}') {
+        $list: 'emotions revealed';
+        $val: 'tion';
+        @include assert-true(
+            list-search($val, $list),
+            'returns true');
+    }
+    @include it('list-search true: needle {string}, haystack {string}') {
+        $list: (emo tion s reve aled);
+        $val: 'tion';
+        @include assert-true(
+            search($list, $val),
+            'returns true');
+    }
+    @include it('list-search true: needle {string}, haystack {string}') {
+        $list: ((1 2 3) (4 5 6) (7 8 9));
+        $val: (1, 2, 3);
+        @include assert-true(
+            search($list, $val),
+            'returns true');
+    }
+}

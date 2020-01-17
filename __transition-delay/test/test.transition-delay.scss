@@ -1,0 +1,77 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/transition-delay.scss';
+@include describe('__transition-delay mixin') {
+    @include it('Outputs transition-delay proceeded by the -o, -moz, -ms, and -webkit prefixes: 3s') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-delay(3s);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-delay: 3s;
+                    -ms-transition-delay: 3s;
+                    -o-transition-delay: 3s;
+                    -webkit-transition-delay: 3s;
+                    transition-delay: 3s;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition-delay proceeded by the -o, -moz, -ms, and -webkit prefixes: 4s, 2ms') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-delay(4s, 2ms);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-delay: 4s, 2ms;
+                    -ms-transition-delay: 4s, 2ms;
+                    -o-transition-delay: 4s, 2ms;
+                    -webkit-transition-delay: 4s, 2ms;
+                    transition-delay: 4s, 2ms;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition-delay proceeded by the -o, -moz, -ms, and -webkit prefixes: 4s, 2ms') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-delay(4s 2ms);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-delay: 4s, 2ms;
+                    -ms-transition-delay: 4s, 2ms;
+                    -o-transition-delay: 4s, 2ms;
+                    -webkit-transition-delay: 4s, 2ms;
+                    transition-delay: 4s, 2ms;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition-delay proceeded by the -o, -moz, -ms, and -webkit prefixes: inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-delay(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-delay: inherit;
+                    -ms-transition-delay: inherit;
+                    -o-transition-delay: inherit;
+                    -webkit-transition-delay: inherit;
+                    transition-delay: inherit;
+                }
+            }
+        }
+    }
+}

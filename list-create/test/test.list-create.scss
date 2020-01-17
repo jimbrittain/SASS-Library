@@ -1,0 +1,11 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/list-create.scss';
+@include describe('list-create function:') {
+    @include it('list-create returns a space-separated list from parameters') {
+        @include assert-equal(
+            list-create(1em, 2em, 3em, 4em),
+            (1em 2em 3em 4em),
+            'Creates list from supplied parameters');
+    }
+}

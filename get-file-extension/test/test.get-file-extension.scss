@@ -1,0 +1,29 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/get-file-extension.scss';
+@include describe('get-file-extension function:') {
+    @include it('get-file-extension returns jpg for cheese.jpg') {
+        @include assert-equal(
+            get-file-extension('cheese.jpg'),
+            'jpg',
+            'jpg = jpg');
+    }
+    @include it('get-file-extension returns jpg for cheese.JPG') {
+        @include assert-equal(
+            get-file-extension('cheese.JPG'),
+            'jpg',
+            'JPG = jpg');
+    }
+    @include it('get-file-extension returns jpg for this.has.lots.of.dots.jpg') {
+        @include assert-equal(
+            get-file-extension('this.has.lots.of.dots.jpg'),
+            'jpg',
+            'lots.of.dots.jpg = jpg');
+    }
+    @include it('get-file-extension returns jpg for .htaccess') {
+        @include assert-equal(
+            get-file-extension('.htaccess'),
+            'htaccess',
+            '.htaccess = htaccess');
+    }
+}

@@ -1,0 +1,12 @@
+@function does-list-contain-list($args){
+    @if (type-of($args) != 'list') {
+        @warn 'does-list-contain-list supplied a none-list "' + $args + '" {' + type-of($args) + '}';
+        @return false;
+    } @else {
+        @for $i from 1 through length($args) {
+            $val: nth($args, $i);
+            @if (type-of($val) == 'list'){
+                @return true; }}
+        @return false;
+    }
+}

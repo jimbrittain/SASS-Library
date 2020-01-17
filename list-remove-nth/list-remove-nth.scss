@@ -1,0 +1,11 @@
+@function list-remove-nth($list, $index) {
+    $r: ();
+    @if type-of($list) == list and (type-of($index) == number and ($index > 0 and $index <= length($list)) and round($index) == $index) {
+        @for $i from 1 through length($list) {
+            @if $i != $index {
+                $r: append($r, nth($list, $i)); }}
+        $r: list-change-separator($r, list-separator($list));
+        @return $r;
+    }
+    @warn 'list-remove-nth unable to remove index ' + $index + ' {' + type-of($index) + '} from ' + $list + ' {' + type-of($list) + '}';
+    @return $list; }

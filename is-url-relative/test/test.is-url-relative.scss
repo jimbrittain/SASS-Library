@@ -1,0 +1,34 @@
+@import 'true';
+@import '../src/is-url-relative.scss';
+@include describe('strip-units function:') {
+    @include it('is-url-relative, dir, filename') {
+        @include assert-true(
+            is-url-relative('cheese/toast.htm'),
+            'Detects simple url');
+    }
+    @include it('is-url-relative, dir up, filename') {
+        @include assert-true(
+            is-url-relative('../cheese/toast.htm'),
+            'Detects simple url');
+    }
+    @include it('is-url-relative, filename') {
+        @include assert-true(
+            is-url-relative('toast.htm'),
+            'Detects simple url');
+    }
+    @include it('is-url-relative, / absolute directory filename') {
+        @include assert-false(
+            is-url-relative('/toast.htm'),
+            'Detects simple url');
+    }
+    @include it('is-url-relative, google') {
+        @include assert-false(
+            is-url-relative('http://www.google.com/toast.htm'),
+            'Detects simple url');
+    }
+    @include it('is-url-relative, local') {
+        @include assert-false(
+            is-url-relative('file:///Users/root/TestBed/fftest.txt'),
+            'Detects simple url');
+    }
+}

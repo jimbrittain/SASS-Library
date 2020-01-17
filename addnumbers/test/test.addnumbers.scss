@@ -1,0 +1,17 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/addnumbers.scss';
+@include describe('addnumbers function: ') {
+    @include it('Correctly adds 1em and 1em') {
+        @include assert-equal(
+            addnumbers(1em 1em), 
+            2em,
+            "1em + 1em = 2em");
+    }
+    @include it('Correctly adds 1em and 16px') {
+        @include assert-equal(
+            addnumbers(1em 16px), 
+            2em,
+            "1em + 16px = 2em");
+    }
+}

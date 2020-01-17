@@ -1,0 +1,8 @@
+@mixin htmlstar_hack {
+    * html & { @content; }
+    *+html & { @content; }
+    *:first-child+html & { @content; }
+}
+@mixin ie6_htmlstar_hack { * html & { @content; }}
+@mixin ie7_htmlstar_hack { *+html & { @content; }}
+@mixin ie8_htmlstar_hack { *:first-child+html & { @content; }}

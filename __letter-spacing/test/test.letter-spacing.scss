@@ -1,0 +1,71 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/letter-spacing.scss';
+@include describe('__letter-spacing mixin') {
+    @include it('Outputs letter-spacing including ligature fix -webkit prefixes: 0.3') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __letter-spacing(0.3em);
+                }
+            }
+            @include contains {
+                #cheese {
+                    letter-spacing: 0.3em;
+                    font-feature-settings: "clig=0", "dlig=0", "hlig=0", "liga=0", "rlig=0";
+                    -webkit-font-variant-ligatures: none;
+                    font-variant-ligatures: none;
+                }
+            }
+        }
+    }
+    @include it('Outputs letter-spacing including ligature fix -webkit prefixes: 0') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __letter-spacing(0);
+                }
+            }
+            @include contains {
+                #cheese {
+                    letter-spacing: 0;
+                    -webkit-font-variant-ligatures: inherit;
+                    font-variant-ligatures: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs letter-spacing including ligature fix -webkit prefixes: none') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __letter-spacing(none);
+                }
+            }
+            @include contains {
+                #cheese {
+                    letter-spacing: 0;
+                    -webkit-font-variant-ligatures: inherit;
+                    font-variant-ligatures: inherit;
+                    font-feature-settings: "clig=1", "dlig=1", "hlig=1", "liga=1", "rlig=1";
+                }
+            }
+        }
+    }
+    @include it('Outputs letter-spacing including ligature fix -webkit prefixes: inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __letter-spacing(inherit);
+                }
+            }
+            @include contains {
+                #cheese {
+                    letter-spacing: inherit;
+                    -webkit-font-variant-ligatures: inherit;
+                    font-variant-ligatures: inherit;
+                }
+            }
+        }
+    }
+}

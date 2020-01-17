@@ -1,0 +1,31 @@
+@function list-search($needle, $haystack, $loose:false) {
+    $loose: if($loose == true, true, false);
+    $needs-loose: if(type-of($needle) == list, true, false);
+    $needle-list: if(type-of($needle) == 'list', list-change-separator($needle, ' '), $needle);
+    @if type-of($haystack) == 'list' {
+        $found: false;
+        $i: 0;
+        @while $found == false and $i < length($haystack) {
+            @if $needle == nth($haystack, $i + 1) {
+                $found: true; 
+            } @else if $loose == true and $needs-loose and type-of(nth($haystack, $i + 1)) == 'list' {
+                @if $needle-list == (list-change-separator(nth($haystack, $i + 1), ' ')) { $found: true; }}
+            $i: $i + 1; }
+        @return $found; 
+    } @else {
+        @if (type-of($haystack) == 'string') {
+            @return if(str-index($haystack, cast-to-string($needle)) != null, true, false);
+        }
+        @return false;
+    }
+}
+
+// alternate versions
+@function search($haystack, $needle, $loose: true) {
+    @return list-search($needle, $haystack, $loose);
+}
+@function is-in-list($haystack, $needle) {
+    @if (type-of($haystack) == $list) {
+        @return if(index($haystack, $needle) != null, true, false); 
+    }
+}

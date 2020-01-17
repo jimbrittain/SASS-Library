@@ -1,0 +1,244 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/writing-mode.scss';
+@include describe('__writing-modemixin') {
+    @include it('Outputs writing-mode proceeded by the -ms, -moz, and -webkit prefixes lr') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __writing-mode(lr);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-writing-mode: lr;
+                    -ms-writing-mode: lr;
+                    -webkit-writing-mode: lr;
+                    writing-mode: lr;
+
+                    -moz-writing-mode: horizontal-tb;
+                    -ms-writing-mode: horizontal-tb;
+                    -webkit-writing-mode: horizontal-tb;
+                    writing-mode: horizontal-tb;
+                }
+            }
+        }
+    }
+    @include it('Outputs writing-mode proceeded by the -ms, -moz, and -webkit prefixes lr-tb') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __writing-mode(lr-tb);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-writing-mode: lr-tb;
+                    -ms-writing-mode: lr-tb;
+                    -webkit-writing-mode: lr-tb;
+                    writing-mode: lr-tb;
+
+                    -moz-writing-mode: horizontal-tb;
+                    -ms-writing-mode: horizontal-tb;
+                    -webkit-writing-mode: horizontal-tb;
+                    writing-mode: horizontal-tb;
+                }
+            }
+        }
+    }
+    @include it('Outputs writing-mode proceeded by the -ms, -moz, and -webkit prefixes horizontal-tb') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __writing-mode(horizontal-tb);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-writing-mode: lr;
+                    -ms-writing-mode: lr;
+                    -webkit-writing-mode: lr;
+                    writing-mode: lr;
+
+                    -moz-writing-mode: horizontal-tb;
+                    -ms-writing-mode: horizontal-tb;
+                    -webkit-writing-mode: horizontal-tb;
+                    writing-mode: horizontal-tb;
+                }
+            }
+        }
+    }
+    @include it('Outputs writing-mode proceeded by the -ms, -moz, and -webkit prefixes rl') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __writing-mode(rl);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-writing-mode: rl;
+                    -ms-writing-mode: rl;
+                    -webkit-writing-mode: rl;
+                    writing-mode: rl;
+
+                    -moz-writing-mode: horizontal-tb;
+                    -ms-writing-mode: horizontal-tb;
+                    -webkit-writing-mode: horizontal-tb;
+                    writing-mode: horizontal-tb;
+                }
+            }
+        }
+    }
+    @include it('Outputs writing-mode proceeded by the -ms, -moz, and -webkit prefixes vertical-rl') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __writing-mode(vertical-rl);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-writing-mode: tb-rl;
+                    -ms-writing-mode:   tb-rl;
+                    -webkit-writing-mode: tb-rl;
+                    writing-mode: tb-rl;
+
+                    -moz-writing-mode: vertical-rl;
+                    -ms-writing-mode: vertical-rl;
+                    -webkit-writing-mode: vertical-rl;
+                    writing-mode: vertical-rl;
+                }
+            }
+        }
+    }
+    @include it('Outputs writing-mode proceeded by the -ms, -moz, and -webkit prefixes rl-tb') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __writing-mode(rl-tb);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-writing-mode: rl-tb;
+                    -ms-writing-mode: rl-tb;
+                    -webkit-writing-mode: rl-tb;
+                    writing-mode: rl-tb;
+
+                    -moz-writing-mode: horizontal-tb;
+                    -ms-writing-mode: horizontal-tb;
+                    -webkit-writing-mode: horizontal-tb;
+                    writing-mode: horizontal-tb;
+                }
+            }
+        }
+    }
+    @include it('Outputs writing-mode proceeded by the -ms, -moz, and -webkit prefixes tb-rl') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __writing-mode(tb-rl);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-writing-mode: tb-rl;
+                    -ms-writing-mode:   tb-rl;
+                    -webkit-writing-mode: tb-rl;
+                    writing-mode: tb-rl;
+
+                    -moz-writing-mode: vertical-rl;
+                    -ms-writing-mode: vertical-rl;
+                    -webkit-writing-mode: vertical-rl;
+                    writing-mode: vertical-rl;
+                }
+            }
+        }
+    }
+    @include it('Outputs writing-mode proceeded by the -ms, -moz, and -webkit prefixes tb') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __writing-mode(tb);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-writing-mode: tb;
+                    -ms-writing-mode:   tb;
+                    -webkit-writing-mode: tb;
+                    writing-mode: tb;
+
+                    -moz-writing-mode: vertical-lr;
+                    -ms-writing-mode: vertical-lr;
+                    -webkit-writing-mode: vertical-lr;
+                    writing-mode: vertical-lr;
+                }
+            }
+        }
+    }
+    @include it('Outputs writing-mode proceeded by the -ms, -moz, and -webkit prefixes vertical-lr') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __writing-mode(vertical-lr);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-writing-mode: tb;
+                    -ms-writing-mode:   tb;
+                    -webkit-writing-mode: tb;
+                    writing-mode: tb;
+
+                    -moz-writing-mode: vertical-lr;
+                    -ms-writing-mode: vertical-lr;
+                    -webkit-writing-mode: vertical-lr;
+                    writing-mode: vertical-lr;
+                }
+            }
+        }
+    }
+    @include it('Outputs writing-mode proceeded by the -ms, -moz, and -webkit prefixes sideways-rl') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __writing-mode(sideways-rl);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-writing-mode: tb-rl;
+                    -ms-writing-mode:   tb-rl;
+                    -webkit-writing-mode: tb-rl;
+                    writing-mode: tb-rl;
+
+                    -moz-writing-mode: vertical-rl;
+                    -ms-writing-mode: vertical-rl;
+                    -webkit-writing-mode: vertical-rl;
+                    writing-mode: vertical-rl;
+
+                    -moz-writing-mode: sideways-rl;
+                    -ms-writing-mode: sideways-rl;
+                    -webkit-writing-mode: sideways-rl;
+                    writing-mode: sideways-rl;
+                }
+            }
+        }
+    }
+    @include it('Outputs writing-mode proceeded by the -ms, -moz, and -webkit prefixes sideways-lr') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __writing-mode(sideways-lr);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-writing-mode: sideways-lr;
+                }
+            }
+        }
+    }
+}

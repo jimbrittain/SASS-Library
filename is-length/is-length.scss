@@ -1,0 +1,14 @@
+@function is-length($val){
+    @return if(is-relative-length($val) or is-viewport-length($val) or is-absolute-length($val) or (type-of($val) == number and unitless($val) and $val == 0), true, false); }
+
+@function is-relative-length($val){
+    $list: (cap ch em ex ic lh rem rlh);
+    @return if(type-of($val) == number and not(unitless($val)) and index($list, unit($val)) != null, true, false); }
+
+@function is-viewport-length($val){
+    $list: (vh vw vi vb vmin vmax);
+    @return if(type-of($val) == number and not(unitless($val)) and index($list, unit($val)) != null, true, false); }
+
+@function is-absolute-length($val){
+    $list: (px cm mm Q in pc pt mozmm);
+    @return if(type-of($val) == number and not(unitless($val)) and index($list, unit($val)) != null, true, false); }

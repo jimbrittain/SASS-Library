@@ -1,0 +1,28 @@
+$_bi_d: -1 !default;
+@mixin __overflow($a1:inherit,$a2:$_bi_d) {
+    $args: arguments($a1,$a2);
+    $args: list-change-separator($args, ' ');
+    $args: list-safe-unquote-items($args);
+
+    $good: true;
+    @for $i from 1 through length($args) {
+        $val: nth($args,$i);
+        @if not(is-overflow-value($val) or is-reserved-variable($val)) {
+            $good: false; }}
+
+    @if ($good and length($args) > 0 and length($args) < 3) {
+        overflow: $args; }}
+
+@mixin __overflow-x($val:auto){
+    @if is-overflow-value($val) or is-reserved-variable($val) {
+        -ms-overflow-x: $val; //as of 201402 -ms prefix only prefix in use
+        overflow-x: $val; }}
+@mixin __overflow-y($val:auto){
+    @if is-overflow-value($val) or is-reserved-variable($val) {
+        -ms-overflow-y: $val; //as of 201402 -ms prefix only prefix in use
+        overflow-y: $val; }}
+
+@function is-overflow-value($val){
+    $list: (visible hidden clip scroll auto);
+    @return if(index($list,$val) != null, true, false);
+}

@@ -1,0 +1,56 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/animation-play-state.scss';
+@include describe('__animation-play-state mixin') {
+    @include it('Outputs animation-play-state proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-play-state(running);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-play-state: running;
+                    -moz-animation-play-state: running;
+                    -webkit-animation-play-state: running;
+                    animation-play-state: running;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-play-state properly when the value is quoted') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-play-state('running');
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-play-state: running;
+                    -moz-animation-play-state: running;
+                    -webkit-animation-play-state: running;
+                    animation-play-state: running;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-play-state properly when the values are a list') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-play-state('running' 'paused');
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-play-state: running, paused;
+                    -moz-animation-play-state: running, paused;
+                    -webkit-animation-play-state: running, paused;
+                    animation-play-state: running, paused;
+                }
+            }
+        }
+    }
+}

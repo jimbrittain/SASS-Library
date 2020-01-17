@@ -1,0 +1,9 @@
+@mixin __border-image-source($src:none) {
+    @if not(is-reserved-variable($src)) and not($src == 'none') and not(is-gradient-value($src)) {
+        $src: safe-url($src);
+    } @else { $src: safe-unquote($src); }
+    -moz-border-image-source: $src;
+    -o-border-image-source: $src;
+    -webkit-border-image-source: $src;
+    border-image-source: $src;
+}

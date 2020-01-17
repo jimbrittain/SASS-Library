@@ -1,0 +1,135 @@
+//requires strip-units, is-angle
+$pi: 3.14159265359 !global;
+//tan, sin, cosine, adapted from http://japborst.net/posts/sass-sines-and-cosines
+@function sin($angle) {
+  @if not(type-of($angle) == number) {
+      @warn 'Supplied angle for sin is not a number';
+      @return 1; }
+  $angle: if(is-angle-radian($angle), $angle, convert-angle($angle, rad));
+  $angle: strip-units($angle);
+  $sin: 0;
+  @for $i from 0 through 10 {
+    $ncalc: 2 * $i + 1;
+    $sin: $sin + (pow(-1,$i) * pow($angle,$ncalc) / fact($ncalc)); }
+  @return $sin; }
+
+@function cos($angle){
+  @if not(type-of($angle) == number) {
+      @warn 'Supplied angle for cos is not a number';
+      @return 0; }
+  $angle: if(is-angle-radian($angle), $angle, convert-angle($angle, rad));
+  $angle: strip-units($angle);
+  $cos: 0;
+  @for $n from 0 through 10{ 
+    $calc: ((pow(-1, $n) * pow($angle, 2 * $n)) / fact(2 * $n)); 
+    $cos: $cos + $calc; }
+  @return $cos; }
+
+@function tan($angle){
+  @if not(type-of($angle) == number) {
+      @warn 'Supplied angle for tan is not a number';
+      @return 1; }
+  $angle: if(is-angle-radian($angle), $angle, convert-angle($angle, rad));
+  $tan: sin($angle) / cos($angle);
+  @return $tan; }
+
+//From https://github.com/terkel/mathsass/blob/master/dist/functions/atan2.scss and acos.scss and asin.scss and atan.scss and sqrt;
+// Returns the arctangent of a number.
+// @param {Number} $x
+// @example
+//     atan(0.1) // 0.09967
+//     atan(-1)  // -0.7854
+@function atan ($x, $type:rad) {
+    $i:  24;
+    $sgn: 0;
+    $a:   0;
+    @if $x > 1 {
+        $sgn:  1;
+        $x:    1 / $x;
+    } @else if $x < -1 {
+        $sgn: -1;
+        $x:    1 / $x;
+    }
+    @while $i > 0 {
+        $a: ($i * $i * ($x * $x)) / ((2 * $i) + 1 + $a);
+        $i: $i - 1;
+    }
+    $val: 0;
+    @if $sgn > 0 {
+        $val: $pi / 2 - $x / (1 + $a);
+    } @else if $sgn < 0 {
+        $val: -$pi / 2 - $x / (1 + $a);
+    } @else {
+        $val: $x / (1 + $a); }
+    $val: zeromeasure(rad) + $val;
+    $type: if(is-angle($type), $type, rad);
+    $val: if($type == rad, $val, convert-angle($val, $type));
+    @return $val; }
+// Returns the arcsine of a number.
+// @param {Number} $x A number between -1 and 1.
+// @example
+//     asin(0.1) // 0.10017
+//     asin(-1)  // -1.5708
+@function asin ($x, $type:rad) {
+    @if $x > 1 or $x < -1 {
+        @warn "Argument for `asin()` must be a number between -1 and 1";
+        @return 0; }
+    $val: atan($x / sqrt(1 - ($x * $x)));
+    $val: zeromeasure(rad) + $val;
+    $type: if(is-angle($type), $type, rad);
+    $val: if($type == rad, $val, convert-angle($val, $type));
+    @return $val; }
+// Returns the arccosine of a number.
+// @param {Number} $x A number between -1 and 1.
+// @example
+//     acos(0.1) // 1.47063
+//     acos(-1)  // 3.14159
+@function acos ($x, $type:rad) {
+    @if $x > 1 or $x < -1 {
+        @warn "Argument for `acos()` must be a number between -1 and 1";
+        @return 0; }
+    $val: $pi / 2 - asin($x);
+    $val: zeromeasure(rad) + $val;
+    $type: if(is-angle($type), $type, rad);
+    $val: if($type == rad, $val, convert-angle($val, $type));
+    @return $val; }
+// Returns the arctangent of the quotient of its arguments.
+// @param {Number} $y
+// @param {Number} $x
+// @example
+//     atan2(0, 0)       // 0
+//     atan2(0, -0.0)    // 3.14159
+//     atan2(-0.0, 0)    // 0
+//     atan2(-0.0, -0.0) // -3.14159
+//     atan2(0, 1)       // 0
+//     atan2(0, -1)      // 3.14159
+@function atan2 ($y, $x, $type:rad) {
+    $val: 0;
+    @if $x > 0 {
+        $val: atan($y / $x);
+    } @else if $x < 0 {
+        @if $y < 0 {
+            $val: atan($y / $x) - $pi;
+        } @else {
+            $val: atan($y / $x) + $pi; }
+    } @else {
+        @if $y < 0 {
+            $val: - $pi / 2;
+        } @else if $y > 0 {
+            $val: $pi / 2;
+        } @else {
+            @if 1 / $x == 1 / 0 {
+                $val: 0;
+            } @else {
+                @if 1 / $y == 1 / 0 {
+                    $val: $pi;
+                } @else {
+                    $val: -$pi; 
+                }
+            }
+        }
+    }
+    $val: zeromeasure(rad) + $val;
+    $type: if(is-angle($type), $type, rad);
+    $val: if($type == rad, $val, convert-angle($val, $type));
+    @return $val; }

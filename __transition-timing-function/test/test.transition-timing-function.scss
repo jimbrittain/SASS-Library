@@ -1,0 +1,105 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/transition-timing-function.scss';
+@include describe('__transition-timing-function mixin') {
+    @include it('Outputs transition-timing-function proceeded by the -o, -ms, -moz, and -webkit prefixes: ease-in') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-timing-function(ease-in);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-timing-function: ease-in;
+                    -ms-transition-timing-function: ease-in;
+                    -o-transition-timing-function: ease-in;
+                    -webkit-transition-timing-function: ease-in;
+                    transition-timing-function: ease-in;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition-timing-function proceeded by the -o, -ms, -moz, and -webkit prefixes: cubic-bezier(0.1, 0.7, 1.0, 0.1)') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-timing-function(cubic-bezier(0.1, 0.7, 1.0, 0.1));
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);
+                    -ms-transition-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);
+                    -o-transition-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);
+                    -webkit-transition-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);
+                    transition-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);
+                }
+            }
+        }
+    }
+    @include it('Outputs transition-timing-function proceeded by the -o, -ms, -moz, and -webkit prefixes: inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-timing-function(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-timing-function: inherit;
+                    -ms-transition-timing-function: inherit;
+                    -o-transition-timing-function: inherit;
+                    -webkit-transition-timing-function: inherit;
+                    transition-timing-function: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition-timing-function proceeded by the -o, -ms, -moz, and -webkit prefixes: steps(4, jump-start)') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-timing-function(steps(4, jump-start));
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-timing-function: steps(4, jump-start);
+                    -ms-transition-timing-function: steps(4, jump-start);
+                    -o-transition-timing-function: steps(4, jump-start);
+                    -webkit-transition-timing-function: steps(4, jump-start);
+                    transition-timing-function: steps(4, jump-start);
+                }
+            }
+        }
+    }
+    @include it('Outputs transition-timing-function proceeded by the -o, -ms, -moz, and -webkit prefixes: ease, step-start, cubic-bezier(0.1, 0.7, 1.0, 0.1)') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-timing-function(ease, step-start, cubic-bezier(0.1, 0.7, 1.0, 0.1));
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-timing-function: ease, step-start, cubic-bezier(0.1, 0.7, 1.0, 0.1);
+                    -ms-transition-timing-function: ease, step-start, cubic-bezier(0.1, 0.7, 1.0, 0.1);
+                    -o-transition-timing-function: ease, step-start, cubic-bezier(0.1, 0.7, 1.0, 0.1);
+                    -webkit-transition-timing-function: ease, step-start, cubic-bezier(0.1, 0.7, 1.0, 0.1);
+                    transition-timing-function: ease, step-start, cubic-bezier(0.1, 0.7, 1.0, 0.1);
+                }
+            }
+        }
+    }
+    @include it('Outputs transition-timing-function proceeded by the -o, -ms, -moz, and -webkit prefixes: hamster') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-timing-function(hamster);
+                }
+            }
+            @include expect {}
+        }
+    }
+}

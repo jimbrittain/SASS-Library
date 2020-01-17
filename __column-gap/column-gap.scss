@@ -1,0 +1,5 @@
+@mixin __column-gap($val:inherit) {
+    @if is-reserved-variable($val) or is-length($val) or is-percent($val) or $val == 'normal' or $val == '0' {
+      -moz-column-gap: $val;
+      -webkit-column-gap: $val;
+      column-gap: $val; }}

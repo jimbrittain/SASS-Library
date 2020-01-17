@@ -1,0 +1,34 @@
+@import 'true';
+@import '../src/isMeasurementAngle.scss';
+@include describe('isMeasurementAngle function:') {
+    @include it('Returns true when deg as parameter') {
+        @include assert-true(
+            isMeasurementAngle(deg),
+            'True for deg');
+    }
+    @include it('Returns true when grad as parameter') {
+        @include assert-true(
+            isMeasurementAngle(grad),
+            'True for grad');
+    }
+    @include it('Returns true when rad as parameter') {
+        @include assert-true(
+            isMeasurementAngle(rad),
+            'True for rad');
+    }
+    @include it('Returns true when turn as parameter') {
+        @include assert-true(
+            isMeasurementAngle(turn),
+            'True for turn');
+    }
+    @include it('Returns true when 0deg as parameter') {
+        @include assert-true(
+            isMeasurementAngle(0deg),
+            'True for 0deg');
+    }
+    @include it('Returns false when 0em as parameter') {
+        @include assert-false(
+            isMeasurementAngle(0em),
+            'False for 0em');
+    }
+}

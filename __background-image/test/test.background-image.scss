@@ -1,0 +1,59 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/background-image.scss';
+@include describe('__background-image mixin') {
+    @include it('Outputs background-image: inherit') {
+        @include assert {
+            @include output {
+                #cheese { @include __background-image(inherit); }
+            }
+            @include expect {
+                #cheese { background-image: inherit; }
+            }
+        }
+    }
+    @include it('Outputs background-image: none') {
+        @include assert {
+            @include output {
+                #cheese { @include __background-image(none); }
+            }
+            @include expect {
+                #cheese { background-image: none; }
+            }
+        }
+    }
+    @include it('Outputs background-image: single url') {
+        @include assert {
+            @include output {
+                #cheese { @include __background-image(url('cheese.jpg')); }
+            }
+            @include expect {
+                #cheese { background-image: url("cheese.jpg"); }
+            }
+        }
+    }
+    @include it('Outputs background-image: multiple url') {
+        @include assert {
+            @include output {
+                #cheese { @include __background-image(url('cheese.jpg') url('morris.jpg') url('hamster.svg')); }
+            }
+            @include expect {
+                #cheese { background-image: url("cheese.jpg"), url("morris.jpg"), url("hamster.svg"); }
+            }
+        }
+    }
+    @include it('Outputs background-image: single-linear, -webkit-linear-gradient') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include __background-image(linear-gradient, top, rgba(255,255,255,0.2), 25% rgba(255,255,255,0), rgba(255,255,255,0));
+                }
+            }
+            @include contains(false) {
+                #cheese {
+                    background-image: -webkit-linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0));
+                }
+            }
+        }
+    }
+}

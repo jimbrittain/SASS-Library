@@ -1,0 +1,32 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/simulate-mouse-cursor.scss';
+@include describe('simulate-mouse-cursor mixin') {
+    @include it('Outputs simulate-mouse-cursor proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include simulate-mouse-cursor;
+                }
+            }
+            @include expect {
+                #cheese {
+                    cursor: hand;
+                    cursor: pointer;
+                }
+                #cheese:hover {
+                    cursor: hand;
+                    cursor: pointer;
+                }
+                #cheese:active {
+                    cursor: hand;
+                    cursor: pointer;
+                    cursor: move;
+                    cursor: -moz-grabbing;
+                    cursor: -webkit-grabbing;
+                    cursor: grabbing;
+                }
+            }
+        }
+    }
+}

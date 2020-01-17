@@ -1,0 +1,183 @@
+@function produce-linear-gradient($a1,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){
+    $arg_list: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $arg_list: list-change-separator($arg_list, ',');
+    $arg_list: list-safe-unquote-items($arg_list);
+
+    $r: (); //return list
+    $type: nth($arg_list, 1);
+
+    @if not($type == 'linear-gradient' or $type == 'repeating-linear-gradient') {
+        @return false; }
+
+    $start_col: false;
+    $cols: ();
+    $cols: list-change-separator($cols, ',');
+    $temp_col: false;
+    $last_col: false;
+    $dir: false;
+
+    $i: 2;
+    @while $i <= length($arg_list) {
+        $on: nth($arg_list, $i);
+        @if type-of($on) == 'list' {
+            @if ($temp_col != false) {
+                $cols: append($cols, $temp_col); 
+                $temp_col: false;
+            }
+
+            $first-pot: if(length($on) > 0, nth($on,1), false);
+            @if $first-pot != false {
+                @if type-of($first-pot) == 'string' and is-side-corner-value($on) {
+                    $dir: $on;
+                } @else if type-of($first-pot) == 'color' and length($on) < 3 {
+                    @if $start-col != false {
+                        $last-col: $first-pot;
+                    } @else {
+                        $start-col: $first-pot; }
+                    @if length($on) == 1 or (is-percent(nth($on,2)) or is-length(nth($on,2))) {
+                        $cols: append($cols, $on); }
+                } @else if is-percent($first-pot) or is-length($first-pot) and length($on) < 3  {
+                        $l: ();
+                        @each $v in $on {
+                            @if type-of($v) == color {
+                                $l: list-unshift($l, $v);
+                                $last_col: $v;
+                            } @else {
+                                $l: append($l, $v);
+                            }
+                        }
+                        $cols: append($cols, $l); 
+                    }
+                }
+        } @else if type-of($on) == 'color' {
+            @if $start_col == false {
+                $start_col: $on;
+            } 
+            @if $temp_col != false {
+                $l: ();
+                $l: append($l, $temp_col);
+                $cols: append($cols, $l);
+                $temp_col: $on;
+                $last_col: $on;
+            } @else {
+                $temp_col: $on;
+                $last_col: $on; }
+        } @else if is-angle($on) {
+            $dir: $on;
+        } @else if is-percent($on) or is-length($on) {
+            @if $temp_col == false {
+                $temp_col: $on;
+            } @else {
+                @if type-of($temp_col) == color {
+                    $cols: append($cols, ($temp_col $on));
+                    $temp_col: false;
+                } @else {
+                    $l: ();
+                    $l: append($l, $temp_col);
+                    $cols: append($cols, $l);
+                    $temp_col: false;
+                }
+            }
+        } @else if type-of($on) == string {
+            $len: length($arg_list);
+            $possdir: ();
+            $possdir: append($possdir, $on);
+            @if ($i + 1) <= $len and type-of(nth($arg_list, $i + 1)) == 'string' {
+                $possdir: list-unshift($possdir, $on + ' ' + nth($arg_list, $i + 1)); }
+            @if ($i + 2) <= $len and type-of(nth($arg_list, $i + 2)) == 'string' {
+                $possdir: list-unshift($possdir, $on + ' ' + nth($arg_list, $i + 1)  + ' ' + nth($arg_list, $i + 2)); }
+
+            $step-over: length($possdir) - 1;
+            $found-dir: false;
+            @for $n from 1 through length($possdir) {
+                @if not($found-dir) {
+                    @if is-side-corner-value(nth($possdir, $n)) {
+                        $dir: nth($possdir, $n);
+                        $found-dir: true;
+                    } @else {
+                        $step-over: $step-over - 1; }}}
+            $i: if($found-dir == true and $step-over > 0, $i + $step-over, $i);
+        }
+        $i: $i + 1; }
+
+    @if $temp_col != false {
+        $l: ();
+        $l: append($l, $temp_col);
+        $cols: join($cols, $l); }
+
+    @if $start_col == false or $last_col == false {
+        @return false;
+    } @else {
+        $str: produce-linear-gradient-string($type, $dir, $cols);
+        $from90str: produce-linear-gradient-string($type, if(is-angle($dir), 90deg - $dir, $dir), $cols);
+        //$str: $type + '(';
+        //@if $dir != false {
+        //    @if is-angle($dir) {
+        //        $str: $str + $dir + ', ';
+        //    } @else {
+        //        //ensure it does or doesn't have a to, written as if doesn't
+        //        $tdir: if(type-of($dir) == list, list-implode($dir, ' '), $dir);
+        //        @if str-index($tdir, 'to ') != 1 {
+        //            $tdir: reverse-side-corner-value($tdir); }
+        //        $str: $str + $tdir + ', ';
+        //    }}
+        //$str: $str + $start_col + ', ';
+        //$str: $str + $cols + ')';
+
+        $standards: new-key-value('standards', $str);
+        $webkit: new-key-value('webkit', '-webkit-' + $from90str);
+        $ms: new-key-value('ms', '-ms-' + $str);
+        $o: new-key-value('o', '-o-' + $str);
+        $moz: new-key-value('moz', '-moz-' + $str);
+        $r: list-create($moz, $ms, $o, $webkit, $standards);
+
+        @if $type == 'linear-gradient' {
+            $str: '-webkit-gradient(linear, ';
+            $str: $str + convert-direction-for-webkit-gradient($dir) + ', ';
+            @for $i from 1 through length($cols) {
+                $on: nth($cols, $i);
+                @if $i == 1 {
+                    $str: $str + 'from ' + $start_col + ', ';
+                    @if not(type-of($on) == color or (type-of($on) == list and length($on) == 1 and type-of(nth($on,1)) == color)) {
+                        $str: $str + 'color-stop(' + $on + '), ';
+                    }
+                } @else if $i == length($cols) {
+                    @if not(length($on) == 1 and type-of($on) == color) {
+                        $str: $str + 'color-stop(' + $on + '), '; }
+                    $str: $str + 'to ' + $last_col; 
+                } @else {
+                    $str: $str + 'color-stop(' + $on + '), '; }}
+            $str: $str + ')';
+            $webkit_old: new-key-value('webkit_old', $str);
+            $r: list-unshift($r, $webkit_old); }
+
+        @if $type == 'linear-gradient' {
+            $str: "progid:DXImageTransform.Microsoft.gradient(enabled='true', GradientType=";
+            $str: $str + convert-direction-to-msfilter-gradient-type($dir);
+            $str: $str + ', ';
+            $mscols: msfilter-gradient-color-order($dir, $start_col, $last_col);
+            $str: $str + "startColorStr=" + ie-hex-str(nth($mscols,1)) + ', ';
+            $str: $str + "endColorStr=" + ie-hex-str(nth($mscols,2));
+            $str: $str + ')';
+            $ie6: new-key-value('ie6', $str);
+            $r: list-unshift($r, $ie6); }
+    }
+    @return if(length($r) > 0, $r, false); }
+
+@function produce-linear-gradient-string($type, $dir, $cols) {
+    $str: $type + '(';
+    @if $dir != false {
+        @if is-angle($dir) {
+            $str: $str + $dir + ', ';
+        } @else {
+            //ensure it does or doesn't have a to, written as if doesn't
+            $tdir: if(type-of($dir) == list, list-implode($dir, ' '), $dir);
+            @if str-index($tdir, 'to ') != 1 {
+                $tdir: reverse-side-corner-value($tdir); }
+            $str: $str + $tdir + ', ';
+        }}
+    //$str: $str + $start_col + ', ';
+    $str: $str + $cols + ')';
+    @return $str;
+}
+

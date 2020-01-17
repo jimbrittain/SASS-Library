@@ -1,0 +1,35 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/parse-sides-to-list.scss';
+@include describe('parse-sides-to-list function:') {
+    @include it('1. parse-sides-to-list, (unset), (unset unset unset unset)') {
+        @include assert-equal(
+            parse-sides-to-list(unset),
+            (unset unset unset unset),
+            '');
+        }
+    @include it('2. parse-sides-to-list, (1px), (1px 1px 1px 1px)') {
+        @include assert-equal(
+            parse-sides-to-list(1px),
+            (1px 1px 1px 1px),
+            '');
+        }
+    @include it('3. parse-sides-to-list, (1% 2%), (1% 2% 1% 2%)') {
+        @include assert-equal(
+            parse-sides-to-list(1% 2%),
+            (1% 2% 1% 2%),
+            '');
+        }
+    @include it('4. parse-sides-to-list, (1em 2em 3em), (1em 2em 3em 2em)') {
+        @include assert-equal(
+            parse-sides-to-list(1em 2em 3em),
+            (1em 2em 3em 2em),
+            '');
+        }
+    @include it('5. parse-sides-to-list, (1in 2in 3in 4in), (1in 2in 3in 4in)') {
+        @include assert-equal(
+            parse-sides-to-list(1in 2in 3in 4in),
+            (1in 2in 3in 4in),
+            '');
+        }
+}

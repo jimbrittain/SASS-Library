@@ -1,0 +1,91 @@
+// TODO; default kick in (ie.if url first no grad ie);
+// allow different order for colour-stop, currently Position then Colour, allow for Colour then Position.
+$_bi_d: "a" !default;
+$_had-ie-filters: false !default;
+@mixin __background-image($a1,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){
+    $args: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $args: list-change-separator($args, ',');
+    $store: false;
+
+    @if length($args) == 1 and (is-reserved-variable(nth($args,1)) or nth($args,1) == 'none') {
+        background-image: #{safe-unquote(nth($args,1))};
+    } @else {
+        @for $i from 1 through length($args) {
+            $b: produce-single-background-image(nth($args, $i));
+            @if (not($b == false)) { 
+                @if is-key-value-store($b) {
+                    @if is-key-value-store($store) {
+                        $store: normalise-browser-key-value-store($store, $b); //create standards versions of none existing values
+                        $b: normalise-browser-key-value-store($b, $store); //create standards versions of existing but undefined values
+                        $store: key-value-store-combine($store, $b);
+                    } @else { $store: $b; }
+                } @else {
+                    $b: new-key-value('standards', $b);
+                    @if is-key-value-store($store) {
+                        $store: key-value-store-add-key-value($store, $b); 
+                    } @else {
+                        $store: ();
+                        $store: append($store, $b); }}}}
+
+        @if ($store == false) {
+            $b: produce-single-background-image($args);
+            @if not($b == false) {
+                @if is-key-value-store($b) {
+                    $store: $b;
+                } @else {
+                    $store: ();
+                    $store: append($store, new-key-value('standards', $b)); }}}
+
+        @if $store != false {
+            @if key-value-store-has-key($store, 'webkit_old'){
+                background-image: #{safe-unquote(pt__back-prepare-list(key-value-store-get-value-for-key($store, 'webkit_old')))}; }
+            @for $i from 1 through length($store) {
+                $on: nth($store,$i);
+                @if is-key-value($on) and key-value-get-key($on) != 'standards' and key-value-get-key($on) != 'ie6' and key-value-get-key($on) != 'webkit_old' {
+                    background-image: #{safe-unquote(pt__back-prepare-list(key-value-get-value($on)))}; }}
+            @if key-value-store-has-key($store, 'standards') {
+                background-image: #{safe-unquote(pt__back-prepare-list(key-value-store-get-value-for-key($store, 'standards')))}; }
+            @if key-value-store-has-key($store, 'ie6') {
+                $val: key-value-store-get-value-for-key($store, 'ie6');
+                @if type-of($val) == string or (type-of($val) == list and length($val) == 1) {
+                    //filter: #{ safe-unquote($val) };
+                    -ms-filter: #{ safe-unquote($val) }; }}
+        } @else { @warn '__background-image has not been able to create a background for arguments: ' + $args; }
+    }
+}
+@function normalise-browser-key-value-store($store, $missing-keys) {
+    @if is-key-value-store($store) {
+        $missing-keys: if(is-key-value-store($missing-keys), key-value-store-missing-keys($store, $missing-keys), $missing-keys);
+        @if type-of($missing-keys) == list and length($missing-keys) > 0 {
+            $standards-val: key-value-store-get-value-for-key($store, 'standards');
+            $standards-val: if($standards-val == false, key-value-get-value(nth($store, 1)), $standards-val);
+            @for $n from 1 through length($missing-keys) {
+                $store: key-value-store-append-key-value($store, new-key-value(nth($missing-keys,$n), $standards-val)); }}}
+    @return $store; }
+
+@function pt__back-prepare-list($list){
+    @if type-of($list) == list {
+        $list: list-change-separator($list, ','); //ensure is comma separated
+        @return $list;
+    } @else {
+        @return $list; }}
+
+
+@function produce-single-background-image($a1,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){
+    $arg_list: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $arg_list: list-change-separator($arg_list, ',');
+    $arg_list: list-safe-unquote-items($arg_list);
+
+    $first: nth($arg_list,1);
+    @if type-of($first) == string {
+        @if is-gradient-type($first) {
+            @return produce-gradient($arg_list);
+        } @else if is-url-value(nth($arg_list,1)) {
+            $l: ();
+            @return append($l, new-key-value('standards', nth($arg_list,1)));
+        } @else if is-reserved-variable(nth($arg_list,1)) {
+            $l: ();
+            @return append($l, new-key-value('standards', nth($arg_list,1))); }}
+    @return false; }
+
+

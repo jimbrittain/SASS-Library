@@ -1,0 +1,95 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/transition-property.scss';
+@include describe('__transition-property mixin') {
+    @include it('Outputs transition-property proceeded by the -o, -ms, -moz, and -webkit prefixes; none') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-property(none);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-property: none;
+                    -ms-transition-property: none;
+                    -o-transition-property: none;
+                    -webkit-transition-property: none;
+                    transition-property: none;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition-property proceeded by the -o, -ms, -moz, and -webkit prefixes; all') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-property(all);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-property: all;
+                    -ms-transition-property: all;
+                    -o-transition-property: all;
+                    -webkit-transition-property: all;
+                    transition-property: all;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition-property proceeded by the -o, -ms, -moz, and -webkit prefixes; inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-property(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-property: inherit;
+                    -ms-transition-property: inherit;
+                    -o-transition-property: inherit;
+                    -webkit-transition-property: inherit;
+                    transition-property: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition-property proceeded by the -o, -ms, -moz, and -webkit prefixes; all, height, color') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-property(all, height, color);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-property: all, height, color;
+                    -ms-transition-property: all, height, color;
+                    -o-transition-property: all, height, color;
+                    -webkit-transition-property: all, height, color;
+                    transition-property: all, height, color;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition-property proceeded by the -o, -ms, -moz, and -webkit prefixes; all, height, color') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition-property(all height color);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition-property: all, height, color;
+                    -ms-transition-property: all, height, color;
+                    -o-transition-property: all, height, color;
+                    -webkit-transition-property: all, height, color;
+                    transition-property: all, height, color;
+                }
+            }
+        }
+    }
+}

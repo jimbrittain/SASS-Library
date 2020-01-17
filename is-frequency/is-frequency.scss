@@ -1,0 +1,4 @@
+@function is-frequency($val){
+    $list: (kHz, Hz);
+    @return if(type-of($val) == number and not(unitless($val)) and index($list, unit($val)) != null, true, false); }
+

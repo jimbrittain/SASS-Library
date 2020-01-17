@@ -1,0 +1,6 @@
+@mixin __column-rule-color($val){
+    @if type-of($val) == 'color' or is-reserved-variable($val) {
+        -moz-column-rule-color: $val;
+        -webkit-column-rule-color: $val;
+        column-rule-color: $val;
+    } @else { @warn "column-rule-color not supplied with a color."; }}

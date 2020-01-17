@@ -1,0 +1,15 @@
+@function is-hexadecimal-string($str) {
+    $list: ('0' '1' '2' '3' '4' '5' '6' '7' '8' '9' 'A' 'B' 'C' 'D' 'E' 'F');
+    $valid: false;
+    @if type-of($str) == string and str-length($str) > 0{
+        @warn 'IS here';
+        $valid: true;
+        $str: to-upper-case($str);
+        $i: 1;
+        @while $i <= str-length($str) and $valid == true {
+            $char: str-slice($str,$i,$i);
+            @warn 'CHAR {' + $char + '}';
+            @if index($list,$char) == null { $valid: false; }
+            $i: $i + 1; }}
+    @return $valid; }
+

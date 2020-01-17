@@ -1,0 +1,41 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/translate-origin.scss';
+@include describe('strip-units function:') {
+    @include it('1em, 1em, 0 = (1em, -1em)') {
+        @include assert-equal(
+            translate-origin(1em, 1em, 0deg ),
+            (1em, -1em),
+            '(+, -)');
+    }
+    @include it('1em, 1em, 90 = (1em, -1em)') {
+        @include assert-equal(
+            translate-origin(1em, 1em, 90deg ),
+            (1em, -1em),
+            '(+, -)');
+    }
+    @include it('1em, 1em, 360 = (1em, -1em)') {
+        @include assert-equal(
+            translate-origin(1em, 1em, 360deg ),
+            (1em, -1em),
+            '(+, -)');
+    }
+    @include it('1em, 1em, 91 = 1em 1em') {
+        @include assert-equal(
+            translate-origin(1em, 1em, 91deg ),
+            (1em, 1em),
+            '(+, +)');
+    }
+    @include it('1em, 1em, 181 = 1em 1em') {
+        @include assert-equal(
+            translate-origin(1em, 1em, 181deg ),
+            (-1em, 1em),
+            '(-, +)');
+    }
+    @include it('-1em, -1em, 181 = 1em 1em') {
+        @include assert-equal(
+            translate-origin(1em, 1em, 271deg ),
+            (-1em, -1em),
+            '(-, -)');
+    }
+}

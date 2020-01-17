@@ -1,0 +1,19 @@
+@function is-extent-value($value) {
+    $list: (closest-side closest-corner farthest-side farthest-corner);
+    @if type-of($value) == 'string' and index($list, $value) != null {
+        @return true; }
+    @return false; }
+
+@function is-old-extent-value($value) {
+    $list: (cover contain);
+    @if type-of($value) == 'string' and index($list, $value) != null {
+        @return true; }
+    @return false; }
+
+@function replace-old-extent-value($value) {
+    @if is-old-extent-value($value) {
+        @if $value == 'cover' {
+            @return 'farthest-corner';
+        } @else if $value == 'contain' {
+            @return 'closest-side'; }}
+    @return $value; }

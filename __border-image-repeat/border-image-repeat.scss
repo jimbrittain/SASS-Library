@@ -1,0 +1,25 @@
+$_bi_d: -1 !default;
+@mixin __border-image-repeat($a1:inherit,$a2:$_bi_d){
+    $args: arguments($a1,$a2);
+    $args: list-safe-unquote-items($args);
+    $safe-args: ();
+    @for $i from 1 through length($args) {
+        $on: nth($args,$i);
+        @if length($args) == 1 and is-reserved-variable($on) {
+            $safe-args: append($safe-args, $on);
+        } @else if is-border-repeat-keyword($on) {
+            $safe-args: append($safe-args, $on);
+        } @else {
+            @warn 'An invalid value "' + $on + '" {' + type-of($on) + '} was supplied to __border-image-repeat'; }}
+    @if length($safe-args) > 0 {
+        $safe-args: list-change-separator($safe-args, ' ');
+        -moz-border-image-repeat: $safe-args;
+        -ms-border-image-repeat: $safe-args;
+        -o-border-image-repeat: $safe-args;
+        -webkit-border-image-repeat: $safe-args;
+        border-image-repeat: $safe-args;
+    }
+}
+@function is-border-repeat-keyword($val){
+    $list: (stretch repeat round space);
+    @return if(index($list, $val) != null, true, false); }

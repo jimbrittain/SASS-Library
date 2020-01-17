@@ -1,0 +1,34 @@
+@import 'true';
+@import '../src/str-replace.scss';
+@include describe('str-replace function:') {
+    @include it('str-replace, full string') {
+        @include assert-equal(
+            str-replace('ham', 'ham', 'cheese'),
+            'cheese',
+            'A single full length string replacement');
+    }
+    @include it('str-replace, double occurrance') {
+        @include assert-equal(
+            str-replace('ham ham', 'ham', 'cheese'),
+            'cheese cheese',
+            'A single full length string replacement');
+    }
+    @include it('str-replace, try and break all repeated') {
+        @include assert-equal(
+            str-replace('aaaaaaa', 'a', 'a'),
+            'aaaaaaa',
+            'A single full length string replacement');
+    }
+    @include it('str-replace, try and break all except middle and end') {
+        @include assert-equal(
+            str-replace('aaabaaaab', 'a', 'a'),
+            'aaabaaaab',
+            'A single full length string replacement');
+    }
+    @include it('str-replace, try and break all first-letter only') {
+        @include assert-equal(
+            str-replace('baaaa', 'b', 'a'),
+            'aaaaa',
+            'A single full length string replacement');
+    }
+}

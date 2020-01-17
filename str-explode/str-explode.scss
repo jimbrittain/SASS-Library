@@ -1,0 +1,19 @@
+@function str-explode($str, $delimiter) {
+    $ex: ();
+    $delimiter: '' + $delimiter; //ensure is string;
+    @if(type-of($str) == string){
+        $index: 0;
+        @if str-length($delimiter) == 0 {
+            @for $i from 1 through str-length($str) {
+                $ex: append($ex, str-slice($str, $i, $i)); }
+            $str: '';
+        } @else {
+            @while not(str-index($str,$delimiter) == null) {
+                $l: str-index($str, $delimiter) + str-length($delimiter);
+                $ex: append($ex, str-slice($str, 1, (str-index($str, $delimiter) - 1)));
+                @if($l >= str-length($str)){
+                    $str: '';
+                } @else {
+                    $str: str-slice($str, $l); }}}}
+    @if(str-length($str) > 0) { $ex: append($ex, $str); }
+    @return $ex; }

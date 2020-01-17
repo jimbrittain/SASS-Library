@@ -1,0 +1,26 @@
+$_bi_d: -1 !default;
+@mixin __column-rule($a1:none,$a2:$_bi_d,$a3:$_bi_d){
+    $args: arguments($a1,$a2,$a3);
+    $args: list-change-separator($args, ' ');
+    $args: list-safe-unquote-items($args);
+
+    $good: true;
+    $had-width: false;
+    $had-color: false;
+    $had-style: false;
+    @for $i from 1 through length($args) {
+        $on: nth($args,$i);
+        @if length($args) == 1 and is-reserved-variable($on) { 
+            $good: true;
+        } @else if (is-length($on) or is-border-width-keyword($on)) and not($had-width) {
+            $had-width: true;
+        } @else if type-of($on) == 'color' and not($had-color) {
+            $had-color: true;
+        } @else if  is-border-style-value($on) and not($had-style) {
+            $had-style: true;
+        } @else {
+            $good: false; }}
+    @if $good {
+        -moz-column-rule: $args;
+        -webkit-column-rule: $args;
+        column-rule: $args; }}

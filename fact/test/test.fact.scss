@@ -1,0 +1,13 @@
+@import 'true';
+@import '../src/fact.scss';
+@include describe('fact function:') {
+    $results: 1 2 6 24 120;
+    @for $i from 1 through 5 {
+        @include it('fact(' + $i + ') = ' + nth($results,$i)) {
+            @include assert-equal(
+                fact($i),
+                nth($results,$i),
+                'fact(' + $i + ') = ' + nth($results,$i));
+        }
+    }
+}

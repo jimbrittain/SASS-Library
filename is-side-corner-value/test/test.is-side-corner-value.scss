@@ -1,0 +1,68 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/is-side-corner-value.scss';
+@include describe('is-side-corner-value function:') {
+    @include it('is-side-corner-value returns true: to top left') {
+        @include assert-true(
+            is-side-corner-value(to top left),
+            '');
+    }
+    @include it('is-side-corner-value returns true: to top left') {
+        @include assert-true(
+            is-side-corner-value("to top left"),
+            '');
+    }
+    @include it('is-side-corner-value returns true: to \'top left\'') {
+        @include assert-true(
+            is-side-corner-value('to top'),
+            '');
+    }
+    @include it('is-side-corner-value returns true: to \'top\'') {
+        @include assert-true(
+            is-side-corner-value('top'),
+            '');
+    }
+    @include it('is-side-corner-value returns true: to top') {
+        @include assert-true(
+            is-side-corner-value(top),
+            '');
+    }
+    @include it('is-side-corner-value returns true: bottom') {
+        @include assert-true(
+            is-side-corner-value(bottom),
+            '');
+    }
+    @include it('is-side-corner-value returns true: bottom') {
+        $list: ();
+        $list: append($list, 'bottom');
+        @include assert-true(
+            is-side-corner-value($list),
+            '');
+    }
+    @include it('is-side-corner-value returns false: top left right bottom') {
+        @include assert-false(
+            is-side-corner-value(top left right bottom),
+            '');
+    }
+    @include it('is-side-corner-value returns false: top top') {
+        @include assert-false(
+            is-side-corner-value(top top),
+            '');
+    }
+    @include it('is-side-corner-value returns false: top bottom') {
+        @include assert-false(
+            is-side-corner-value(top bottom),
+            '');
+    }
+    @include it('is-side-corner-value returns false: to left right') {
+        @include assert-false(
+            is-side-corner-value(top bottom),
+            '');
+    }
+    @include it('is-side-corner-value returns true: to top right') {
+        $args: (to top right);
+        @include assert-true(
+            is-side-corner-value($args),
+            '');
+    }
+}

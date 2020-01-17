@@ -1,0 +1,5 @@
+@function is-time($val){
+    $list: (s ms);
+    @return if(type-of($val) == number and not(unitless($val)) and index($list, unit($val)) != null, true, false); }
+
+@function is-duration($val){ @return is-time($val); }

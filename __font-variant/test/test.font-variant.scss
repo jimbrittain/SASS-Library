@@ -1,0 +1,20 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/font-variant.scss';
+@include describe('__font-variant-ligatures mixin') {
+    @include it('Outputs font-variant-ligatures proceeded by the moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __font-variant-ligatures(normal);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-font-variant-ligatures: normal;
+                    font-variant-ligatures: normal;
+                }
+            }
+        }
+    }
+}

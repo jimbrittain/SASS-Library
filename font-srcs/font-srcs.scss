@@ -1,0 +1,58 @@
+//requires get-file-extension, str-last-index
+$_bi_d: "a" !default;
+@mixin font-srcs($a1:$_bi_d,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){
+    $args: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $eotFont: '';
+    $str: '';
+    @for $i from 1 through length($args) {
+        $t: determine-font-type(nth($args,$i));
+        @if($t != 'embedded-opentype'){
+            $v: determine-font-src(nth($args,$i));
+            @if($v != ''){
+                $str: if(str-length($str) > 0, $str + ", ", $str);
+                $str: $str + $v; }
+        } @elseif($eotFont == '') { $eotFont: nth($args,$i); }}
+    $do: if(str-length($str) < 1 and $eotFont == '', false, true);
+    @if($do){
+        $dumbEot: '';
+        @if($eotFont != ''){
+            $dumbEot: "url('" + $eotFont + "')";
+            src: safe-unquote($dumbEot); }
+        @if(str-length($str) > 0){
+            $dumbEot: '';
+            @if($eotFont != ''){ $dumbEot: "url('" + safe-unquote($eotFont) + "?#eotfix') format('embedded-opentype'), "; }
+            $str: $dumbEot + $str;
+            src: safe-unquote($str);
+        }
+    }
+}
+@function determine-font-src($file){
+    $type: determine-font-type($file);
+    @if($type == 'ERROR'){
+        @return null;
+    } @else if($type == 'LOCAL'){
+        @return "local('" + safe-unquote($file) + "')";
+    } @else {
+        @return "url('" + safe-unquote($file) + "') format('" + safe-unquote($type) + "')";
+    }}
+@function determine-font-type($file){
+    @if(type-of($file) == string) {
+        $ext: get-file-extension($file);
+        $ext: to-lower-case($ext);
+        @if($ext == ''){
+            @return 'LOCAL';
+        } @elseif($ext == 'eot'){
+            @return 'embedded-opentype';
+        } @elseif($ext == 'otf'){
+            @return 'opentype';
+        } @elseif($ext == 'ttf'){
+            @return 'truetype';
+        } @elseif($ext == 'woff'){
+            @return 'woff';
+        } @elseif($ext == 'woff2'){
+            @return 'woff2';
+        } @elseif($ext == 'svg'){
+            @return 'svg';
+        }
+    }
+    @return 'ERROR'; }

@@ -1,0 +1,25 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/is-percent.scss';
+@include describe('is-percent function:') {
+    @include it('is-percent returns true for a percent') {
+        @include assert-true(
+            is-percent(10%),
+            '%:true');
+    }
+    @include it('is-percent returns false for unitless') {
+        @include assert-false(
+            is-percent(10),
+            '?:false');
+    }
+    @include it('is-percent returns false for px') {
+        @include assert-false(
+            is-percent(10px),
+            'px:false');
+    }
+    @include it('is-percent returns true for a unitless zero') {
+        @include assert-true(
+            is-percent(0),
+            '0:true');
+    }
+}

@@ -1,0 +1,24 @@
+@mixin __placeholder { 
+    &:-moz-placeholder { @content; }
+    &:-ms-input-placeholder { @content; }
+    &:-webkit-input-placeholder { @content; }
+    &::-moz-placeholder { @content; }
+    &::-webkit-input-placeholder { @content; }
+    &:placeholder { @content; }
+    &::placeholder { @content; }
+}
+@mixin __placeholder-shown {
+    &:placeholder-shown { @content; }
+    &::placeholder-shown { @content; }
+}
+
+@mixin placeholder_definitions {
+    @include __placeholder {
+        @content;
+    }
+}
+@mixin placeholder-shown_definitions {
+    @include __placeholder-shown {
+        @content;
+    }
+}

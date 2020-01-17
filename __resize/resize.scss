@@ -1,0 +1,15 @@
+@mixin __resize($val) {
+    @if is-resize-value($val) or is-reserved-variable($val) {
+        resize: safe-unquote($val);
+    } @else {
+        @warn 'An incorrect value, ' + $val + ' {' + type-of($val) + '} was supplied to __resize';
+    }
+}
+@function is-resize-value($val) {
+    $list: (vertical horizontal none both block inline);
+    @if type-of($val) == 'string' and index($list,$val) != null {
+        @return true;
+    } @else {
+        @return false;
+    }
+}

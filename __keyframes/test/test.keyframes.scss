@@ -1,0 +1,43 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/keyframes.scss';
+@include describe('__keyframes mixin') {
+    @include it('Outputs keyframes proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output(false) {
+                @include __keyframes ('cheese') {
+                    0% { top: 0; left: 0; }
+                    30% { top: 50px; }
+                    68%, 72% { left: 50px; }
+                    100% { top: 100px; left: 100%; }
+                }
+            }
+            @include expect(false) {
+                @-moz-keyframes cheese {
+                    0% { top: 0; left: 0; }
+                    30% { top: 50px; }
+                    68%, 72% { left: 50px; }
+                    100% { top: 100px; left: 100%; }
+                }
+                @-o-keyframes cheese {
+                    0% { top: 0; left: 0; }
+                    30% { top: 50px; }
+                    68%, 72% { left: 50px; }
+                    100% { top: 100px; left: 100%; }
+                }
+                @-webkit-keyframes cheese {
+                    0% { top: 0; left: 0; }
+                    30% { top: 50px; }
+                    68%, 72% { left: 50px; }
+                    100% { top: 100px; left: 100%; }
+                }
+                @keyframes cheese {
+                    0% { top: 0; left: 0; }
+                    30% { top: 50px; }
+                    68%, 72% { left: 50px; }
+                    100% { top: 100px; left: 100%; }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,8 @@
+@function is-font-size-keyword($val){
+    @return if(is-font-size-keyword-absolute($val) or is-font-size-keyword-relative($val), true, false); }
+@function is-font-size-keyword-absolute($val) {
+    $list: (xx-small x-small small medium large x-large xx-large xxx-large);
+    @return if(index($list,$val) != null, true, false); }
+@function is-font-size-keyword-relative($val) {
+    $list: (smaller larger);
+    @return if(index($list,$val) != null, true, false); }

@@ -1,0 +1,7 @@
+@function is-list-single-level($list) {
+    @if type-of($list) == list {
+        @for $i from 1 through length($list) {
+            $on: nth($list,$i);
+            @if type-of($on) == 'list' { @return false; }}
+    } @else { @warn '`is-list-single-level` supplied a parameter which is not a list'; }
+    @return true; }

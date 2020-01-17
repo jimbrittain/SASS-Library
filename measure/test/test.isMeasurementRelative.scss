@@ -1,0 +1,59 @@
+@import 'true';
+@import '../src/isMeasurementRelative.scss';
+@include describe('isMeasurementRelative function:') {
+    @include it('Returns true when em as parameter') {
+        @include assert-true(
+            isMeasurementRelative(em),
+            'True for em');
+    }
+    @include it('Returns true when ex as parameter') {
+        @include assert-true(
+            isMeasurementRelative(ex),
+            'True for ex');
+    }
+    @include it('Returns true when ch as parameter') {
+        @include assert-true(
+            isMeasurementRelative(ch),
+            'True for ch');
+    }
+    @include it('Returns true when rem as parameter') {
+        @include assert-true(
+            isMeasurementRelative(rem),
+            'True for rem');
+    }
+    @include it('Returns true when vw as parameter') {
+        @include assert-true(
+            isMeasurementRelative(vw),
+            'True for vw');
+    }
+    @include it('Returns true when vh as parameter') {
+        @include assert-true(
+            isMeasurementRelative(vh),
+            'True for vh');
+    }
+    @include it('Returns true when vmax as parameter') {
+        @include assert-true(
+            isMeasurementRelative(vmax),
+            'True for vmax');
+    }
+    @include it('Returns true when vmin as parameter') {
+        @include assert-true(
+            isMeasurementRelative(vmin),
+            'True for vmin');
+    }
+    @include it('Returns true when % as parameter') {
+        @include assert-true(
+            isMeasurementRelative(%),
+            'True for %');
+    }
+    @include it('Returns true when 10% as parameter') {
+        @include assert-true(
+            isMeasurementRelative(10%),
+            'True for 10%');
+    }
+    @include it('Returns false when px as parameter') {
+        @include assert-false(
+            isMeasurementRelative(px),
+            'True for px');
+    }
+}

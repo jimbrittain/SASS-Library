@@ -1,0 +1,90 @@
+$_bi_d: -1 !default;
+@mixin __cursor($a1:auto,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){
+    $args: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $args: list-change-separator($args, ', ');
+    $args: list-safe-unquote-items($args);
+
+    $i: 1;
+    $has-keyword: false;
+    @while $i < length($args) + 1 {
+        $val: nth($args, $i);
+        @if is-valid-cursor($val) or is-reserved-variable($val) {
+            $has-keyword: true;
+            //continue
+        } @else if(is-url-value($val)) {
+            @if(length($args) > ($i + 1) and is-cursor-triplet($val, nth($args, ($i + 1)), nth($args, ($i + 2)))) {
+                $triplet-list: ($val nth($args, ($i + 1)) nth($args, ($i + 2)));
+                $triplet-list: list-change-separator($triplet-list, ' ');
+                $triplet-list: list-safe-unquote-items($triplet-list);
+                $args: list-slice($args, ($i + 1), 2);
+                $args: list-replace-nth($args, $i, $triplet-list); }
+        } @else {
+            @if (type-of($val) == list) {
+                @if length($val) == 3 and is-cursor-triplet(nth($val,1), nth($val,2), nth($val,3)) {
+                    $val: list-change-separator($val, ' ');
+                    $val: list-safe-unquote-items($val);
+                    $args: list-replace-nth($args, $i, $val); }}}
+        $i: $i + 1; }
+
+    @if $has-keyword == false {
+        @warn 'According to mdn a fallback keyword is required for cursor, none in; ' + $args; }
+
+    $args: list-change-separator($args, ',');
+
+    @if (index($args, 'grab') != null) {
+        $n: index($args, 'grab');
+        $move-list: list-replace-nth($args, $n, safe-unquote('move')); 
+        cursor: $move-list; }
+    @if (index($args, 'grabbing') != null) {
+        $n: index($args, 'grabbing');
+        $move-list: list-replace-nth($args, $n, safe-unquote('move')); 
+        cursor: $move-list; }
+    @if (cursor-mozilla-replace-index($args) != null) {
+        $n: cursor-mozilla-replace-index($args);
+        $moz-list: list-replace-nth($args, $n, safe-unquote('-moz-' + nth($args, $n)));
+        cursor: $moz-list; }
+    @if (cursor-webkit-replace-index($args) != null) {
+        $n: cursor-webkit-replace-index($args);
+        $webkit-list: list-replace-nth($args, $n, safe-unquote('-webkit-' + nth($args, $n)));
+        cursor: $webkit-list; }
+    @if index($args, 'hand') != null {
+        $n: index($args, 'hand');
+        $args: list-replace-nth($args, $n, safe-unquote('pointer')); }
+    @if index($args, 'pointer') != null {
+        $n: index($args, 'pointer');
+        $hand-list: list-replace-nth($args, $n, safe-unquote('hand'));
+        cursor: $hand-list; }
+    cursor: $args;
+}
+@function cursor-mozilla-replace-index($list){
+    @if type-of($list) == list {
+        @if (index($list, 'grab') != null) {
+            @return index($list, 'grab');
+        } @else if (index($list, 'grabbing') != null) {
+            @return index($list, 'grabbing');
+        } @else if (index($list, 'zoom-in') != null) {
+            @return index($list, 'zoom-in');
+        } @else if (index($list, 'zoom-out') != null) {
+            @return index($list, 'zoom-out'); }}
+    @return null; }
+@function cursor-webkit-replace-index($list){
+    @if type-of($list) == list {
+        @if (index($list, 'grab') != null) {
+            @return index($list, 'grab');
+        } @else if (index($list, 'grabbing') != null) {
+            @return index($list, 'grabbing');
+        } @else if (index($list, 'zoom-in') != null) {
+            @return index($list, 'zoom-in');
+        } @else if (index($list, 'zoom-out') != null) {
+            @return index($list, 'zoom-out'); }}
+    @return null; }
+
+@function is-cursor-triplet($url, $x, $y) {
+    @return if(is-url-value($url) == true and is-valid-cursor-size($x) == true and is-valid-cursor-size($y) == true, true, false); }
+@function is-valid-cursor-size($val) {
+    @return if(type-of($val) == number and unitless($val) and $val > 0 and $val < 33 and round($val) == $val, true, false); }
+@function is-url-value($url) {
+    @return if(type-of($url) == string and str-index($url, 'url(') == 1 and str-index($url, ')') == str-length($url), true, false); }
+@function is-valid-cursor($val) {
+    $valid: (auto default none context-menu help pointer progress wait cell crosshair text vertical-text alias copy move no-drop not-allowed grab grabbing all-scroll col-resize row-resize n-resize e-resize s-resize w-resize ne-resize nw-resize se-resize sw-resize ew-resize ns-resize resw-resize nwse-resize zoom-in zoom-out hand);
+    @return if(index($valid, $val) != null, true, false); }

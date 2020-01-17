@@ -1,0 +1,21 @@
+//requires pow, zeromeasure,  strip-units
+@function sqrt ($x) {
+    $base-unit: px;
+    $no-base: true;
+    @if not(type-of($x) == number) {
+        @warn "sqrt() supplied a non-number (" + $x + ")";
+        @return $x;
+    } @else {
+        @if unitless($x) == false {
+            $base-unit: unit($x);
+            $no-base: false;
+            $x: strip-units($x); }
+        @if $x < 0 {
+            @warn "Argument for `sqrt()` must be a positive number.";
+            @return $x; }
+        $ret: 1;
+        @for $i from 1 through 24 {
+            $ret: $ret - (pow($ret, 2) - $x) / (2 * $ret); }
+        @return if($no-base == true, $ret, zeromeasure($base-unit) + $ret);
+    }
+}

@@ -1,0 +1,62 @@
+@mixin __background-clip($type) {
+    @if (is-reserved-variable($type)) {
+    }
+    $main: 'border-box' 'padding-box' 'content-box' 'text';
+    $synonyms: 'border' 'padding' 'content' 'text';
+
+    $ind: index($main, $type);
+    $ind: if($ind == null, index($synonyms, $type), $ind);
+
+    $a: null;
+    $b: null;
+
+    @if $ind == null {
+        @if $type != auto or not(is-reserved-variable($type)) {
+            @warn '"' + $type + '" {' + type-of($type) + '} is not a recognised valid value for background-clip'; }
+        $b: $type;
+    } @else {
+        $a: nth($synonyms, $ind);
+        $b: nth($main, $ind); }
+    @if $a != null {
+        -moz-background-clip:  safe-unquote($a);
+        -webkit-background-clip: safe-unquote($a);
+    } 
+    @if $b != null {
+        -moz-background-clip:  safe-unquote($b);
+        -webkit-background-clip: safe-unquote($b);
+        background-clip: safe-unquote($b); }}
+
+@function background-clip-value($val, $set: 'unprefixed') {
+    @warn 'background-clip-value has been retired as breaks in new browsers, please recode';
+    $list-unprefixed: ('border-box' 'padding-box' 'content-box' 'text' 'inherit' 'auto');
+    $list-moz: ('border' 'padding' 'content' 'text' 'inherit' 'auto');
+    $list-webkit: ('border' 'padding' 'content-box' 'text' 'inherit' 'auto');
+    $list1: if($val == 'text', $list-webkit, $list-unprefixed);
+    $list2: ();
+
+    @if not(str-index($set, 'moz') == null) {
+        $set: 'moz';
+        $list2: $list-moz;
+    } @else if not(str-index($set, 'webkit') == null) {
+        $set: 'webkit';
+        $list2: $list-webkit;
+    } @else {
+        $set: 'unprefixed';
+        $list2: $list-unprefixed; }
+
+    $found: false;
+    $ind: index($list1, $val);
+
+    @if $ind != null { 
+        $val: nth($list1, $ind); 
+    } @else {
+        $ind: index($list2, $val);
+        $val: if($ind != null, nth($list2,$val), auto); }
+
+   @for $i from 1 through length($list1) {
+       $n: nth($list1, $i);
+       @if $n == $val {
+           $found: true;
+           $val: nth($list2, $i); }} 
+
+   @return safe-unquote($val); }

@@ -1,0 +1,14 @@
+@mixin __box-sizing($val:content-box){
+    $val: if(type-of($val) == string, safe-unquote(to-lower-case($val)), $val);
+    @if type-of($val) != string or not(is-valid-box-size) {
+        @warn '"' + $val + '" is not a valid value for __box-size';
+    } @else if ($val == 'padding-box') {
+        @warn 'padding-box for __box-size has been deprecated and has limited/no browser support';
+    } @else {
+        -moz-box-sizing: $val;
+        -webkit-box-sizing: $val;
+        box-sizing: $val; }}
+
+@function is-valid-box-size($val) {
+    $list: (content-box padding-box border-box);
+    @return if(index($list, $val) != null, true, false); }

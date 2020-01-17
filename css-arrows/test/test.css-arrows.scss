@@ -1,0 +1,8 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/css-arrows.scss';
+@include describe('css-arrows mixin') {
+    @include it('delete when ready') {
+        @include assert-true(true);
+    }
+}

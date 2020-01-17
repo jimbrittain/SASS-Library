@@ -1,0 +1,69 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/htmlstar_hack.scss';
+@include describe('htmlstar_hack mixin') {
+    @include it('Outputs the htmlstar hacks for ie6 (* html), ie7 (*+html) and ie8 (*:first-child+html)') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include htmlstar_hack {
+                        color: red;
+                    };
+                }
+            }
+            @include expect(false) {
+                * html #cheese { color: red; }
+                *+html #cheese { color: red; }
+                *:first-child+html #cheese { color: red; }
+            }
+        }
+    }
+}
+@include describe('ie6_htmlstar_hack mixin') {
+    @include it('Outputs the htmlstar hacks for ie6 (* html)') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include ie6_htmlstar_hack {
+                        color: red;
+                    };
+                }
+            }
+            @include expect(false) {
+                * html #cheese { color: red; }
+            }
+        }
+    }
+}
+@include describe('ie7_htmlstar_hack mixin') {
+    @include it('Outputs the htmlstar hacks for ie7 (*+html)') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include ie7_htmlstar_hack {
+                        color: red;
+                    };
+                }
+            }
+            @include expect(false) {
+                *+html #cheese { color: red; }
+            }
+        }
+    }
+}
+@include describe('ie8_htmlstar_hack mixin') {
+    @include it('Outputs the htmlstar hacks for ie8 (*:first-child+html)') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include ie8_htmlstar_hack {
+                        color: red;
+                    };
+                }
+            }
+            @include expect(false) {
+                *:first-child+html #cheese { color: red; }
+            }
+        }
+    }
+}

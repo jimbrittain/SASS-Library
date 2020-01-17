@@ -1,0 +1,9 @@
+@mixin __keyframes($name:false){
+    @if ($name not false and type-of($name) == 'string') {
+        $name: safe-unquote($name);
+        @-moz-keyframes #{$name} { @content; }
+        @-o-keyframes #{$name} { @content; }
+        @-webkit-keyframes #{$name} { @content; }
+        @keyframes #{$name} { @content; }
+    }
+}

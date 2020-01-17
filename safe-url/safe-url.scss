@@ -1,0 +1,19 @@
+//requires is-reserved-value, is-gradient-value, url-encode
+@function safe-url($str, $type:'') {
+    @if type-of($str) == 'string' {
+        @if is-reserved-variable($str) == true {
+            @return safe-unquote($str);
+        } @else {
+            @if($type == 'img'){
+                @if(is-gradient-value($str) == true){
+                    @return $str; }}
+            @if (str-index($str, 'url(') == 1 and str-last-index($str, ')') == str-length($str)) {
+                @return safe-unquote($str);
+            } @else {
+                $str: url-encode-ignore-reserved($str);
+                $str: 'url("' + $str + '")';
+                @return safe-unquote($str); }}
+    }
+    @return false; }
+
+@function safe-img-url($str) { @return safe-url($str, 'img'); }

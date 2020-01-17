@@ -1,0 +1,16 @@
+@import 'true';
+@import '../src/is-decimal-string.scss';
+@include describe('is-decimal-string function:') {
+    @include it('is-decimal-string: true, 123') {
+        @include assert-true( is-decimal-string('123')); }
+    @include it('is-decimal-string: true, 045893892'){
+        @include assert-true( is-decimal-string('045893892')); }
+    @include it('is-decimal-string: true, 12345'){
+        @include assert-true( is-decimal-string('12345')); }
+    @include it('is-decimal-string: false, xx11233'){
+        @include assert-false( is-decimal-string('xx11233')); }
+    @include it('is-decimal-string: false, cheese'){
+        @include assert-false( is-decimal-string('cheese')); }
+    @include it('is-decimal-string: false, 111111 {number}'){
+        @include assert-false( is-decimal-string(111111)); }
+}

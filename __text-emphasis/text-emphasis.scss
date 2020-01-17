@@ -1,0 +1,90 @@
+$_bi_d: -1 !default;
+@mixin __text-emphasis($a1,$a2:$_bi_d,$a3:$_bi_d){
+    $args: arguments($a1,$a2,$a3);
+    $args: list-safe-unquote-items($args);
+    $color: false;
+    $style: false;
+    $i: 1;
+    @while $i <= length($args) {
+        $on: nth($args,$i);
+        @if type-of($on) == color and $color == false { 
+            $color: $on; 
+        } @else if is-text-emphasis-style-value($on) and $style == false { 
+            @if length($args) >= ($i + 1) and is-text-emphasis-style-value($on,nth($args,$i+1)) {
+                $style: ($on nth($args, $i+1));
+                $i: $i + 1;
+            } @else { $style: $on; }}
+        $i: $i + 1; }
+
+    @if not($color == false and $style == false) {
+        $args: ();
+        @if not($style == false) { $args: append($args, $style); }
+        @if not($color == false) { $args: append($args, $color); }
+        -webkit-text-emphasis: $args;
+        text-emphasis: $args;
+    } @else if length($args) == 1 and is-reserved-variable(nth($args,1)) {
+        -webkit-text-emphasis: nth($args,1);
+        text-emphasis: nth($args,1);
+    } @else {
+        @warn '__text-emphasis supplied incorrect parameters, color, and a style value needed. For position use __text-emphasis-position'; }}
+
+@function is-text-emphasis-position-value($a1,$a2:$_bi_d){
+    $args: arguments($a1,$a2);
+    $args: list-change-separator($args, ' ');
+    $args: list-safe-unquote-items($args);
+
+    $hlist: (right left);
+    $vlist: (over under);
+
+    @if length($args) == 2 {
+        @if not(index($hlist,nth($args,1)) == null or index($vlist,nth($args,2)) == null) or not(index($hlist,nth($args,2)) == null or index($vlist,nth($args,1)) == null) {
+            @return true; }
+    } @else if length($args) == 1 and is-reserved-variable(nth($args,1)) { @return true; }
+    @return false; }
+
+@function is-text-emphasis-style-value($a1,$a2:$_bi_d){
+    $args: arguments($a1,$a2);
+    $args: list-safe-unquote-items($args);
+
+    $flist: (filled open);
+    $list: (dot circle double-circle triangle sesame);
+
+    @if length($args) == 1 and (is-reserved-variable(nth($args,1)) or nth($args,1) == 'none') {
+        @return true;
+    } @else {
+        @if length($args) == 2 {
+            @if not(index($list,nth($args,1)) == null or index($flist,nth($args,2)) == null) or not(index($flist,nth($args,1)) == null or index($list,nth($args,2)) == null) {
+                @return true; }}
+        @if length($args) == 1 {
+            @if not(index($list,nth($args,1)) == null and index($flist,nth($args,1)) == null) {
+                @return true;
+            } @else if type-of(nth($args,1)) == string and str-length(nth($args,1)) == 1 {
+                @return true; }}}
+    @return false; }
+
+@mixin __text-emphasis-color($col) {
+    @if type-of($col) == color or is-reserved-variable($col) {
+        -webkit-text-emphasis-color: #{ $col };
+        text-emphasis-color: #{ $col };
+    } @else { @warn '__text-emphasis-color not a color as parameter'; }}
+
+@mixin __text-emphasis-position($a1,$a2:$_bi_d){
+    $args: arguments($a1,$a2);
+    $args: list-change-separator($args, ' ');
+    $args: list-safe-unquote-items($args);
+
+    @if is-text-emphasis-position-value($args) or (length($args) == 1 and is-reserved-variable(nth($args,1))) {
+        $args: list-change-separator($args, ' ');
+        -webkit-text-emphasis-position: $args;
+        text-emphasis-position: $args; 
+    } @else { @warn '__text-emphasis-position supplied an incorrect parameter for a position value'; }}
+
+@mixin __text-emphasis-style($a1,$a2:$_bi_d){
+    $args: arguments($a1,$a2);
+    $args: list-safe-unquote-items($args);
+    $args: list-change-separator($args, ' ');
+
+    @if is-text-emphasis-style-value($args) {
+        -webkit-text-emphasis-style: $args;
+        text-emphasis-style: $args; 
+    } @else { @warn '__text-emphasis style supplied an incorrect parameter for a style value'; }}

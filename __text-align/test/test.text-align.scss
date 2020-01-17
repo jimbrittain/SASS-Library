@@ -1,0 +1,139 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/text-align.scss';
+@include describe('__text-align mixin') {
+    @include it('Outputs text-align proceeded by the -moz prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align(inherit);
+                }
+            }
+            @include expect {
+                #cheese { 
+                    text-align: inherit; 
+                    -moz-text-align-last: inherit;
+                    text-align-last: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-align proceeded by the -moz prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align(left);
+                }
+            }
+            @include expect {
+                #cheese { 
+                    text-align: left; 
+                    -moz-text-align-last: left;
+                    text-align-last: left;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-align proceeded by the -moz prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align(right);
+                }
+            }
+            @include expect {
+                #cheese { 
+                    text-align: right; 
+                    -moz-text-align-last: right;
+                    text-align-last: right;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-align proceeded by the -moz prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align(center);
+                }
+            }
+            @include expect {
+                #cheese { 
+                    text-align: center; 
+                    -moz-text-align-last: center;
+                    text-align-last: center;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-align proceeded by the -moz prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align(justify, center);
+                }
+            }
+            @include expect {
+                #cheese { 
+                    text-align: justify; 
+                    -ms-text-justify: auto;
+                    text-justify: auto;
+                    -moz-text-align-last: center;
+                    text-align-last: center;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-align proceeded by the -moz prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align(justify-all);
+                }
+            }
+            @include expect {
+                #cheese { 
+                    text-align: justify; 
+                    -ms-text-justify: auto;
+                    text-justify: auto;
+                    -moz-text-align-last: justify;
+                    text-align-last: justify;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-align proceeded by the -moz prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align(justify, left, newspaper);
+                }
+            }
+            @include expect {
+                #cheese { 
+                    text-align: justify; 
+                    -ms-text-justify: newspaper;
+                    text-justify: auto;
+                    -moz-text-align-last: left;
+                    text-align-last: left;
+                }
+            }
+        }
+    }
+    @include it('Outputs text-align proceeded by the -moz prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __text-align('.' right);
+                }
+            }
+            @include expect {
+                #cheese { 
+                    text-align: "." right; 
+                    -moz-text-align-last: auto;
+                    text-align-last: auto;
+                }
+            }
+        }
+    }
+}

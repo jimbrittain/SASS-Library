@@ -1,0 +1,29 @@
+@import 'true';
+@import '../../strip-units/src/strip-units.scss';
+@import '../../list-create-exclude/src/list-create-exclude.scss';
+@import '../../zeromeasure/src/zeromeasure.scss';
+@import '../../measure/src/measure.scss';
+@import '../../pow/src/pow.scss';
+@import '../../to-dp/src/to-dp.scss';
+@import '../../multiplynumbers/src/multiplynumbers.scss';
+@import '../../dividenumbers/src/dividenumbers.scss';
+@import '../../trigonometry/src/convert-angle.scss';
+@import '../../trigonometry/src/trigonometry.scss';
+@import '../../sqrt/src/sqrt.scss';
+@import '../../fact/src/fact.scss';
+@import '../src/calculate-distance-angle-from-xy.scss';
+
+@include describe('calculate-distance-angle-from-xy function:') {
+    @include it('x:5, y:5, Distance:70.71px') {
+        @include assert-equal(
+            to-2dp(nth(calculate-distance-angle-from-xy(50px, 50px),1)),
+            to-2dp(70.71068px),
+            'xy(5,5) distance:70.71px');
+    }
+    @include it('x:5, y:5, Angle:45deg') {
+        @include assert-equal(
+            to-2dp(nth(calculate-distance-angle-from-xy(50px, 50px),2)),
+            to-2dp(45deg),
+            'xy(5,5) angle:45deg');
+    }
+}

@@ -1,0 +1,131 @@
+@import 'true';
+@import '../../strip-units/src/strip-units.scss';
+@import '../../zeromeasure/src/zeromeasure.scss';
+@import '../src/convert-angle.scss';
+
+@include describe('is-angle function:') {
+    $list: deg 0deg rad 0rad turn 0turn grad 0grad;
+    @for $i from 1 through length($list) {
+        @include it('Is true: ' + nth($list, $i)) {
+            @include assert-true(
+                is-angle(nth($list, $i)),
+                nth($list, $i) + ' should be true');
+        }
+    }
+    @include it('Is false: string') {
+        @include assert-false(
+            is-angle(cheese),
+            'random string should be false');
+    }
+    @include it('Is false: unit-less number') {
+        @include assert-false(
+            is-angle(69),
+            'unit-less number should be false');
+    }
+}
+@include describe('rational angle function:') {
+    @include it('69deg = 69deg') { @include assert-equal(rational-angle(69deg), 69deg); }
+    @include it('-69deg = 291deg') { @include assert-equal(rational-angle(-69deg), 291deg); }
+    @include it('429deg = 69deg') { @include assert-equal(rational-angle(429deg), 69deg); }
+}
+@include describe('get-angle-type function:') {
+    $list: 100deg deg 100rad rad 100turn turn 100grad grad;
+    $result: deg deg rad rad turn turn grad grad;
+    @for $i from 1 through length($list) {
+        @include it('Is ' + nth($result, $i)) {
+            @include assert-equal(
+                get-angle-type(nth($list, $i)),
+                nth($result, $i),
+                nth($list, $i) + ':' + nth($result, $i));
+        }
+    }
+    $list: cheese 100 (10 9 8);
+    @for $i from 1 through length($list) {
+        @include it('Returns rad for unrecognised') {
+            @include assert-equal(
+                get-angle-type(nth($list, $i)),
+                rad,
+                'unrecognised as rad');
+        }
+    }
+}
+@include describe('is-angle-radian function:') {
+    @include it('Correctly identifies a radian') {
+        @include assert-true(
+            is-angle-radian(100rad),
+            '100rad is radian');
+    }
+    @include it('Correctly identifies not a radian') {
+        @include assert-false(
+            is-angle-radian(100deg),
+            '100deg is not a radian');
+    }
+}
+@include describe('is-angle-turn function:') {
+    @include it('Correctly identifies a turn') {
+        @include assert-true(
+            is-angle-turn(1turn),
+            '1turn is turn');
+    }
+    @include it('Correctly identifies not a turn') {
+        @include assert-false(
+            is-angle-turn(1deg),
+            '1deg is not a turn');
+    }
+}
+@include describe('is-angle-gradian function:') {
+    @include it('Correctly identifies a gradian') {
+        @include assert-true(
+            is-angle-gradian(100grad),
+            '100grad is gradian');
+    }
+    @include it('Correctly identifies not a gradian') {
+        @include assert-false(
+            is-angle-gradian(100rad),
+            '100rad is not a gradian');
+    }
+}
+@include describe('is-angle-degree function:') {
+    @include it('Correctly identifies a degree') {
+        @include assert-true(
+            is-angle-degree(100deg),
+            '100deg is degree');
+    }
+    @include it('Correctly identifies not a degree') {
+        @include assert-false(
+            is-angle-degree(100rad),
+            '100rad is not a degree');
+    }
+}
+@include describe('convert-angle function:') {
+    @include it('Correctly returns degree from degree') {
+        @include assert-equal(
+            convert-angle(90deg, deg),
+            90deg,
+            '90deg is 90deg');
+    }
+    @include it('Correctly returns grad from degree') {
+        @include assert-equal(
+            convert-angle(90deg, grad),
+            100grad,
+            '100grad is 90deg');
+    }
+    @include it('Correctly returns turn from degree') {
+        @include assert-equal(
+            convert-angle(90deg, turn),
+            0.25turn,
+            '0.25turn is 90deg');
+    }
+    @include it('Correctly returns rad from degree') {
+        @include assert-equal(
+            round(convert-angle(90deg, rad)),
+            round(1.5708rad),
+            '1.5708rad is 90deg');
+    }
+    @include it('Correctly returns degree from turn') {
+        @include assert-equal(
+            convert-angle(0.25turn, deg),
+            90deg,
+            '90deg is 0.25turn');
+    }
+}

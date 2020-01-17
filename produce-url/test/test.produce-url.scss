@@ -1,0 +1,29 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/produce-url.scss';
+@include describe('produce-url function:') {
+    @include it('produce-url returns the correct url') {
+        @include assert-equal(
+            produce-url('image.jpg'),
+            url("image.jpg"),
+            '');
+    }
+    @include it('produce-url returns the correct url') {
+        @include assert-equal(
+            produce-url('image.jpg', 'hamster'),
+            url("hamster/image.jpg"),
+            '');
+    }
+    @include it('produce-url returns the correct url') {
+        @include assert-equal(
+            produce-url('image.jpg', 'http://www.google.co.uk/hamster'),
+            url("http://www.google.co.uk/hamster/image.jpg"),
+            '');
+    }
+    @include it('produce-url returns the correct url') {
+        @include assert-equal(
+            produce-url('/image.jpg', 'http://www.google.co.uk/hamster'),
+            url("http://www.google.co.uk/hamster/image.jpg"),
+            '');
+    }
+}

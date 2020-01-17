@@ -1,0 +1,29 @@
+@mixin __css-var($name, $property, $fallback){
+    @if(type-of($name) == string){
+        $name: resolve-css-var-name($name);
+        #{$property}: $fallback;
+        #{$property}: -webkit-var(#{$name});
+        #{$property}: -webkit-var(#{$name}, $fallback);
+        #{$property}: var(#{$name});
+        #{$property}: var(#{$name}, $fallback);
+    } @else {
+        @warn "'__css-var' supplied an invalid name " + $name; }}
+@mixin __define-css-var($name, $value){
+    @if(type-of($name) == string){
+        $name: resolve-css-var-name($name);
+        $webkit-name: '-webkit-var' + $name;
+        $old-syntax-name: 'var-' + $name;
+        $name: safe-unquote($name);
+        $webkit-name: safe-unquote($webkit-name);
+        $old-syntax-name: safe-unquote($old-syntax-name);
+
+        #{$old-syntax-name}: safe-unquote($value);
+        #{$webkit-name}: safe-unquote($value);
+        #{$name}: safe-unquote($value)
+    } @else {
+        @warn "'define-css-var' suppled an invalid name " + $name; }}
+@function resolve-css-var-name($name){
+    @if(type-of($name) == string){
+        $name: if(str-index($name, '--') == 1, $name, '--' + $name);
+    }
+    @return $name; }

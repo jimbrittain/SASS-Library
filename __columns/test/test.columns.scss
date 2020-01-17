@@ -1,0 +1,111 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/columns.scss';
+@include describe('__columns mixin') {
+    @include it('Outputs columns proceeded by the -moz, and -webkit prefixes: auto') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __columns(auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-columns: auto;
+                    -webkit-columns: auto;
+                    columns: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs columns proceeded by the -moz, and -webkit prefixes: inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __columns(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-columns: inherit;
+                    -webkit-columns: inherit;
+                    columns: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs columns proceeded by the -moz, and -webkit prefixes: 10em') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __columns(10em);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-columns: 10em;
+                    -webkit-columns: 10em;
+                    columns: 10em;
+                }
+            }
+        }
+    }
+    @include it('Outputs columns proceeded by the -moz, and -webkit prefixes: 2 auto') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __columns(2 auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-columns: 2 auto;
+                    -webkit-columns: 2 auto;
+                    columns: 2 auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs columns proceeded by the -moz, and -webkit prefixes: auto 12em') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __columns(auto 12em);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-columns: auto 12em;
+                    -webkit-columns: auto 12em;
+                    columns: auto 12em;
+                }
+            }
+        }
+    }
+    @include it('Outputs columns proceeded by the -moz, and -webkit prefixes: auto auto') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __columns(auto auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-columns: auto auto;
+                    -webkit-columns: auto auto;
+                    columns: auto auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs nothing when invalid: hamster') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __columns(hamster);
+                }
+            }
+            @include expect {}
+        }
+    }
+}

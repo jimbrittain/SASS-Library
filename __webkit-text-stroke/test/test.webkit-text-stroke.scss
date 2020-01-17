@@ -1,0 +1,43 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/webkit-text-stroke.scss';
+@include describe('__webkit-text-stroke mixin') {
+    @include it('Outputs contains fallback stroke (text-shadow) and color fill') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include __webkit-text-stroke(10px #000 #fff true);
+                }
+            }
+            @include contains(false) {
+                #cheese {
+                    color: #fff;
+                    text-shadow: -5px -5px 0 #000, 5px -5px 0 #000, -5px 5px 0 #000, 5px 5px 0 #000;
+                }
+            }
+        }
+    }
+    @include it('Outputs contains support with width, stroke-color and fill-color, -webkit prefixed and text-shadow none') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include __webkit-text-stroke(10px #000 #fff true);
+                }
+            }
+            @include expect(false) {
+                #cheese {
+                    color: #fff;
+                    text-shadow: -5px -5px 0 #000, 5px -5px 0 #000, -5px 5px 0 #000, 5px 5px 0 #000;
+                }
+                @supports (-webkit-text-stroke-width: 5px) {
+                    #cheese {
+                        -webkit-text-stroke-width: 10px;
+                        -webkit-text-stroke-color: #000;
+                        -webkit-text-fill-color: #fff;
+                        text-shadow: none;
+                    }
+                }
+            }
+        }
+    }
+}

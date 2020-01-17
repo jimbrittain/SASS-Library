@@ -1,0 +1,71 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/textalignment.scss';
+@include describe('textalignment mixin') {
+    @include it('Outputs textalignment: inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include textalignment(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: inherit;
+                    -moz-text-align-last: inherit;
+                    text-align-last: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs textalignment: left') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include textalignment(left);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: left;
+                    -moz-text-align-last: left;
+                    text-align-last: left;
+                }
+            }
+        }
+    }
+    @include it('Outputs textalignment: right') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include textalignment(right);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: right;
+                    -moz-text-align-last: right;
+                    text-align-last: right;
+                }
+            }
+        }
+    }
+    @include it('Outputs textalignment: justify') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include textalignment(justify);
+                }
+            }
+            @include expect {
+                #cheese {
+                    text-align: justify;
+                    -ms-text-justify: newspaper;
+                    text-justify: auto;
+                    -moz-text-align-last: left;
+                    text-align-last: left;
+                }
+            }
+        }
+    }
+}

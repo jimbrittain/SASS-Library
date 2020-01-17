@@ -1,0 +1,56 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/animation-iteration-count.scss';
+@include describe('__animation-iteration-count mixin') {
+    @include it('Outputs animation-iteration-count proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-iteration-count(1);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-iteration-count: 1;
+                    -moz-animation-iteration-count: 1;
+                    -webkit-animation-iteration-count: 1;
+                    animation-iteration-count: 1;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-iteration-count when comma-separated list supplied') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-iteration-count(1, 2);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-iteration-count: 1, 2;
+                    -moz-animation-iteration-count: 1, 2;
+                    -webkit-animation-iteration-count: 1, 2;
+                    animation-iteration-count: 1, 2;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-iteration-count for space-separated list') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-iteration-count(1 2);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-iteration-count: 1, 2;
+                    -moz-animation-iteration-count: 1, 2;
+                    -webkit-animation-iteration-count: 1, 2;
+                    animation-iteration-count: 1, 2;
+                }
+            }
+        }
+    }
+}

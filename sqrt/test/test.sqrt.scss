@@ -1,0 +1,21 @@
+@import 'true';
+@import '../src/sqrt.scss';
+@import '../../strip-units/src/strip-units.scss';
+@import '../../pow/src/pow.scss';
+@import '../../zeromeasure/src/zeromeasure.scss';
+@import '../../multiplynumbers/src/multiplynumbers.scss';
+@import '../../dividenumbers/src/dividenumbers.scss';
+@import '../../list-create-exclude/src/list-create-exclude.scss';
+@import '../../measure/src/measure.scss';
+
+@include describe('sqrt function:') {
+    $list: 1 4 9 16 25;
+    @for $i from 1 through 5 {
+        @include it('sqrt(' + nth($list,$i) + ') = ' + $i){
+            @include assert-equal(
+                sqrt(nth($list,$i)),
+                $i,
+                'sqrt(' + nth($list,$i) + ') = ' + $i);
+        }
+    }
+}

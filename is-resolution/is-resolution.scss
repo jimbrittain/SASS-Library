@@ -1,0 +1,4 @@
+@function is-resolution($val){
+    $list: (dpi dpcm dppx);
+    @return if(type-of($val) == number and not(unitless($val)) and index($list, unit($val)) != null, true, false); 
+}

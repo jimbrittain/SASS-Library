@@ -1,0 +1,99 @@
+@function convert-direction-to-msfilter-gradient-type($dir) {
+    @if is-side-corner-value($dir) {
+        $dir: convert-sides-to-angle($dir); }
+    @if is-angle($dir) {
+        $dir: 0deg + $dir;
+        $dir: round($dir/90);
+        $dir: $dir * 90;
+        @if ($dir == 90 or $dir == 270) { @return 1; }}
+    @return 0; }
+
+@function msfilter-gradient-color-order($dir, $startCol, $endCol){
+    @if is-side-corner-value($dir) {
+        $dir: convert-sides-to-angle($dir); }
+    @if is-angle($dir) {
+        $dir: 0deg + $dir;
+        $dir: round($dir/90);
+        $dir: $dir * 90;
+        @if $dir == 0 or $dir == 270 {
+            @return ($endCol, $startCol); }}
+    @return ($startCol, $endCol); }
+
+@function convert-angle-to-side($dir) {
+    $r: (to);
+    @if is-angle($dir) {
+        $dir: constrain-angle-to-forty-five($dir);
+        @if $dir >= 315 or $dir <= 45deg {
+            $r: append($r, 'top');
+        } @else if $dir >= 135deg and $dir <= 225deg {
+            $r: append($r, 'bottom');
+        }
+        @if $dir >= 45deg and $dir <= 135deg {
+            $r: append($r, 'right');
+        } @else if $dir >= 225deg and $dir <=315deg {
+            $r: append($r,  'left');
+        }
+    }
+    @warn $r;
+    @return $r; }
+@function convert-sides-to-angle($sides) {
+    //assuming to;
+    $list: top bottom left right center;
+    $inc: -45deg -225deg -315deg 45deg 0deg;
+
+    $ang: 45deg; 
+    $sides: if(type-of($sides) == string and str-index($sides, ' ') != null, str-explode($sides, ' '), $sides);
+    $sides: if(type-of($sides) == string, ($sides), $sides);
+    $had-bottom: false;
+    $had-left: false;
+    @if type-of($sides) == list {
+        @for $i from 1 through length($sides) {
+            $on: nth($sides, $i);
+            @if index($list, $on) != null {
+                $ang: $ang + nth($inc, index($list, $on));
+                @if $on == 'bottom' { $had-bottom: true; } //next four are a catch, shouldnt be necessary but cant be arsed :)
+                @if $on == 'left' { $had-left: true; }
+                @if $on == 'bottom' and $had-left == true { $ang: $ang - 90; }
+                @if $on == 'left' and $had-bottom == true { $ang: $ang - 90; }
+            }
+        }
+    }
+    $ang: constrain-angle-to-forty-five($ang);
+    @return $ang; }
+
+@function constrain-angle-to-forty-five($dir) {
+    @if is-angle($dir) {
+        $dir: 0deg + $dir;
+        $dir: $dir % 360;
+        $dir: (round($dir/45)) * 45;
+        @return $dir; }
+    @return false; }
+
+@function convert-direction-for-webkit-gradient($dir) {
+    $r: '';
+    @if is-angle($dir) {
+        $dir: constrain-angle-to-forty-five($dir);
+    } @else if is-side-corner-value($dir) {
+        $dir: convert-sides-to-angle($dir); }
+
+    @if is-angle($dir) {
+        @if $dir == 0deg or $dir == 360deg {
+            $r: (center bottom, center top);
+        } @else if $dir == 45deg {
+            $r: (lower left, upper right);
+        } @else if $dir == 90deg {
+            $r: (upper left, upper right);
+        } @else if $dir == 135deg {
+            $r: (upper left, lower right);
+        } @else if $dir == 180deg {
+            $r: (center top, center bottom);
+        } @else if $dir == 225deg {
+            $r: (upper right, lower left);
+        } @else if $dir == 270deg {
+            $r: (upper right, upper left);
+        } @else if $dir == 315deg {
+            $r: (lower right, upper left);
+        }
+    } @else { $r: (center bottom, center top); }
+    @return $r;
+}

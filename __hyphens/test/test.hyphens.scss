@@ -1,0 +1,39 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/hyphens.scss';
+@include describe('__hyphens mixin') {
+    @include it('Outputs hyphens proceeded by the -moz, -ms and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __hyphens(auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-hyphens: auto;
+                    -ms-hyphens: auto;
+                    -webkit-hyphens: auto;
+                    hyphens: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs hyphens proceeded by the -moz, -ms and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __hyphens(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-hyphens: inherit;
+                    -ms-hyphens: inherit;
+                    -webkit-hyphens: inherit;
+                    hyphens: inherit;
+                }
+            }
+        }
+    }
+}

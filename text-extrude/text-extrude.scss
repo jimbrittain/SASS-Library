@@ -1,0 +1,115 @@
+$_bi_d: "a" !default;
+@mixin text-extrude($a1:$_bi_d,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d) {
+    $arg_list: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+
+    $angle: false;
+    $distance: false;
+    $x: false;
+    $y: false;
+    $colors: ();
+    $color1: false;
+    $color2: false;
+
+    $base-unit: 'px';
+    $no-base: true;
+
+    $bfs: $base-font-size;
+    $step-size: 1px;
+
+    @for $i from 1 through length($arg_list) {
+        $on: nth($arg_list, $i);
+        @if is-length($on) {
+            $distance: if($distance == false, $on, $distance);
+            @if $x == false {
+                $x: $on;
+            } @else if $y == false {
+                $y: $on;
+            } @else { $bfs: $on; }
+        } @else if is-angle($on) {
+            $angle: $on;
+        } @else if(type-of($on) == 'color'){
+            $colors: append($colors, $on);
+        } @else {
+           @warn 'Failed'; }}
+
+    @if not($x == false or $y == false) or not($angle == false or $distance == false) {
+        @if not($x == false or $y == false) {
+            $base-unit: find-first-unit($x,$y);
+            $no-base: if($base-unit == '', true, false);
+        } @else {
+            $base-unit: find-first-unit($distance);
+            $no-base: if($base-unit == '', true, false); }
+
+        @if not($x == false or $y == false) {
+            $x_unit: if(unitless($x), '', unit($x));
+            $y_unit: if(unitless($y), '', unit($y));
+            @if(not($x_unit == $y_unit)){
+                $x_unit: if($x_unit == '', 'px', $x_unit);
+                $y: measure($y,$x_unit, $bfs); }
+            $x: strip-units($x);
+            $y: strip-units($y);
+            $r: calculate-distance-angle-from-xy($x,$y);
+            $distance: nth($r,1);
+            $angle: nth($r,2);
+        } @else {
+            $distance: strip-units($distance);
+            $r: calculate-xy-from-distance-angle($distance,$angle);
+            $x: nth($r,1);
+            $y: nth($r,2); }
+
+        $pxdistance: measure((zeromeasure($base-unit) + $distance), 'px', $bfs);
+        //@warn $distance ':::' + $pxdistance;
+        //@warn 'The step-size is ' + $step-size;
+        //@warn $base-unit + ' = base-unit';
+        $adj: abs($pxdistance * cos($angle));
+        $opp: abs($pxdistance * sin($angle));
+        //$higher: if(abs($opp) > abs($adj), $opp, $adj);
+        //$higher: if($opp > $adj, $opp, $adj);
+        $higher: if($opp < $adj, $opp, $adj);
+        $step-size: (sqrt(pow($adj,2) + pow($opp,2)))/$higher;
+        $step-size: 0px + $step-size;
+
+        //@warn 'The step-size is ' + $step-size + ' hello';
+        $step-size: strip-units(measure($step-size, $base-unit, $bfs));
+        //@warn 'The angle is ' + $angle;
+        $full-steps: floor(strip-units(dividenumbers($distance/$step-size)));
+        $arr: ();
+        $arr: list-change-separator($arr, ',');
+
+        $i: $full-steps;
+        
+        @while $i > 0 {
+            $this_color: black;
+            @if(length($colors) > 1){
+                $len: length($colors) - 1;
+                $colstep: floor(($full-steps - 1)/$len);
+                $onstep: ceil($i/$colstep);
+                $onmix: ((($i - 1) % $colstep)/$colstep) * 100;
+                $onmix: 0% + $onmix;
+            @if($onstep >= length($colors)){
+                $this_color: nth($colors, length($colors));
+            } @else {
+                $this_color: mix(nth($colors,$onstep + 1), nth($colors,$onstep), $onmix); }
+            } @else if (length($colors) == 1) {
+                $this_color: nth($colors,1);
+            } @else { $this_color: black; }
+
+            $this_distance: $distance * ($i/$full-steps);
+            $r: calculate-xy-from-distance-angle($this_distance, $angle);
+            $this_x: if($no-base, 0, zeromeasure($base-unit)) + strip-units(nth($r,1));
+            $this_y: if($no-base, 0, zeromeasure($base-unit)) + strip-units(nth($r,2));
+            $this_x: to-3dp($this_x);
+            $this_y: to-3dp($this_y);
+            $arr: append($arr, ($this_x $this_y 0 $this_color)); 
+            $i: $i - 1; }
+
+        @if length($arr) > 0 {
+            //$str: $arr;
+            $str: safe-unquote-list-items($arr);
+         //   @warn 'Output:' + $str;
+            text-shadow: #{ $str };
+        } @else {
+            @warn "Text Extrude has not been supplied the correct variables."; 
+        }
+    }
+}

@@ -1,0 +1,30 @@
+@import 'true';
+/*@import '../../strip-units/src/strip-units.scss';
+@import '../../list-create-exclude/src/list-create-exclude.scss';
+@import '../../zeromeasure/src/zeromeasure.scss';
+@import '../../measure/src/measure.scss';
+@import '../../pow/src/pow.scss';
+@import '../../to-dp/src/to-dp.scss';
+@import '../../multiplynumbers/src/multiplynumbers.scss';
+@import '../../dividenumbers/src/dividenumbers.scss';
+@import '../../trigonometry/src/convert-angle.scss';
+@import '../../trigonometry/src/trigonometry.scss';
+@import '../../sqrt/src/sqrt.scss';
+@import '../../fact/src/fact.scss';*/
+@import '../../../globalimport.scss';
+@import '../src/calculate-xy-from-distance-angle.scss';
+
+@include describe('calculate-xy-from-distance-angle function:') {
+    @include it('distance:70.71068px, angle:45deg, x:50.00px') {
+        @include assert-equal(
+            to-2dp(nth(calculate-xy-from-distance-angle(70.71068px, 45deg),1)),
+            to-2dp(50.00px),
+            'da(70.71px,45deg) x:50.00px');
+    }
+    @include it('distance:70.71068px, angle:45deg, y:50.00px') {
+        @include assert-equal(
+            to-2dp(nth(calculate-xy-from-distance-angle(70.71068px, 45deg),2)),
+            to-2dp(50.00px),
+            'da(70.71px,45deg) y:50.00px');
+    }
+}

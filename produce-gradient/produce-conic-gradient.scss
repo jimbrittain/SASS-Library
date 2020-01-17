@@ -1,0 +1,145 @@
+@function is-conic-gradient-position($a1,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){
+    $args: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $args: list-change-separator($args, ',');
+    $args: list-safe-unquote-items($args);
+
+    $valid: true;
+    @if length($args) < 2 { $valid: false; }
+    @if length($args) > 1 and nth($args,1) != 'from' { $valid: false; }
+    @if length($args) >= 2 and not(is-angle(nth($args,2))) { $valid: false; }
+    @if length($args) > 2 {
+        @if nth($args,3) == 'at' {
+            @if length($args) == 3 {
+                $valid: false;
+            } @else {
+                $bp: list-slice($args,1,3);
+                @if not(is-background-position-value($bp)) { $valid: false; }
+            }
+        } @else { $valid: false; }
+    }
+    @return if($valid == true, true, false); }
+
+@function produce-conic-gradient($a1,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d){
+    $arg_list: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
+    $arg_list: list-change-separator($arg_list, ',');
+    $arg_list: list-safe-unquote-items($arg_list);
+    $r: (); //return list
+
+    $first: nth($arg_list, 1);
+
+    @if not($first == 'conic-gradient' or $first == 'repeating-conic-gradient') {
+        @return false;
+    } 
+    $type: $first;
+
+    $start_col: false;
+    $cols: ();
+    $cols: list-change-separator($cols, ',');
+    $temp_col: false;
+    $last_col: false;
+    $dir: false;
+
+    $i: 2;
+    @while $i <= length($arg_list) {
+        $on: nth($arg_list, $i);
+        @if type-of($on) == 'list' {
+            //herejim
+            @if length($on) > 0 and is-conic-gradient-position($on) {
+                $dir: $on;
+            } @else {
+                @if ($temp_col != false) {
+                    $cols: append($cols, $temp_col); 
+                    $temp_col: false; }
+
+                $first-pot: if(length($on) > 0, nth($on,1), false);
+                @if $first-pot != false {
+                     @if type-of($first-pot) == 'color' and length($on) < 3 {
+                        @if $start-col != false {
+                            $last-col: $first-pot;
+                        } @else {
+                            $start-col: $first-pot; }
+                        @if length($on) == 1 or is-angle(nth($on,2)) or is-percent(nth($on,2)) {
+                            $cols: append($cols, $on); }
+                    } @else if (is-angle($first-pot) or is-percent($first-pot)) and length($on) < 3 {
+                        @if length($on) == 1 or (type-of(nth($on,2)) == 'color') {
+                            @if length($on) == 2 { $last_col: nth($on,2); }
+                            $cols: append($cols, $on); }}}}
+        } @else if type-of($on) == 'color' {
+            @if $start_col == false {
+                $start_col: $on;
+            } 
+            @if $temp_col != false {
+                $l: ();
+                $l: append($l, $temp_col);
+                $cols: append($cols, $l);
+                $temp_col: $on;
+                $last_col: $on;
+            } @else {
+                $temp_col: $on;
+                $last_col: $on; }
+        } @else if is-angle($on) or is-percent($on) {
+            @if $temp_col == false {
+                $temp_col: $on;
+            } @else {
+                @if type-of($temp_col) == color {
+                    $cols: append($cols, ($temp_col $on));
+                    $temp_col: false;
+                } @else {
+                    $l: ();
+                    $l: append($l, $temp_col);
+                    $cols: append($cols, $l);
+                    $temp_col: false;
+                }
+            }
+        } @else if type-of($on) == string and $dir == false {
+            $var_valid: true;
+            $vars: '';
+            $p: $i;
+            $inc: 0;
+            @while $p <= length($arg_list) and $var_valid == true {
+                $non: nth($arg_list, $p);
+                @if type-of($non) == 'string' or is-length-value($non) or is-percent-value($non) {
+                    @if $vars != '' {
+                        $vars: append($vars, $non);
+                    } @else { $vars: $non; }
+                    @if is-conic-gradient-position($vars) {
+                        $dir: $vars;
+                        $inc: $p;
+                    } @else { 
+                        @if not($non == 'at' or $non == 'from') {
+                        $var_valid: false; }}
+                } @else { $var_valid: false; }
+                $p: $p + 1; }
+            @if $inc > 0 { $i: $inc; }
+        }
+        $i: $i + 1; }
+
+    @if $temp_col != false {
+        $l: ();
+        $l: append($l, $temp_col);
+        $cols: join($cols, $l); }
+
+    @if $start_col == false or $last_col == false {
+        @return false;
+    } @else {
+
+        //$str: $type + '(';
+        //$rd_str: $str;
+        //standards version
+        $str: $type + '(';
+        @if $dir != false {
+            $str: $str + $dir + ', ';
+        }
+        $str: $str + $cols + ')';
+
+        $standards: new-key-value('standards', $str);
+        //$webkit: new-key-value('webkit', '-webkit-' + $str);
+        //$ms: new-key-value('ms', '-ms-' + $str);
+        //$o: new-key-value('o', '-o-' + $str);
+        //$moz: new-key-value('moz', '-moz-' + $str);
+        //$r: list-create($moz, $ms, $o, $webkit, $standards);
+        $r: list-create($standards);
+
+    }
+    @return if(length($r) > 0, $r, false); }
+

@@ -1,0 +1,55 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/background-clip.scss';
+@include describe('__background-clip mixin') {
+    @include it('Outputs background-clip unprefixed proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __background-clip(auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-background-clip: auto;
+                    -webkit-background-clip: auto;
+                    background-clip: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs background-clip unprefixed proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __background-clip(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-background-clip: inherit;
+                    -webkit-background-clip: inherit;
+                    background-clip: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs background-clip unprefixed produces correct insane variations the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __background-clip(content-box);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-background-clip: content;
+                    -webkit-background-clip: content;
+                    -moz-background-clip: content-box;
+                    -webkit-background-clip: content-box;
+                    background-clip: content-box;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,49 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/prettyimage.scss';
+@include describe('prettyimage mixin') {
+    @include it('prettyimage = image-rendering smooth') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include prettyimage;
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-interpolation-mode: bicubic;
+                    -o-image-rendering: optimizeQuality;
+                    image-rendering: optimizeQuality;
+                    -o-image-rendering: auto;
+                    image-rendering: auto;
+                    -o-image-rendering: smooth;
+                    image-rendering: smooth;
+                }
+            }
+        }
+    }
+}
+@include describe('veryprettyimage mixin') {
+    @include it('veryprettyimage = high-quality') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include veryprettyimage;
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-interpolation-mode: bicubic;
+                    -o-image-rendering: optimizeQuality;
+                    image-rendering: optimizeQuality;
+                    -o-image-rendering: auto;
+                    image-rendering: auto;
+                    -o-image-rendering: smooth;
+                    image-rendering: smooth;
+                    -o-image-rendering: high-quality;
+                    image-rendering: high-quality;
+                }
+            }
+        }
+    }
+}

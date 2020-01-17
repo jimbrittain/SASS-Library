@@ -1,0 +1,132 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/constrain-child-images.scss';
+@include describe('constrain-child-images') {
+    @include it('Contains overflow:hidden at most basic level') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include constrain-child-images(both);
+                }
+            }
+            @include contains(false) { 
+                #cheese {
+                    overflow: hidden;
+                }
+            }
+        }
+    }
+    @include it('Contains 2nd level picture, video and image') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include constrain-child-images(both);
+                }
+            }
+            @include contains(false) { 
+                #cheese {
+                    overflow: hidden;
+                }
+                #cheese picture, #cheese img, #cheese video {
+                    display: block;
+                    margin: 0;
+                    padding: 0;
+                    width: auto;
+                    height: auto;
+                    min-width: 100%;
+                    min-height: 100%;
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+            }
+        }
+    }
+    @include it('Contains 3nd level: picture force width and height to 100%') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include constrain-child-images(both);
+                }
+            }
+            @include contains(false) { 
+                #cheese {
+                    overflow: hidden;
+                }
+                #cheese picture, #cheese img, #cheese video {
+                    display: block;
+                    margin: 0;
+                    padding: 0;
+                    width: auto;
+                    height: auto;
+                    min-width: 100%;
+                    min-height: 100%;
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+                #cheese picture {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+    @include it('Contains 3nd level: picture force width and height to 100%') {
+        @include assert {
+            @include output(false) {
+                #cheese {
+                    @include constrain-child-images(both);
+                }
+            }
+            @include expect(false) { 
+                #cheese {
+                    overflow: hidden;
+                }
+                #cheese picture, #cheese img, #cheese video {
+                    display: block;
+                    margin: 0;
+                    padding: 0;
+                    width: auto;
+                    height: auto;
+                    min-width: 100%;
+                    min-height: 100%;
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+                #cheese picture {
+                    width: 100%;
+                    height: 100%;
+                }
+                @supports (object-fit:cover) or (-o-object-fit:cover){
+                    #cheese picture, #cheese img, #cheese video {
+                        width: 100%;
+                        height: 100%;
+                        max-height: none;
+                        max-width: none;
+                        min-height: 0;
+                        min-width: 0;
+                        -o-object-fit: cover;
+                        object-fit: cover;
+                        -o-object-position: 50% 50%;
+                        object-position: 50% 50%;
+                    }
+                }
+                @supports ((transform:translate) and (not(object-fit:cover)) and (not(-o-object-fit:cover))) {
+                    #cheese picture, #cheese img, #cheese video {
+                        width: auto;
+                        height: auto;
+                        min-width: 100%;
+                        min-height: 100%;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        -webkit-transform: translate(-50%, -50%);
+                        -ms-transform: translate(-50%, -50%);
+                        -moz-transform: translate(-50%, -50%);
+                        -o-transform: translate(-50%, -50%);
+                        transform: translate(-50%, -50%);
+                    }
+                }
+            }
+        }
+    }
+}

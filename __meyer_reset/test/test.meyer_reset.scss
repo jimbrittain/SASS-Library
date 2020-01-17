@@ -1,0 +1,25 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/meyer_reset.scss';
+@include describe('__meyer_reset mixin') {
+    @include it('Outputs __meyer_reset; too long to list checking a few') {
+        @include assert {
+            @include output(false) {
+                @include __meyer_reset;
+            }
+            @include contains(false) {
+                blockquote, q {quotes: none; }
+            }
+        }
+    }
+    @include it('Outputs __meyer_reset; too long to list checking a few') {
+        @include assert {
+            @include output(false) {
+                @include __meyer_reset;
+            }
+            @include contains(false) {
+                ol, ul {list-style: none; }
+            }
+        }
+    }
+}

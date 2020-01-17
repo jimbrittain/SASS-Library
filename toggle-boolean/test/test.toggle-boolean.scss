@@ -1,0 +1,13 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/toggle-boolean.scss';
+@include describe('toggle boolean function:') {
+    @include it('toggle-boolean: false = true') {
+        @include assert-true(toggle-boolean(false)); }
+    @include it('toggle-boolean: false = true') {
+        @include assert-false(toggle-boolean(true)); }
+    @include it('toggle-boolean: "false" = true') {
+        @include assert-true(toggle-boolean('false')); }
+    @include it('toggle-boolean: "true" = false') {
+        @include assert-false(toggle-boolean('true')); }
+}

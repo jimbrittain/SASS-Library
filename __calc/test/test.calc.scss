@@ -1,0 +1,53 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/calc.scss';
+@include describe('__calc mixin') {
+    @include it('Outputs calc proceeded -moz, and -webkit prefixes, prop val version') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __calc('width', '100px/10');
+                }
+            }
+            @include expect {
+                #cheese {
+                    width: -moz-calc(100px/10);
+                    width: -webkit-calc(100px/10);
+                    width: calc(100px/10);
+                }
+            }
+        }
+    }
+    @include it('Outputs calc proceeded -moz, and -webkit prefixes, prop val version') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __calc('width: calc(100px/10);');
+                }
+            }
+            @include expect {
+                #cheese {
+                    width: -moz-calc(100px/10);
+                    width: -webkit-calc(100px/10);
+                    width: calc(100px/10);
+                }
+            }
+        }
+    }
+    @include it('Outputs calc proceeded -moz, and -webkit prefixes, prop val version') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __calc('width: calc(100px/10)');
+                }
+            }
+            @include expect {
+                #cheese {
+                    width: -moz-calc(100px/10);
+                    width: -webkit-calc(100px/10);
+                    width: calc(100px/10);
+                }
+            }
+        }
+    }
+}

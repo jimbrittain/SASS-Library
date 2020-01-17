@@ -1,0 +1,22 @@
+@import 'true';
+@import '../src/safe-unquote.scss';
+@include describe('safe-unquote function:') {
+    @include it('safe-unquote returns a unquoted string for double quotations') {
+        @include assert-equal(
+            safe-unquote("cheese"),
+            cheese,
+            'An unquoted string is returned');
+    }
+    @include it("safe-unquote returns a unquoted string for single quotations") {
+        @include assert-equal(
+            safe-unquote('cheese'),
+            cheese,
+            'An unquoted string is returned');
+    }
+    @include it("safe-unquote returns anything else unmodified") {
+        @include assert-equal(
+            safe-unquote((1 2 3 4)),
+            (1 2 3 4),
+            'Everything else is left alone');
+    }
+}

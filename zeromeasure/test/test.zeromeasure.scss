@@ -1,0 +1,136 @@
+@import 'true';
+@import '../src/zeromeasure.scss';
+@include describe('zeromeasure function:') {
+    @include it('zeromeasure returns 0em when em as parameter') {
+        @include assert-equal(
+            zeromeasure(em),
+            0em,
+            '0em is returned when em is requested');
+    }
+    @include it('zeromeasure returns 0ex when ex as parameter') {
+        @include assert-equal(
+            zeromeasure(ex),
+            0ex,
+            '0ex is returned when ex is requested');
+    }
+    @include it('zeromeasure returns 0px when px as parameter') {
+        @include assert-equal(
+            zeromeasure(px),
+            0px,
+            '0px is returned when px is variable');
+    }
+    @include it('zeromeasure returns 0in when in as parameter') {
+        @include assert-equal(
+            zeromeasure(in),
+            0in,
+            '0in is returned when in is variable');
+    }
+    @include it('zeromeasure returns 0cm when cm as parameter') {
+        @include assert-equal(
+            zeromeasure(cm),
+            0cm,
+            '0cm is returned when cm is variable');
+    }
+    @include it('zeromeasure returns 0pc when pc as parameter') {
+        @include assert-equal(
+            zeromeasure(pc),
+            0pc,
+            '0pc is returned when pc is variable');
+    }
+    @include it('zeromeasure returns 0pt when pt as parameter') {
+        @include assert-equal(
+            zeromeasure(pt),
+            0pt,
+            '0pt is returned when pt is variable');
+    }
+    @include it('zeromeasure returns 0% when % as parameter') {
+        @include assert-equal(
+            zeromeasure(%),
+            0%,
+            '0% is returned when % is variable');
+    }
+    @include it('zeromeasure returns 0vw when vw as parameter') {
+        @include assert-equal(
+            zeromeasure(vw),
+            0vw,
+            '0vw is returned when vw is variable');
+    }
+    @include it('zeromeasure returns 0vh when vh as parameter') {
+        @include assert-equal(
+            zeromeasure(vh),
+            0vh,
+            '0vh is returned when vh is variable');
+    }
+    @include it('zeromeasure returns 0rem when rem as parameter') {
+        @include assert-equal(
+            zeromeasure(rem),
+            0rem,
+            '0rem is returned when rem is variable');
+    }
+    @include it('zeromeasure returns 0ch when ch as parameter') {
+        @include assert-equal(
+            zeromeasure(ch),
+            0ch,
+            '0ch is returned when ch is variable');
+    }
+    @include it('zeromeasure returns 0mm when mm as parameter') {
+        @include assert-equal(
+            zeromeasure(mm),
+            0mm,
+            '0mm is returned when mm is variable');
+    }
+    @include it('zeromeasure returns 0vmin when vmin as parameter') {
+        @include assert-equal(
+            zeromeasure(vmin),
+            0vmin,
+            '0vmin is returned when vmin is variable');
+    }
+    @include it('zeromeasure returns 0vmax when vmax as parameter') {
+        @include assert-equal(
+            zeromeasure(vmax),
+            0vmax,
+            '0vmax is returned when vmax is variable');
+    }
+    @include it('zeromeasure returns 0deg when deg as parameter') {
+        @include assert-equal(
+            zeromeasure(deg),
+            0deg,
+            '0deg is returned when deg is variable');
+    }
+    @include it('zeromeasure returns 0Q when Q as parameter') {
+        @include assert-equal(
+            zeromeasure(Q),
+            0Q,
+            '0Q is returned when Q is variable');
+    }
+    @include it('zeromeasure returns 0lh when lh as parameter') {
+        @include assert-equal(
+            zeromeasure(lh),
+            0lh,
+            '0lh is returned when lh is variable');
+    }
+    @include it('zeromeasure returns 0grad when grad as parameter') {
+        @include assert-equal(
+            zeromeasure(grad),
+            0grad,
+            '0grad is returned when grad is variable');
+    }
+    @include it('zeromeasure returns 0rad when rad as parameter') {
+        @include assert-equal(
+            zeromeasure(rad),
+            0rad,
+            '0rad is returned when rad is variable');
+    }
+    @include it('zeromeasure returns 0turn when turn as parameter') {
+        @include assert-equal(
+            zeromeasure(turn),
+            0turn,
+            '0turn is returned when turn is variable');
+    }
+    @include it('zeromeasure returns 0px when an unknown parameter as supplied') {
+        @include assert-equal(
+            zeromeasure(cheese),
+            0px,
+            '0px is returned when "cheese", an unknown parameter, is supplied as a variable');
+    }
+}

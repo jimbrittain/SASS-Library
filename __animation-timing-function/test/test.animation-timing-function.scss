@@ -1,0 +1,73 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/animation-timing-function.scss';
+@include describe('__animation-timing-function mixin') {
+    @include it('Outputs animation-timing-function proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-timing-function(ease);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-timing-function: ease;
+                    -moz-animation-timing-function: ease;
+                    -webkit-animation-timing-function: ease;
+                    animation-timing-function: ease;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-timing-function when comma-separated list supplied') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-timing-function(ease, ease-in);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-timing-function: ease, ease-in;
+                    -moz-animation-timing-function: ease, ease-in;
+                    -webkit-animation-timing-function: ease, ease-in;
+                    animation-timing-function: ease, ease-in;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-timing-function when values quoted in list supplied') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-timing-function('ease', 'ease-in');
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-timing-function: ease, ease-in;
+                    -moz-animation-timing-function: ease, ease-in;
+                    -webkit-animation-timing-function: ease, ease-in;
+                    animation-timing-function: ease, ease-in;
+                }
+            }
+        }
+    }
+    @include it('Outputs animation-timing-function for space-separated list') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __animation-timing-function(ease ease-in);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -o-animation-timing-function: ease, ease-in;
+                    -moz-animation-timing-function: ease, ease-in;
+                    -webkit-animation-timing-function: ease, ease-in;
+                    animation-timing-function: ease, ease-in;
+                }
+            }
+        }
+    }
+}

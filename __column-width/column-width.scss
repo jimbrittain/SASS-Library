@@ -1,0 +1,6 @@
+@mixin __column-width($val:inherit){
+    @if is-reserved-variable($val) or is-length($val) or $val == auto {
+        $val: safe-unquote($val);
+        -moz-column-width: $val;
+        -webkit-column-width: $val;
+        column-width: $val; }}

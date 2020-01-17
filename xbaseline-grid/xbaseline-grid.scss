@@ -1,0 +1,46 @@
+//requries addnumbers, measure, background-image, after
+$baseline-grid-col: #000000;
+@mixin xbaseline-grid($x-height, $line-height, $offset:0px) {
+    $on-col: rgba($baseline-grid-col, 0.05);
+    $off-col: rgba($baseline-grid-col, 0);
+    @if(type-of($x-height) == number and type-of($line-height) == number){
+        $x-height: measure($x-height,px);
+        $line-height: measure($line-height,px);
+        $grad-size: $line-height;
+        $offset: if(type-of($offset) == number, $offset, 0px);
+        $offset: measure($offset,px);
+
+        $percent-x-height: measure($x-height,px);
+        $percent-x-height: strip-units(dividenumbers($percent-x-height,$grad-size));
+        $percent-x-height: $percent-x-height * 100;
+        $percent-x-height: 0% + $percent-x-height;
+
+        $grads: ();
+        $l: ();
+        $l: append($l, 'repeating-linear-gradient');
+        $l: append($l, 0deg);
+        $l: append($l, $on-col);
+        $l: append($l, $percent-x-height);
+        $l: append($l, $on-col);
+        $l: append($l, $percent-x-height);
+        $l: append($l, $off-col);
+        $l: append($l, 100%);
+        $l: append($l, $off-col);
+        $l: append($l, $off-col);
+        $grads: list-unshift($grads, $l);
+        @warn "BASELINE CONSTRUCTION GRID USED::THIS SHOULD NOT BE FOR PRODUCTION";
+        body {
+            @include __before {
+                z-index: 999999999998;
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                content: ' ';
+                height: 5000px;
+                pointer-events: none;
+                overflow: hidden;
+                @include __background-image($grads...);
+                background-size: safe-unquote($grad-size) safe-unquote($grad-size);
+                background-position: 0 safe-unquote($offset); }}}}

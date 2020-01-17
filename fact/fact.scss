@@ -1,0 +1,12 @@
+@function fact($val){
+    $base-unit: px;
+    $no-base: true;
+    @if(unitless($val) == false) {
+        $base-unit: unit($val);
+        $no-base: false;
+        $val: strip-units($val); }
+    $value: 1;
+    $val: round($val);
+    @if $val > 0{
+        @for $i from 1 through $val { $value: $value * $i; }}
+    @return if($no-base == true, $value, zeromeasure($base-unit) + $value); }

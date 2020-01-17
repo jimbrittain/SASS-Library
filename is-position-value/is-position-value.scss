@@ -1,0 +1,77 @@
+$_bi_d: -1 !default;
+@function is-background-position-value($a1,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d){
+    $args: arguments($a1,$a2,$a3,$a4);
+    @if length($args) == 1 and type-of(nth($args,1)) == 'string' and str-index(nth($args,1), ' ') != null {
+        $args: str-explode(nth($args,1), ' '); }
+    $args: list-change-separator($args, ',');
+    $args: list-safe-unquote-items($args);
+
+    $had-x: false;
+    $had-y: false;
+    $dis: 0;
+    $valid: true;
+    @if length($args) > 0 and length($args) < 4 {
+        @for $i from 1 through length($args) {
+            $on: nth($args,$i);
+            @if is-position-length-percent-value($on) {
+                @if is-position-value($on) {
+                    @if is-horizontal-position-value($on) and not($had-x) {
+                        $had-x: true;
+                    } @else if is-vertical-position-value($on) and not($had-y) {
+                        $had-y: true;
+                    } @else { $valid: false; }
+                } @else if is-length($on) or is-percent($on) and $dis < 3 {
+                    $dis: $dis + 1;
+                } @else { $valid: false; }
+            } @else { $valid: false; }}}
+    @return if($valid == true, true, false); }
+
+@function is-position-length-percent-value($a1,$a2:$_bi_d){
+    $args: arguments($a1,$a2);
+    $valid: true;
+    @for $i from 1 through length($args) {
+        $on: nth($args, $i);
+        @if not(is-position-value($on) or is-length($on) or is-percent($on)) { 
+            $valid: false; 
+        }
+    }
+    @if $valid == true and length($args) == 2 and is-position-value(nth($args,1)) and is-position-value(nth($args,2)) { $valid: is-position-value($args); }
+    @return if($valid == true, true, false); }
+
+@function is-position-value($a1,$a2:$_bi_d){
+    $args: arguments($a1,$a2);
+    //$args: if(length($args) == 1 and type-of(nth($args,1)) == 'list', nth($args,1), $args);
+    $args: list-change-separator($args, ',');
+    $args: list-safe-unquote-items($args);
+
+    @if length($args) == 1 {
+        @return if(is-horizontal-position-value(nth($args,1)) or is-vertical-position-value(nth($args,1)), true, false);
+    } @else if length($args) == 2 {
+        $had-vertical: false;
+        $had-horizontal: false;
+        $valid: true;
+        @for $i from 1 through length($args) {
+            $on: nth($args,$i);
+            @if not(is-horizontal-position-value($on) or is-vertical-position-value($on) or is-percent($on) or is-length($on)) {
+                $valid: false;
+            } @else {
+                @if is-horizontal-position-value($on) and $on != center and $had-horizontal == false {
+                    $had-horizontal: true;
+                } @else if is-vertical-position-value($on) and $on != center and $had-vertical == false {
+                    $had-vertical: true;
+                } @else if not(is-percent($on) or is-length($on) or $on == center) {
+                    $valid: false; }}}
+        @return $valid;
+    } @else { @return false; }}
+
+@function is-horizontal-position-value($val) {
+    $list: (left center right);
+    @if type-of($val) == 'string' and index($list, $val) != null {
+        @return true;
+    } @else { @return false; }}
+
+@function is-vertical-position-value($val) {
+    $list: (top center bottom);
+    @if type-of($val) == 'string' and index($list, $val) != null {
+        @return true;
+    } @else { @return false; }}

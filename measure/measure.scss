@@ -1,0 +1,73 @@
+//requires strip-units, zeromeasure, isMeasurementAbsolute, isMeasurementRelative, isMeasurement, measureComparisonAbsolute, measureComparisonRelative
+$base-font-size: 16px !default; //should always be a pixel value;
+@function measure($val, $measurement:'px', $base:$base-font-size, $final_result_is_number:false) {
+    $val_unit: if(unitless($val) == false, unit($val), px);
+    $base_unit: if(unitless($base) == false, unit($base), px);
+    $base: if($base < 0, abs($base), $base); //not necessary but a nice fix;
+
+    $clarification_msg: "value '" + $val + "' to a '" + $measurement + "' with base '" + $base + "'"; //allows for modifying params further up the chain
+
+    @if not(isMeasurement($measurement)) {
+        @warn 'Measurement of ' + $measurement + ' is not a measure';
+        @return $val; }
+    @if strip-units($val) == 0 { @return zeromeasure($measurement); }
+    @if $val_unit == $measurement { @return zeromeasure($measurement) + strip-units($val); }
+    @if comparable(zeromeasure($measurement), $val) { 
+        @return zeromeasure($measurement) + $val; } //use sass return
+
+    $end_value: $val;
+    $end_error: false;
+    @if isMeasurementAbsolute($val_unit) == true
+        and isMeasurementAbsolute($base_unit) == false
+        and isMeasurementAbsolute($measurement) == false {
+        //@debug "arr";
+        $end_error: true;
+        $end_value: $val;
+   } @else {
+        $val: strip-units($val);
+        $base: strip-units($base);
+
+        //may be a fuck up here because of difference between the two, investigate. Consider doing as a quick function;
+        $val: if(isMeasurementAbsolute($val_unit), $val / measureComparisonAbsolute($val_unit), $val * measureComparisonRelative($val_unit));
+        $base: if(isMeasurementAbsolute($base_unit), $base / measureComparisonAbsolute($base_unit), $base / measureComparisonRelative($base_unit));
+
+        @if isMeasurementAbsolute($measurement) {
+            @if isMeasurementAbsolute($val_unit) == false {
+                @if isMeasurementAbsolute($base_unit) == false {
+                    //@debug "rar e";
+                    $end_error: true;
+                    $end_value: $val;
+                    $measurement: $val_unit;
+                } @else { 
+                    //@debug "raa";
+                    $end_value: ($val * $base) * measureComparisonAbsolute($measurement);
+                }
+            } @else { 
+                //@debug "a?a";
+                $end_value: $val * measureComparisonAbsolute($measurement);
+            }
+        } @else {
+            @if isMeasurementAbsolute($base_unit) == false {
+                //@debug "rrr";
+                $end_value: $val / measureComparisonRelative($measurement);
+            } @else { 
+                @if isMeasurementAbsolute($val_unit) {
+                    //@debug "ara";
+                    $end_value: ($val/$base) / measureComparisonRelative($measurement);
+                } @else {
+                    //@debug "rra";
+                    $end_value: $val / measureComparisonRelative($measurement);
+                }
+            }
+        }
+    }
+    @if $end_error == true { @debug "Could not convert " + $clarification_msg; }
+    @if ($end_value + "") == "NaN" { $end_value: 0; }
+    @if ($end_value + "") == "Infinity" { $end_value: 0; }
+    //@if $final_result_is_number == false {
+     //$end_value: $end_value + unquote($measurement);
+     //@if typeof $end_value == "string" { $end_value: unquote($end_value); }
+    //}
+    $end_value: zeromeasure($measurement) + $end_value;
+    @return $end_value; 
+}

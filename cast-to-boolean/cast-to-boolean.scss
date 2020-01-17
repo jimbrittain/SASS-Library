@@ -1,0 +1,20 @@
+@function cast-to-boolean($val) {
+    @if type-of($val) == bool {
+        @return $val;
+    } @else if type-of($val) == number {
+        @if ($val != 1 and $val != 0) {
+            @warn '"' + $val + '" is not a binary number for cast-to-boolean, true if positive, false if negative or 0'; }
+        @return if(floor($val) > 0, true, false);
+    } @else if $val == null {
+        @return false;
+    } @else if type-of($val) == list {
+        @return if(length($val) > 0, true, false);
+    } @else if type-of($val) == string {
+        $val: to-lower-case($val);
+        @if $val == 'true' or $val == 'false' {
+            @return if($val == 'true', true, false); 
+        } @else {
+            @warn '"' + $val + '" could not be interpretted as a boolean for cast-to-boolean, returning false';
+            @return if(str-length($val) > 0, true, false); }}
+    @warn '"' + $val + '" could not be interpretted as a boolean for cast-to-boolean, returning false';
+    @return false; }

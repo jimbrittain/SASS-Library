@@ -1,0 +1,41 @@
+@import 'true';
+@import '../../../globalimport.scss'; //requires str-last-index
+@import '../src/get-filename.scss';
+@include describe('get-filename function:') {
+    @include it('get-filename works') {
+        @include assert-equal(
+            get-filename('http:\/\/cheese/ham/toast.htm'),
+            'toast.htm',
+            'For a url, filename returned');
+    }
+    @include it('get-filename works, include extension false') {
+        @include assert-equal(
+            get-filename('http:\/\/cheese/ham/toast.htm', false),
+            'toast',
+            'For a url, filename returned, no extension');
+    }
+    @include it('get-filename works') {
+        @include assert-equal(
+            get-filename('ham/toast.htm'),
+            'toast.htm',
+            'For a relative dir, filename returned');
+    }
+    @include it('get-filename works, include extension false') {
+        @include assert-equal(
+            get-filename('ham/toast.htm', false),
+            'toast',
+            'For a relative dir, filename returned, no extension');
+    }
+    @include it('get-filename works') {
+        @include assert-equal(
+            get-filename('toast.htm'),
+            'toast.htm',
+            'For a filename, filename returned');
+    }
+    @include it('get-filename works, include extension false') {
+        @include assert-equal(
+            get-filename('toast.htm', false),
+            'toast',
+            'For a filename, filename returned, no extension');
+    }
+}

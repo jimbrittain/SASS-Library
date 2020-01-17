@@ -1,0 +1,23 @@
+@import 'true';
+@import '../../../globalimport.scss'; //requires get-filename
+@import '../src/remove-filename.scss';
+@include describe('remove-filename function:') {
+    @include it('remove-filename removes a filename') {
+        @include assert-equal(
+            remove-filename('toast/cheese.htm'),
+            'toast/',
+            'removes from dir file pair');
+    }
+    @include it('remove-filename removes a filename') {
+        @include assert-equal(
+            remove-filename('http://google.com/toast/cheese.htm'),
+            'http://google.com/toast/',
+            'removes from url dir file');
+    }
+    @include it('remove-filename removes a filename') {
+        @include assert-equal(
+            remove-filename('cheese.htm'),
+            '',
+            'removes from file name only');
+    }
+}

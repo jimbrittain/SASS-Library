@@ -1,0 +1,14 @@
+@mixin __scroll-snap-destination($value) {
+    //necessary large support as deprecated
+    @supports ((scroll-snap-destination: 0px 0px) and (not (scroll-snap-align:center))) or ((-webkit-scroll-snap-destination: 0px 0px)  and (not (scroll-snap-align:center))) {
+        -webkit-scroll-snap-destination: $value;
+        scroll-snap-destination: $value;
+        -webkit-overflow-scrolling: touch; //cited in https://www.grapecity.com/blogs/using-css-scroll-snap-points as important for safari
+    }
+}
+@mixin __scroll-snap-coordinate($value) {
+    @supports ((scroll-snap-coordinate: 0px 0px)  and (not (scoll-snap-align:center))) or ((-webkit-scroll-snap-coordinate: 0px 0px) and (not (scroll-snap-align:center))) {
+        -webkit-scroll-snap-coordinate: $value;
+        scroll-snap-coordinate: $value;
+    }
+}

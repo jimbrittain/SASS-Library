@@ -1,0 +1,2 @@
+@function is-percent($val){
+    @return if((type-of($val) == number and not(unitless($val)) and unit($val) == '%') or is-unitless-zero($val), true, false); }

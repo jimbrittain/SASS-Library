@@ -1,0 +1,11 @@
+@function list-to-string($list, $separator:', ') {
+    $str: '';
+    @if not(type-of($list) == list) { 
+        @warn '"' + $list + '" {' + type-of($list) + '} is not a list for list-to-string';
+        @return $list; }
+    @for $i from 1 through length($list) {
+        $v: nth($list, $i);
+        @if($i != 1){ $str: $str + $separator; }
+        $str: $str + $v;
+    }
+    @return $str; }

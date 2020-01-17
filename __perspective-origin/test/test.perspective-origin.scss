@@ -1,0 +1,111 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/perspective-origin.scss';
+@include describe('__perspective-origin mixin') {
+    @include it('Outputs perspective-origin proceeded by the -moz, and -webkit prefixes:inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __perspective-origin(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-perspective-origin: inherit;
+                    -webkit-perspective-origin: inherit;
+                    perspective-origin: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs perspective-origin proceeded by the -moz, and -webkit prefixes:center') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __perspective-origin(center);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-perspective-origin: center;
+                    -webkit-perspective-origin: center;
+                    perspective-origin: center;
+                }
+            }
+        }
+    }
+    @include it('Outputs perspective-origin proceeded by the -moz, and -webkit prefixes:center center') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __perspective-origin(center center);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-perspective-origin: center center;
+                    -webkit-perspective-origin: center center;
+                    perspective-origin: center center;
+                }
+            }
+        }
+    }
+    @include it('Outputs perspective-origin proceeded by the -moz, and -webkit prefixes:50% 50%') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __perspective-origin(50% 50%);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-perspective-origin: 50% 50%;
+                    -webkit-perspective-origin: 50% 50%;
+                    perspective-origin: 50% 50%;
+                }
+            }
+        }
+    }
+    @include it('Outputs perspective-origin proceeded by the -moz, and -webkit prefixes:center 75%') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __perspective-origin(center 75%);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-perspective-origin: center 75%;
+                    -webkit-perspective-origin: center 75%;
+                    perspective-origin: center 75%;
+                }
+            }
+        }
+    }
+    @include it('Outputs perspective-origin proceeded by the -moz, and -webkit prefixes:50px 50px') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __perspective-origin(50px 50px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-perspective-origin: 50px 50px;
+                    -webkit-perspective-origin: 50px 50px;
+                    perspective-origin: 50px 50px;
+                }
+            }
+        }
+    }
+    @include it('Outputs perspective-origin proceeded by the -moz, and -webkit prefixes:left left') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __perspective-origin(left left);
+                }
+            }
+            @include expect {}
+        }
+    }
+}

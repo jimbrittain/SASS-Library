@@ -1,0 +1,10 @@
+$_bi_d: -1 !default;
+@mixin __column-rule-style($a1:none,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d){
+    $args: arguments($a1,$a2,$a3,$a4);
+    $args: list-change-separator($args, ' ');
+    $args: list-safe-unquote-items($args);
+    @if is-reserved-value($args) or is-border-style-value($args) {
+        $args: if(type-of($args) == list, list-change-separator($args, ' '), $args);
+        -moz-column-rule-style: $args;
+        -webkit-column-rule-style: $args;
+        column-rule-style: $args; }}

@@ -1,0 +1,37 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/column-fill.scss';
+@include describe('__column-fill mixin') {
+    @include it('Outputs column-fill proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-fill(auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-fill: auto;
+                    -webkit-column-fill: auto;
+                    column-fill: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-fill proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-fill(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-fill: inherit;
+                    -webkit-column-fill: inherit;
+                    column-fill: inherit;
+                }
+            }
+        }
+    }
+}

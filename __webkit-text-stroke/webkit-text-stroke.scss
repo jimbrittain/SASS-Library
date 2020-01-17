@@ -1,0 +1,60 @@
+$_bi_d: -1 !default;
+@mixin __webkit-text-stroke($a1,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d){
+    $args: arguments($a1,$a2,$a3,$a4);
+    $args: list-change-separator($args, ',');
+    $args: list-safe-unquote-items($args);
+
+    @if (length($args) > 1 and type-of(nth($args,1)) == number and type-of(nth($args,2)) == color) {
+        $width: nth($args, 1);
+        $stroke-col: nth($args, 2);
+        $fill-color: false;
+        $fallback: true;
+
+        @if (length($args) > 2){
+            @for $i from 3 through length($args) {
+                $val: nth($args, $i);
+                @if (type-of($val) == bool){
+                    $fallback: $val;
+                } @else if(type-of($val) == color){
+                    $fill-color: $val; }}}
+
+        @if ($fill-color != false) {
+            color: $fill-color; 
+        }
+
+        @if ($fallback == true) {
+            $half-width: dividenumbers($width,2);
+            $half-width-px: strip-units(measure($half-width,px));
+            $bs-width: measure(1px,unit($half-width));
+            @if($half-width-px < 0){
+                $bs-width: zeromeasure(unit($half-width));
+            } @else if($half-width-px > 1) { $bs-width: $half-width; }
+            $zm: zeromeasure(unit($half-width));
+            @if($bs-width > 0) {
+                text-shadow: subtractnumbers($zm, $bs-width) subtractnumbers($zm, $bs-width) 0 $stroke-col, $bs-width subtractnumbers($zm,$bs-width) 0 $stroke-col, subtractnumbers($zm, $bs-width) $bs-width 0 $stroke-col, $bs-width $bs-width 0 $stroke-col;
+            }
+        }
+        @supports (-webkit-text-stroke-width: 5px) {
+            & {
+                -webkit-text-stroke-width: $width;
+                -webkit-text-stroke-color: $stroke-col;
+                @if $fill-color != false {
+                    -webkit-text-fill-color: $fill-color; }
+                text-shadow: none; 
+            }
+        }
+    } @else {
+        @if (length($args) < 2) {
+            @warn '__webkit-text-stroke() supplied the wrong number of arguments, must have at least a width and stroke colour';
+        } @else {
+            @if type-of(nth($args,1)) not number {
+                @warn '__webkit-text-stroke supplied a none number as first argument, must be a width'; }
+            @if type-of(nth($args,2)) not color {
+                @warn '__webkit-text-stroke supplied a none colour as second argument, must be stroke-color'; }
+        }
+    }
+}
+//__ns-text-stroke kept for backwards
+@mixin __ns-text-stroke($a1,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d){
+    @warn '__ns-text-stroke has been depreceated for __webkit-text-stroke, please update you scss';
+    @include __webkit-text-stroke($a1,$a2,$a3,$a4); }

@@ -1,0 +1,24 @@
+@import 'true';
+@import '../src/is-time.scss';
+@include describe('is-time function:') {
+    @include it('is-time returns true: ms') {
+        @include assert-true(
+            is-time(0ms),
+            'true: ms');
+    }
+    @include it('is-time returns true: s') {
+        @include assert-true(
+            is-time(5s),
+            'true: s');
+    }
+    @include it('is-time returns false: em') {
+        @include assert-false(
+            is-time(3em),
+            'false: em');
+    }
+    @include it('is-time returns false: unitless') {
+        @include assert-false(
+            is-time(3),
+            'false: unitless');
+    }
+}

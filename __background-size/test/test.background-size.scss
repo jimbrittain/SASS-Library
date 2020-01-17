@@ -1,0 +1,107 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/background-size.scss';
+@include describe('__background-size mixin') {
+    @include it('Outputs background-size proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __background-size(auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-background-size: auto;
+                    -o-background-size: auto;
+                    -webkit-background-size: auto;
+                    background-size: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs background-size proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __background-size(cover);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-background-size: cover;
+                    -o-background-size: cover;
+                    -webkit-background-size: cover;
+                    background-size: cover;
+                }
+            }
+        }
+    }
+    @include it('Outputs background-size proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __background-size(contain);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-background-size: contain;
+                    -o-background-size: contain;
+                    -webkit-background-size: contain;
+                    background-size: contain;
+                }
+            }
+        }
+    }
+    @include it('Outputs background-size proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __background-size(0px 0px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-background-size: 0px 0px;
+                    -o-background-size: 0px 0px;
+                    -webkit-background-size: 0px 0px;
+                    background-size: 0px 0px;
+                }
+            }
+        }
+    }
+    @include it('Outputs background-size proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __background-size(50% 50%);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-background-size: 50% 50%;
+                    -o-background-size: 50% 50%;
+                    -webkit-background-size: 50% 50%;
+                    background-size: 50% 50%;
+                }
+            }
+        }
+    }
+    @include it('Outputs background-size proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __background-size(50% 50%, auto, 100% 100%);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-background-size: 50% 50%, auto, 100% 100%;
+                    -o-background-size: 50% 50%, auto, 100% 100%;
+                    -webkit-background-size: 50% 50%, auto, 100% 100%;
+                    background-size: 50% 50%, auto, 100% 100%;
+                }
+            }
+        }
+    }
+}

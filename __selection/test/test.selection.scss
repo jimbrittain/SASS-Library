@@ -1,0 +1,26 @@
+@import 'true';
+@import '../src/selection.scss';
+@include describe('__selection mixin') {
+    @include it('Outputs two :selection pseudo selectors and moz prefixed, :selection and ::-moz-selection and ::selection') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __selection(){
+                        color: green;
+                    }
+                }
+            }
+            @include expect {
+                #cheese:selection {
+                    color: green;
+                }
+                #cheese::-moz-selection {
+                    color: green;
+                }
+                #cheese::selection {
+                    color: green;
+                }
+            }
+        }
+    }
+}

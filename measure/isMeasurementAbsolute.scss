@@ -1,0 +1,9 @@
+@function isMeasurementAbsolute($unit){
+    $unit: if(type-of($unit) == number and not(unitless($unit)), unit($unit), $unit);
+    $absoluteValues: 'px' 'in' 'cm' 'mm' 'pc' 'pt' 'Q';
+    $index: index($absoluteValues, $unit);
+    @return if(not $index, false, true);
+}
+@function measure_isAbsolute($unit){ //used for backwards compatability
+    @return isMeasurementAbsolute($unit);
+}

@@ -1,0 +1,56 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/border-image-width.scss';
+@include describe('__border-image-width mixin') {
+    @include it('Outputs border-image-width proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image-width(auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image-width: auto;
+                    -o-border-image-width: auto;
+                    -webkit-border-image-width: auto;
+                    border-image-width: auto;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-image-width proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image-width(5% 15% 10%);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image-width: 5% 15% 10%;
+                    -o-border-image-width: 5% 15% 10%;
+                    -webkit-border-image-width: 5% 15% 10%;
+                    border-image-width: 5% 15% 10%;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-image-width proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image-width(5%, 2em, 10%, auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image-width: 5% 2em 10% auto;
+                    -o-border-image-width: 5% 2em 10% auto;
+                    -webkit-border-image-width: 5% 2em 10% auto;
+                    border-image-width: 5% 2em 10% auto;
+                }
+            }
+        }
+    }
+}

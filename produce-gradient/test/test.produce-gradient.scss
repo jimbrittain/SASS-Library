@@ -1,0 +1,414 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/produce-radial-gradient.scss';
+@import '../src/produce-linear-gradient.scss';
+@import '../src/produce-conic-gradient.scss';
+@import '../src/convert-direction-to-webkit-gradient.scss';
+@import '../src/produce-gradient.scss';
+@include describe('produce gradient function:') {
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::: LINEAR ::::::::::::::::::::::::::::::::::::::
+    @include it('produce-linear-gradient: linear-gradient(#e66465, #9198e5)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(linear-gradient #e66465 #9198e5), 'standards'),
+            'linear-gradient(#e66465, #9198e5)');
+    }
+    @include it('produce-linear-gradient (webkit version): linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(linear-gradient, 0.25turn, #3f87a6, #ebf8e1, #f69d3c), 'webkit'),
+            '-webkit-linear-gradient(0deg, #3f87a6, #ebf8e1, #f69d3c)');
+    }
+    @include it('produce-linear-gradient (ms version): linear-gradient(to left, #333, #333 50%, #eee 75%, #333 75%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(linear-gradient to left  #333  #333 50%  #eee 75%  #333 75%), 'ms'),
+            '-ms-linear-gradient(to left, #333, #333 50%, #eee 75%, #333 75%)');
+    }
+    @include it('produce-linear-gradient (moz version): linear-gradient(right, #333, #333 50%, #eee 75%, #333 75%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(linear-gradient right #333  #333 50%  #eee 75%  #333 75%), 'moz'),
+            '-moz-linear-gradient(to left, #333, #333 50%, #eee 75%, #333 75%)');
+    }
+    @include it('produce-linear-gradient (opera version): linear-gradient(right, #333, #333 50%, #eee 75%, #333 75%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(linear-gradient (to left) #333  (#333 50%)  (#eee 75%)  (#333 75%)), 'o'),
+            '-o-linear-gradient(to left, #333, #333 50%, #eee 75%, #333 75%)');
+    }
+
+    @include it('produce-linear-gradient: linear-gradient(red, orange, yellow, green, blue)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(linear-gradient, red, orange, yellow, green, blue), 'standards'),
+            'linear-gradient(red, orange, yellow, green, blue)');
+    }
+    @include it('produce-linear-gradient: linear-gradient(red 0%, orange 25%, yellow 50%, green 75%, blue 100%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(linear-gradient, red 0%, orange 25%, yellow 50%, green 75%, blue 100%), 'standards'),
+            'linear-gradient(red 0%, orange 25%, yellow 50%, green 75%, blue 100%)');
+    }
+    @include it('produce-linear-gradient: linear-gradient(red 10%, 30%, blue 90%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(linear-gradient, red 10%, 30%, blue 90%), 'standards'),
+            'linear-gradient(red 10%, 30%, blue 90%)');
+    }
+    @include it('produce-linear-gradient: linear-gradient(red 40%, yellow 30%, blue 65%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(linear-gradient, red 40%, yellow 30%, blue 65%), 'standards'),
+            'linear-gradient(red 40%, yellow 30%, blue 65%)');
+    }
+    @include it('produce-linear-gradient: linear-gradient(red 0%, orange 10%, orange 30%, yellow 50%, yellow 70%, green 90%, green 100%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(linear-gradient, red 0%, orange 10%, orange 30%, yellow 50%, yellow 70%, green 90%, green 100%), 'standards'),
+            'linear-gradient(red 0%, orange 10%, orange 30%, yellow 50%, yellow 70%, green 90%, green 100%)');
+    }
+    @include it('produce-linear-gradient: linear-gradient(red, orange 10% 30%, yellow 50% 70%, green 90%) YOURS ONLY WORKS WITH PAIRS NOT MULTI') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(linear-gradient, red, orange 10%, 30%, yellow 50%, 70%, green 90%), 'standards'),
+            'linear-gradient(red, orange 10%, 30%, yellow 50%, 70%, green 90%)');
+    }
+    @include it('produce-linear-gradient: linear-gradient(red 0%, orange 10% 30%, yellow 50% 70%, green 90% 100%) YOURS GETS CONFUSED AT MULTI POSITIONAL STOPS') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(linear-gradient (red 0%) orange 10% 30% yellow 50% 70% green 90% 100%), 'standards'),
+            'linear-gradient(red 0%, orange 10%, 30%, yellow 50%, 70%, green 90%, 100%)');
+    }
+    @include it('produce-linear-gradient: linear-gradient(45deg, blue, red)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(linear-gradient, 45deg, blue, red), 'standards'),
+            'linear-gradient(45deg, blue, red)');
+    }
+    @include it('produce-linear-gradient: linear-gradient(to left top, blue, red)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(linear-gradient, to left top, blue, red), 'standards'),
+            'linear-gradient(to left top, blue, red)');
+    }
+    @include it('produce-linear-gradient: linear-gradient(0deg, blue, green 40%, red)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(linear-gradient, 0deg, blue, green 40%, red), 'standards'),
+            'linear-gradient(0deg, blue, green 40%, red)');
+    }
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::: REPEATING LINEAR ::::::::::::::::::::::::::::::::::::::
+    @include it('produce-linear-gradient: repeating-linear-gradient(45deg, blue, red 33.3%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(repeating-linear-gradient, 45deg, blue, red 33.3%), 'standards'),
+            'repeating-linear-gradient(45deg, blue, red 33.3%)');
+    }
+    @include it('produce-linear-gradient: repeating-linear-gradient(to left top, blue, red 20px)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(repeating-linear-gradient, to left top, blue, red 20px), 'standards'),
+            'repeating-linear-gradient(to left top, blue, red 20px)');
+    }
+    @include it('produce-linear-gradient: repeating-linear-gradient(0deg, blue, green 40%, red)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(repeating-linear-gradient, 0deg, blue, green 40%, red), 'standards'),
+            'repeating-linear-gradient(0deg, blue, green 40%, red)');
+    }
+    @include it('produce-linear-gradient: repeating-linear-gradient(to right, red 0%, green 10%, red 20%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-linear-gradient(repeating-linear-gradient, to right, red 0%, green 10%, red 20%), 'standards'),
+            'repeating-linear-gradient(to right, red 0%, green 10%, red 20%)');
+    }
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::: is-radial-gradient-position :::::::::::::::::::::::::::::::::::::
+    @include it('is-radial-gradient-position: closest-side') {
+        @include assert-true( is-radial-gradient-position(closest-side));
+    }
+    @include it('is-radial-gradient-position: "ellipse farthest side"') {
+        @include assert-true(is-radial-gradient-position("ellipse farthest-side"));
+    }
+    @include it('is-radial-gradient-position: ellipse at top') {
+        @include assert-true( is-radial-gradient-position(ellipse at top));
+    }
+    @include it('is-radial-gradient-position: farthest-corner at 40px 40px') {
+        @include assert-true( is-radial-gradient-position(farthest-corner at 40px 40px));
+    }
+    @include it('is-radial-gradient-position: this is a broken load of rubbish') {
+        @include assert-false( is-radial-gradient-position(this is a broken load of rubbish));
+    }
+    @include it('is-radial-gradient-position: closest-side fucked') {
+        @include assert-false( is-radial-gradient-position(closest-side fucked));
+    }
+    @include it('is-radial-gradient-position: circle') {
+        @include assert-true( is-radial-gradient-position(circle));
+    }
+    @include it('is-radial-gradient-position: ellipse at top') {
+        @include assert-true( is-radial-gradient-position(ellipse at top));
+    }
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::: RADIAL :::::::::::::::::::::::::::::::::::::
+    @include it('produce-radial-gradient: radial-gradient(#e66465, #9198e5)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-radial-gradient(radial-gradient #e66465 #9198e5), 'standards'),
+            'radial-gradient(#e66465, #9198e5)');
+    }
+    @include it('produce-radial-gradient: radial-gradient(closest-side, #3f87a6, #ebf8e1, #f69d3c)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-radial-gradient(radial-gradient, closest-side, #3f87a6, #ebf8e1, #f69d3c), 'webkit'),
+            '-webkit-radial-gradient(closest-side, #3f87a6, #ebf8e1, #f69d3c)');
+    }
+    @include it('produce-radial-gradient: radial-gradient(circle at 100%, #333, #333 50%, #eee 75%, #333 75%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-radial-gradient(radial-gradient circle at 100% #333 #333 50% #eee 75% #333 75%), 'moz'),
+            '-moz-radial-gradient(circle at 100%, #333, #333 50%, #eee 75%, #333 75%)');
+    }
+    @include it('produce-radial-gradient: radial-gradient(ellipse at top, #e66465, transparent)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-radial-gradient(radial-gradient, ellipse at top, #e66465, transparent), 'ms'),
+            '-ms-radial-gradient(ellipse at top, #e66465, transparent)');
+    }
+    @include it('produce-radial-gradient: radial-gradient(circle at center, red 0, blue, green 100%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-radial-gradient(radial-gradient circle at center (red 0%) blue (green 100%)), 'o'),
+            '-o-radial-gradient(circle at center, red 0%, blue, green 100%)');
+    }
+    @include it('produce-radial-gradient: background-image: radial-gradient(cyan 0%, transparent 20%, salmon 40%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-radial-gradient(radial-gradient, cyan 0%, transparent 20%, salmon 40%), 'standards'),
+            'radial-gradient(cyan 0%, transparent 20%, salmon 40%)');
+    }
+    @include it('produce-radial-gradient: radial-gradient(farthest-corner at 40px 40px, #f35 0%, #43e 100%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-radial-gradient(radial-gradient, farthest-corner at 40px 40px, #f35 0%, #43e 100%), 'standards'),
+            'radial-gradient(farthest-corner at 40px 40px, #f35 0%, #43e 100%)');
+    }
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::: REPEATING RADIAL :::::::::::::::::::::::::::
+    @include it('produce-radial-gradient: repeating-radial-gradient(#e66465, #9198e5 20%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-radial-gradient(repeating-radial-gradient #e66465  #9198e5 20%), 'standards'),
+            'repeating-radial-gradient(#e66465, #9198e5 20%)');
+    }
+    @include it('produce-radial-gradient: repeating-radial-gradient(closest-side, #3f87a6, #ebf8e1, #f69d3c)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-radial-gradient(repeating-radial-gradient, closest-side, #3f87a6, #ebf8e1, #f69d3c), 'webkit'),
+            '-webkit-repeating-radial-gradient(closest-side, #3f87a6, #ebf8e1, #f69d3c)');
+    }
+    @include it('produce-radial-gradient: repeating-radial-gradient(circle at 100%, #333, #333 10px, #eee 10px, #eee 20px)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-radial-gradient(repeating-radial-gradient circle at 100% #333 #333 10px #eee 10px #eee 20px), 'moz'),
+            '-moz-repeating-radial-gradient(circle at 100%, #333, #333 10px, #eee 10px, #eee 20px)');
+    }
+    @include it('produce-radial-gradient: repeating-radial-gradient(circle at center, red 0, blue, green 30px)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-radial-gradient(repeating-radial-gradient, circle at center, red 0, blue, green 30px), 'ms'),
+            '-ms-repeating-radial-gradient(circle at center, red 0, blue, green 30px)');
+    }
+    @include it('produce-radial-gradient: repeating-radial-gradient(farthest-corner at 20% 20%, red 0, green, red 20%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-radial-gradient(repeating-radial-gradient, farthest-corner at 20% 20%, red 0, green, red 20%), 'o'),
+            '-o-repeating-radial-gradient(farthest-corner at 20% 20%, red 0, green, red 20%)');
+    }
+    @include it('produce-radial-gradient: repeating-radial-gradient(black, black 5px, white 5px, white 10px)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-radial-gradient(repeating-radial-gradient black black 5px white 5px white 10px), 'standards'),
+            'repeating-radial-gradient(black, black 5px, white 5px, white 10px)');
+    }
+    @include it('produce-radial-gradient: repeating-radial-gradient(ellipse farthest-corner at 20% 20%, red, black 5%, blue 5%, green 10%') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-radial-gradient(repeating-radial-gradient, ellipse farthest-corner at 20% 20%, red, black 5%, blue 5%, green 10%), 'standards'),
+            'repeating-radial-gradient(ellipse farthest-corner at 20% 20%, red, black 5%, blue 5%, green 10%)');
+    }
+    // :::::::::::::::::::::::::::::: is-conic-gradient-position ::::::::::::::::::::::::::::::::::::::::::
+    @include it('is-conic-gradient-position: from 0deg') {
+        @include assert-true(is-conic-gradient-position(from 0deg));
+    }
+    @include it('is-conic-gradient-position: from 0deg at 0px 0px') {
+        @include assert-true(is-conic-gradient-position(from 0deg at 0px 0px));
+    }
+    @include it('is-conic-gradient-position: from 0deg at bottom left') {
+        @include assert-true(is-conic-gradient-position(from 0deg at bottom left));
+    }
+    @include it('is-conic-gradient-position: from 0deg at bottom 20px left 20px') {
+        @include assert-true(is-conic-gradient-position(from 0deg at bottom 20px left 20px));
+    }
+    @include it('is-conic-gradient-position: (false) from') {
+        @include assert-false(is-conic-gradient-position(from));
+    }
+    @include it('is-conic-gradient-position: (false) from 0.25turn at') {
+        @include assert-false(is-conic-gradient-position(from 0.25turn at));
+    }
+    @include it('is-conic-gradient-position: (false) from 0.25turn at top top') {
+        @include assert-false(is-conic-gradient-position(from 0.25turn at top top));
+    }
+    @include it('is-conic-gradient-position: (true) from 0.25turn at 50% 30%') {
+        @include assert-true(is-conic-gradient-position(from 0.25turn at 50% 30%));
+    }
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::: CONIC ::::::::::::::::::::::::::::::::::::::
+    @include it('produce-conic-gradient: conic-gradient(red, orange, yellow, green, blue)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-conic-gradient(conic-gradient, red, orange, yellow, green, blue), 'standards'),
+            'conic-gradient(red, orange, yellow, green, blue)');
+    }
+    @include it('produce-conic-gradient: conic-gradient(red, orange, yellow, green, blue)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-conic-gradient(conic-gradient, red, orange, yellow, green, blue), 'standards'),
+            'conic-gradient(red, orange, yellow, green, blue)');
+    }
+    @include it('produce-conic-gradient: conic-gradient(from 0.25turn at 50% 30%, #f69d3c, 10deg, #3f87a6, 350deg, #ebf8e1)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-conic-gradient(conic-gradient from 0.25turn at 50% 30% #f69d3c 10deg #3f87a6 350deg #ebf8e1), 'standards'),
+            'conic-gradient(from 0.25turn at 50% 30%, #f69d3c 10deg, #3f87a6 350deg, #ebf8e1)');
+    }
+    @include it('produce-conic-gradient: conic-gradient(red 6deg, orange 6deg 18deg, yellow 18deg 45deg, green 45deg 110deg, blue 110deg 200deg, purple 200deg)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-conic-gradient(conic-gradient red 6deg orange 6deg 18deg yellow 18deg 45deg green 45deg 110deg blue 110deg 200deg purple 200deg), 'standards'),
+            'conic-gradient(red 6deg, orange 6deg, 18deg, yellow 18deg, 45deg, green 45deg, 110deg, blue 110deg, 200deg, purple 200deg)');
+    }
+    @include it('produce-conic-gradient: conic-gradient(#fff 0.09turn, #bbb 0.09turn, #bbb 0.27turn, #666 0.27turn, #666 0.54turn, #000 0.54turn)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-conic-gradient(conic-gradient, #fff 0.09turn, #bbb 0.09turn, #bbb 0.27turn, #666 0.27turn, #666 0.54turn, #000 0.54turn), 'standards'),
+            'conic-gradient(#fff 0.09turn, #bbb 0.09turn, #bbb 0.27turn, #666 0.27turn, #666 0.54turn, #000 0.54turn)');
+    }
+    @include it('produce-conic-gradient: conic-gradient(red .8rad, yellow .6rad, blue 1.3rad)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-conic-gradient(conic-gradient red .8rad yellow .6rad blue 1.3rad), 'standards'),
+            'conic-gradient(red 0.8rad, yellow 0.6rad, blue 1.3rad)');
+    }
+    @include it('produce-conic-gradient: conic-gradient(from 0deg at 0% 25%, blue, green, yellow 180deg)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-conic-gradient(conic-gradient, from 0deg at 0% 25%, blue, green, yellow 180deg), 'standards'),
+            'conic-gradient(from 0deg at 0% 25%, blue, green, yellow 180deg)');
+    }
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::: REPEATING CONIC ::::::::::::::::::::::::::::
+    @include it('produce-conic-gradient: repeating-conic-gradient(from 0deg, red 0deg 30deg, yellow 30deg 60deg, blue 60deg 90deg)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-conic-gradient(repeating-conic-gradient from 0deg red 0deg 30deg yellow 30deg 60deg blue 60deg 90deg), 'standards'),
+            'repeating-conic-gradient(from 0deg, red 0deg, 30deg, yellow 30deg, 60deg, blue 60deg, 90deg)');
+    }
+    @include it('produce-conic-gradient: repeating-radial-gradient(pink 0 8%, yellow 8% 16%, blue 16% 24%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-conic-gradient(repeating-conic-gradient, pink 0, 8%, yellow 8%, 16%, blue 16%, 24%), 'standards'),
+            'repeating-conic-gradient(pink 0, 8%, yellow 8%, 16%, blue 16%, 24%)');
+    }
+    @include it('produce-conic-gradient: repeating-conic-gradient(red, orange, yellow, green, blue 50%)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-conic-gradient(repeating-conic-gradient, red, orange, yellow, green, blue 50%), 'standards'),
+            'repeating-conic-gradient(red, orange, yellow, green, blue 50%)');
+    }
+    @include it('produce-conic-gradient: repeating-conic-gradient(from -45deg, red 45deg, orange, yellow, green, blue 225deg)') {
+        @include assert-equal(
+            key-value-store-get-value-for-key(produce-conic-gradient(repeating-conic-gradient, from -45deg, red 45deg, orange, yellow, green, blue 225deg), 'standards'),
+            'repeating-conic-gradient(from -45deg, red 45deg, orange, yellow, green, blue 225deg)');
+    }
+    // :::::::::::::::::::: convert-direction-for-webkit-gradient ::::::::::::::::::::::::::::::::::::::
+    @include it('convert-direction-for-webkit-gradient: true, delete when ready') {
+        @include assert-true( convert-direction-for-webkit-gradient(0.25turn));
+    }
+    @include it('convert-sides-to-angle: top, 0 deg::') {
+        @include assert-equal(
+            convert-sides-to-angle(to top),
+            0deg); }
+    @include it('convert-sides-to-angle: top right, 45deg::') {
+        @include assert-equal(
+            convert-sides-to-angle(to top right),
+            45deg); }
+    @include it('convert-sides-to-angle: right 90deg::') {
+        @include assert-equal(
+            convert-sides-to-angle(to right),
+            90deg); }
+    @include it('convert-sides-to-angle: bottom right, 135::') {
+        @include assert-equal(
+            convert-sides-to-angle(to bottom right),
+            135deg); }
+    @include it('convert-sides-to-angle: bottom 180::') {
+        @include assert-equal(
+            convert-sides-to-angle(to bottom),
+            180deg); }
+    @include it('convert-sides-to-angle: bottom left, 225::') {
+        @include assert-equal(
+            convert-sides-to-angle(to bottom left),
+            225deg); }
+    @include it('convert-sides-to-angle: to left, 270::') {
+        @include assert-equal(
+            convert-sides-to-angle(to left),
+            270deg); }
+    @include it('convert-sides-to-angle: to top left, 315::') {
+        @include assert-equal(
+            convert-sides-to-angle(to top left),
+            315deg); }
+    @include it('convert-sides-to-angle: to top left, 0::') {
+        @include assert-equal(
+            convert-sides-to-angle(to top),
+            0deg); }
+    @include it('constrain-angle-to-forty-five:: 91deg, 90deg') {
+        @include assert-equal(
+            constrain-angle-to-forty-five(91deg),
+            90deg); }
+    @include it('constrain-angle-to-forty-five:: 0, 0deg') {
+        @include assert-equal(
+            constrain-angle-to-forty-five(0),
+            0deg); }
+    @include it('constrain-angle-to-forty-five:: 408deg, 45deg') {
+        @include assert-equal(
+            constrain-angle-to-forty-five(408deg),
+            45deg); }
+    @include it('constrain-angle-to-forty-five:: 220deg, 225deg') {
+        @include assert-equal(
+            constrain-angle-to-forty-five(220deg),
+            225deg); }
+    @include it('constrain-angle-to-forty-five:: 220in, false') {
+        @include assert-false(constrain-angle-to-forty-five(220in)); }
+    @include it('convert-sides-to-angle: top, 0 deg::') {
+        @include assert-equal(
+            convert-sides-to-angle(to top),
+            0deg); }
+    @include it('convert-sides-to-angle: top right, 45deg::') {
+        @include assert-equal(
+            convert-sides-to-angle(to top right),
+            45deg); }
+    @include it('convert-sides-to-angle: right 90deg::') {
+        @include assert-equal(
+            convert-sides-to-angle(to right),
+            90deg); }
+    @include it('convert-sides-to-angle: bottom right, 135::') {
+        @include assert-equal(
+            convert-sides-to-angle(to bottom right),
+            135deg); }
+    @include it('convert-sides-to-angle: bottom 180::') {
+        @include assert-equal(
+            convert-sides-to-angle(to bottom),
+            180deg); }
+    @include it('convert-sides-to-angle: bottom left, 225::') {
+        @include assert-equal(
+            convert-sides-to-angle(to bottom left),
+            225deg); }
+    @include it('convert-sides-to-angle: to left, 270::') {
+        @include assert-equal(
+            convert-sides-to-angle(to left),
+            270deg); }
+    @include it('convert-sides-to-angle: to top left, 315::') {
+        @include assert-equal(
+            convert-sides-to-angle(to top left),
+            315deg); }
+    @include it('convert-sides-to-angle: to top left, 0::') {
+        @include assert-equal(
+            convert-sides-to-angle(to top),
+            0deg); }
+
+    // :::::::::::::::::::: convert-direction-for-webkit-gradient ::::::::::::::::::::::::::::::::::::::
+    @include it('convert-direction-for-webkit-gradient: 0deg') {
+        @include assert-equal(
+            convert-direction-for-webkit-gradient(0deg),
+            (center bottom, center top)); }
+    @include it('convert-direction-for-webkit-gradient: to top') {
+        @include assert-equal(
+            convert-direction-for-webkit-gradient(to top),
+            (center bottom, center top)); }
+    @include it('convert-direction-for-webkit-gradient: 180deg') {
+        @include assert-equal(
+            convert-direction-for-webkit-gradient(180deg),
+            (center top, center bottom)); }
+    @include it('convert-direction-for-webkit-gradient: to bottom') {
+        @include assert-equal(
+            convert-direction-for-webkit-gradient(to bottom),
+            (center top, center bottom)); }
+    @include it('convert-direction-for-webkit-gradient: 90deg') {
+        @include assert-equal(
+            convert-direction-for-webkit-gradient(90deg),
+            (upper left, upper right)); }
+    @include it('convert-direction-for-webkit-gradient: to right') {
+        @include assert-equal(
+            convert-direction-for-webkit-gradient(to right),
+            (upper left, upper right)); }
+    @include it('convert-direction-for-webkit-gradient: 270deg') {
+        @include assert-equal(
+            convert-direction-for-webkit-gradient(270deg),
+            (upper right, upper left)); }
+    @include it('convert-direction-for-webkit-gradient: to left') {
+        @include assert-equal(
+            convert-direction-for-webkit-gradient(to left),
+            (upper right, upper left)); }
+}

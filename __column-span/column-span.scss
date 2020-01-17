@@ -1,0 +1,7 @@
+@mixin __column-span($val:none){
+    @if($val == 'none' or $val == 'all' or is-reserved-variable($val)){
+        $val: safe-unquote($val);
+        -moz-column-span: $val;
+        -webkit-column-span: $val;
+        column-span: $val;
+    } @else { @warn "column-span supplied with an unrecognized value; "' + $val + '" {' + type-of($val) + '}'"; }}

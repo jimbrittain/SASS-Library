@@ -1,0 +1,16 @@
+@function is-border-style-value($val){
+    $list: ();
+    $list: if(type-of($val) != 'list', append($list,$val), $val);
+    @if (length($list) > 0 and length($list) < 5){
+        @for $i from 1 through length($list){
+            $on: nth($list, $i);
+            @if not(is-border-style-keyword($on)) { 
+                @if not(length($list) == 1 and is-reserved-variable($on)) {
+                    @return false; }}}
+        @return true; }
+    @return false; }
+
+@function is-border-style-keyword($val){
+    $list: (none hidden dotted dashed solid double groove ridge inset outset);
+    @return if(index($list,$val) != null, true, false);
+}

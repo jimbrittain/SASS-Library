@@ -1,0 +1,31 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/autofill.scss';
+@include describe('__autofill mixin') {
+    @include it('Outputs -moz prefixes of autofill pseudo class, none-standard prone to errors') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __autofill(){ font-size: 10px; }
+                }
+            }
+            @include contains {
+                #cheese:-moz-autofill { font-size: 10px; }
+                #cheese::-moz-autofill { font-size: 10px; }
+            }
+        }
+    }
+    @include it('Outputs -webkit prefixes of autofill pseudo class, none-standard prone to errors') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __autofill(){ font-size: 10px; }
+                }
+            }
+            @include contains {
+                #cheese:-webkit-autofill { font-size: 10px; }
+                #cheese::-webkit-autofill { font-size: 10px; }
+            }
+        }
+    }
+}

@@ -1,0 +1,6 @@
+$_bi_d: -1 !default;
+@function arguments($a1:$_bi_d,$a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d,$a10:$_bi_d,$a11:$_bi_d,$a12:$_bi_d,$a13:$_bi_d,$a14:$_bi_d,$a15:$_bi_d,$a16:$_bi_d,$a17:$_bi_d,$a18:$_bi_d,$a19:$_bi_d){
+    $args_list: list-create-exclude($_bi_d, $a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9,$a10,$a11,$a12,$a13,$a14,$a15,$a16,$a17,$a18,$a19);
+    $fallback_list: if(type-of($a1) == list, $a1, ());
+    $args_list: if(length($args_list) <= length($fallback_list) and length($args_list) == 1, $fallback_list, $args_list);
+    @return $args_list; }

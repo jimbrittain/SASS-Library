@@ -1,0 +1,71 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/dividenumbers.scss';
+@include describe('divide-numbers function:') {
+    @include it('Relative to relative') {
+        @include assert-equal(
+            divide-numbers(5ex,2ex), 
+            2.5ex,
+            "Relative unit divided by relative unit");
+    }
+    @include it('Relative to interger') {
+        @include assert-equal(
+            divide-numbers(5ex,5), 
+            1ex,
+            "Relative unit divided by interger");
+    }
+    @include it('Relative to absolute') {
+        @include assert-equal(
+            divide-numbers(2em,16px), 
+            2em,
+            "Relative unit divided by absolute");
+    }
+    @include it('interger to interger') {
+        @include assert-equal(
+            divide-numbers(5,5), 
+            1,
+            "Interger divided by interger");
+    }
+    @include it('interger to absolute') {
+        @include assert-equal(
+            divide-numbers(10,5px), 
+            2,
+            "Interger divided by absolute");
+    }
+    @include it('interger to relative') {
+        @include assert-equal(
+            divide-numbers(16,1em), 
+            1,
+            "Interger divided by relative");
+    }
+    @include it('interger to absolute') {
+        @include assert-equal(
+            divide-numbers(10,5px), 
+            2,
+            "Interger divided by absolute");
+    }
+    @include it('absolute to relative') {
+        @include assert-equal(
+            divide-numbers(32px,1em), 
+            2px,
+            "Absolute unit divided by interger");
+    }
+    @include it('absolute to absolute') {
+        @include assert-equal(
+            divide-numbers(8px,8px), 
+            1px,
+            "Absolute unit divided by absolute");
+    }
+    @include it('absolute to interger') {
+        @include assert-equal(
+            divide-numbers(50px,10), 
+            5px,
+            "Absolute unit divided by interger");
+    }
+    @include it('dividenumbers is an alias for divide-numbers') {
+        @include assert-equal(
+            divide-numbers(15px,15), 
+            dividenumbers(15px,15),
+            "dividenumbers is an alias for divide-numbers");
+    }
+}

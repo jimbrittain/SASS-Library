@@ -1,0 +1,56 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/border-image-slice.scss';
+@include describe('__border-image-slice mixin') {
+    @include it('Outputs border-image-slice proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image-slice(1em);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image-slice: 1em;
+                    -o-border-image-slice: 1em;
+                    -webkit-border-image-slice: 1em;
+                    border-image-slice: 1em;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-image-slice proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image-slice(10% fill 7px 12px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image-slice: 10% fill 7px 12px;
+                    -o-border-image-slice: 10% fill 7px 12px;
+                    -webkit-border-image-slice: 10% fill 7px 12px;
+                    border-image-slice: 10% fill 7px 12px;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-image-slice proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-image-slice(10%, fill, 7px, 12px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-image-slice: 10% fill 7px 12px;
+                    -o-border-image-slice: 10% fill 7px 12px;
+                    -webkit-border-image-slice: 10% fill 7px 12px;
+                    border-image-slice: 10% fill 7px 12px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,11 @@
+@import 'true';
+@import '../src/list-search-index.scss';
+@include describe('list-search-index function:') {
+    @include it('list-search-index returns the correct whole number') {
+        $list: (1 2 3 4);
+        @include assert-equal(
+            list-search-index((1 2 3 4),3),
+            3,
+            'list-search-index');
+    }
+}

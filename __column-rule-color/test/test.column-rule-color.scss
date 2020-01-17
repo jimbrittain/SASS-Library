@@ -1,0 +1,37 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/column-rule-color.scss';
+@include describe('__column-rule-color mixin') {
+    @include it('Outputs column-rule-color proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule-color(#000);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule-color: #000;
+                    -webkit-column-rule-color: #000;
+                    column-rule-color: #000;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-rule-color proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-rule-color(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-rule-color: inherit;
+                    -webkit-column-rule-color: inherit;
+                    column-rule-color: inherit;
+                }
+            }
+        }
+    }
+}

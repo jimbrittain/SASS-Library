@@ -1,0 +1,17 @@
+@mixin __letter-spacing($val:none, $fixlig: true){
+    $fixlig: if($fixlig == false, false, true);
+    @if is-length($val) or is-reserved-variable($val) or $val == normal or $val == none or $val == 0 {
+        $val: if($val == none, 0, safe-unquote($val));
+        letter-spacing: $val;
+        @if ($fixlig) {
+            @if not($val == 0 or $val == normal or is-reserved-variable($val)) {
+                @include __font-feature-settings(clig 0, dlig 0, hlig 0, liga 0, rlig 0);
+                @include __font-variant-ligatures(none);
+            } @else { 
+                @include __font-feature-settings(clig 1, dlig 1, hlig 1, liga 1, rlig 1);
+                @include __font-variant-ligatures(inherit); }
+        } @else {
+            @warn 'If you aren’t using for fixing ligatures consider using letter-spacing rather than __letter-spacing';
+        }
+    }
+}

@@ -1,0 +1,16 @@
+//requires str-last-index;
+$id_getfileext_max: 10 !default;
+@function get-file-extension($str) {
+    @if(type-of($str) == string) {
+        $extension_start: str-last-index($str, '.');
+        @if($extension-start > 0){
+            $extension_start: $extension_start + 1;
+            $extension_length: str-length($str) - $extension_start;
+            @if($extension_length > 0 and $extension_length < $id_getfileext_max){
+                $s: str-slice($str, $extension_start);
+                $s: to-lower-case($s);
+                @return $s; }}
+        @return '';
+    } @else {
+        @warn "get-file-extension() supplied a none-string";
+        @return ''; }}

@@ -1,0 +1,38 @@
+$_bi_d: -1 !default;
+@function is-side-corner-value($a1,$a2:$_bi_d,$a3:$_bi_d){
+    $args: arguments($a1,$a2,$a3);
+    $args: list-change-separator($args, ' ');
+    $args: list-safe-unquote-items($args);
+
+    $list: (top left right bottom);
+    $valid: false;
+    $val: nth($args, 1);
+    @if type-of($val) == string and str-index($val, ' ') != null and length($args) == 1 {
+        $args: str-explode($val, ' '); }
+
+    @if type-of($args) == list {
+        $valid: true;
+        $had-to: false;
+        @each $s in $args {
+            @if ($s == 'to' and $had-to == false and nth($args,1) == $s) or index($list,$s) != null { //either is string keyword, or hasnt had to, to is first, and is to
+                @if $s == 'to' {
+                    $had-to: true;
+                } @else {
+                    @if $s == 'top' or $s == 'bottom' {
+                        $top-i: index($list, 'top');
+                        $list: list-remove-nth($list, $top-i);
+                        $bottom-i: index($list, 'bottom');
+                        $list: list-remove-nth($list, $bottom-i);
+                    } @else {
+                        $right-i: index($list, 'right');
+                        $list: list-remove-nth($list, $right-i);
+                        $left-i: index($list, 'left');
+                        $list: list-remove-nth($list, $left-i);
+                    }
+                }
+            } @else {
+                $valid: false;
+            }
+        }
+    }
+    @return if($valid == false, false, true); }

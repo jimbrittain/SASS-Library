@@ -1,0 +1,197 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/border-radius.scss';
+@include describe('__border-radius mixin') {
+    @include it('Outputs border-radius unprefixed proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-radius(3px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-radius: 3px;
+                    -webkit-border-radius: 3px;
+                    border-radius: 3px;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-bottom-right-radius unprefixed proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-bottom-right-radius(3px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-bottom-right-radius: 3px;
+                    -webkit-border-bottom-right-radius: 3px;
+                    border-bottom-right-radius: 3px;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-bottom-right-radius unprefixed proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-bottom-right-radius(3px 2px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-bottom-right-radius: 3px 2px;
+                    -webkit-border-bottom-right-radius: 3px 2px;
+                    border-bottom-right-radius: 3px 2px;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-bottom-left-radius unprefixed proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-bottom-left-radius(3px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-bottom-left-radius: 3px;
+                    -webkit-border-bottom-left-radius: 3px;
+                    border-bottom-left-radius: 3px;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-bottom-left-radius unprefixed proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-bottom-left-radius(3px, 2px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-bottom-left-radius: 3px 2px;
+                    -webkit-border-bottom-left-radius: 3px 2px;
+                    border-bottom-left-radius: 3px 2px;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-top-right-radius unprefixed proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-top-right-radius(3px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-top-right-radius: 3px;
+                    -webkit-border-top-right-radius: 3px;
+                    border-top-right-radius: 3px;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-top-left-radius unprefixed proceeded by the -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-top-left-radius(3px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-top-left-radius: 3px;
+                    -webkit-border-top-left-radius: 3px;
+                    border-top-left-radius: 3px;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-radius unprefixed proceeded by the -moz, and -webkit prefixes: multivalues') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-radius(3px 3px 3px 3px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-radius: 3px 3px 3px 3px;
+                    -webkit-border-radius: 3px 3px 3px 3px;
+                    border-radius: 3px 3px 3px 3px;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-radius unprefixed proceeded by the -moz, and -webkit prefixes: multivalues, stupid elipsis shit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-radius((3px 3px 3px 3px) (2px 2px 2px 2px));
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-radius: 3px 3px 3px 3px / 2px 2px 2px 2px;
+                    -webkit-border-radius: 3px 3px 3px 3px / 2px 2px 2px 2px;
+                    border-radius: 3px 3px 3px 3px / 2px 2px 2px 2px;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-radius unprefixed proceeded by the -moz, and -webkit prefixes: multivalues') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-radius(3px, 3px, 3px, 3px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-radius: 3px 3px 3px 3px;
+                    -webkit-border-radius: 3px 3px 3px 3px;
+                    border-radius: 3px 3px 3px 3px;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-radius unprefixed proceeded by the -moz, and -webkit prefixes: multivalues, stupid elipsis shit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-radius((3px, 3px, 3px, 3px) (2px 2px 2px 2px));
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-radius: 3px 3px 3px 3px / 2px 2px 2px 2px;
+                    -webkit-border-radius: 3px 3px 3px 3px / 2px 2px 2px 2px;
+                    border-radius: 3px 3px 3px 3px / 2px 2px 2px 2px;
+                }
+            }
+        }
+    }
+    @include it('Outputs border-radius unprefixed proceeded by the -moz, and -webkit prefixes: multivalues, stupid elipsis shit, stupid user 8 values') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __border-radius(3px 3px 3px 3px 2px 2px 2px 2px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-border-radius: 3px 3px 3px 3px / 2px 2px 2px 2px;
+                    -webkit-border-radius: 3px 3px 3px 3px / 2px 2px 2px 2px;
+                    border-radius: 3px 3px 3px 3px / 2px 2px 2px 2px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,11 @@
+//requrires get-filename;
+@function remove-filename($loc) {
+    $file: get-filename($loc);
+    $cur: $loc;
+    @if(str-length($file) > 0){
+        $l: str-length($file);
+        @if $l >= str-length($cur) {
+            $cur: '';
+        } @else {
+            $cur: str-slice($cur, 1, str-length($cur) - $l); }}
+    @return $cur; }

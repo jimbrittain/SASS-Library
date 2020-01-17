@@ -1,0 +1,69 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/column-gap.scss';
+@include describe('__column-gap mixin') {
+    @include it('Outputs column-gap proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-gap(100px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-gap: 100px;
+                    -webkit-column-gap: 100px;
+                    column-gap: 100px;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-gap proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-gap(80%);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-gap: 80%;
+                    -webkit-column-gap: 80%;
+                    column-gap: 80%;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-gap proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-gap(normal);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-gap: normal;
+                    -webkit-column-gap: normal;
+                    column-gap: normal;
+                }
+            }
+        }
+    }
+    @include it('Outputs column-gap proceeded by the -o, -moz, and -webkit prefixes') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __column-gap(0);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-column-gap: 0;
+                    -webkit-column-gap: 0;
+                    column-gap: 0;
+                }
+            }
+        }
+    }
+}

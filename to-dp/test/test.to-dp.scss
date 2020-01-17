@@ -1,0 +1,57 @@
+@import 'true';
+@import '../src/to-dp.scss';
+@import '../../strip-units/src/strip-units.scss';
+@import '../../list-create-exclude/src/list-create-exclude.scss';
+@import '../../zeromeasure/src/zeromeasure.scss';
+@import '../../measure/src/measure.scss';
+@import '../../multiplynumbers/src/multiplynumbers.scss';
+@import '../../dividenumbers/src/dividenumbers.scss';
+@import '../../pow/src/pow.scss';
+@include describe('to-dp function:') {
+    @include it('to-dp returns the correct value for 1.111111@2dp') {
+        @include assert-equal(
+            to-dp(1.111111,2),
+            1.11,
+            'Returns correct for 2 decimal places');
+    }
+    @include it('to-dp returns the correct value for 1.111111@1dp') {
+        @include assert-equal(
+            to-dp(1.111111,1),
+            1.1,
+            'Returns correct for 1 decimal places');
+    }
+    @include it('to-dp returns the correct value for 1.111111@3dp') {
+        @include assert-equal(
+            to-dp(1.111111,3),
+            1.111,
+            'Returns correct for 3 decimal places');
+    }
+    @include it('to-dp returns the correct value for 1.111111@4dp') {
+        @include assert-equal(
+            to-dp(1.111111,4),
+            1.1111,
+            'Returns correct for 4 decimal places');
+    }
+    @include it('to-dp returns the correct value for 1.111111@5dp') {
+        @include assert-equal(
+            to-dp(1.111111,5),
+            1.11111,
+            'Returns correct for 5 decimal places');
+    }
+}
+@include describe('to-2dp function:') {
+    @include it('to-2dp returns the correct value for 1.111111') {
+        @include assert-equal(
+            to-2dp(1.111111),
+            1.11,
+            'Returns correct for 2 decimal places');
+    }
+}
+@include describe('to-3dp function:') {
+    @include it('to-3dp returns the correct value for 1.111111') {
+        @include assert-equal(
+            to-3dp(1.111111),
+            1.111,
+            'Returns correct for 3 decimal places');
+    }
+}

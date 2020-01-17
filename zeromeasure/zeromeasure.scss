@@ -1,0 +1,10 @@
+@function zeromeasure($unit){
+    $units: 'em' 0em, 'ex' 0ex, 'px' 0px, 'in' 0in, 'cm' 0cm, 'pc' 0pc, 'pt' 0pt, '%' 0%, 'vw' 0vw, 'vh' 0vh, 'rem' 0rem, 'ch' 0ch, 'mm' 0mm, 'vmin' 0vmin, 'vmax' 0vmax, 'deg' 0deg, 'Q' 0Q, 'lh' 0lh, 'grad' 0grad, 'rad' 0rad, 'turn' 0turn;
+    $found: -1;
+    $i: 1;
+    @while ($found == -1 and $i < (length($units) + 1)) {
+        $on: nth($units, $i);
+        @if(nth($on,1) == $unit){ $found: nth($on,2); }
+        $i: $i + 1;
+    }
+    @return if($found != -1, $found, 0px); }

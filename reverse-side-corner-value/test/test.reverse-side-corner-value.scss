@@ -1,0 +1,31 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/reverse-side-corner-value.scss';
+@include describe('reverse-side-corner-value function:') {
+    @include it('reverse-side-corner-value returns reverse: to top = bottom ') {
+        $list: ();
+        $list: append($list, bottom);
+        @include assert-equal(
+            reverse-side-corner-value(to top),
+            $list,
+            '');
+    }
+    @include it('reverse-side-corner-value returns reverse: bottom = to top') {
+        @include assert-equal(
+            reverse-side-corner-value(bottom),
+            (to top),
+            '');
+    }
+    @include it('reverse-side-corner-value returns reverse: right bottom = to left top') {
+        @include assert-equal(
+            reverse-side-corner-value(right bottom),
+            (to left top),
+            '');
+    }
+    @include it('reverse-side-corner-value returns reverse: to top left = bottom right') {
+        @include assert-equal(
+            reverse-side-corner-value(to top left),
+            (bottom right),
+            '');
+    }
+}
