@@ -1,0 +1,118 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/box-decoration-break.scss';
+@include describe('is-box-decoration-break-value function tests') {
+    @include it('is-box-decoration-break-value function: true for clone') {
+        @include assert-true(is-box-decoration-break-value(clone));
+    }
+    @include it('is-box-decoration-break-value function: true for slice') {
+        @include assert-true(is-box-decoration-break-value(slice));
+    }
+    @include it('is-box-decoration-break-value function: true for \'clone\'') {
+        @include assert-true(is-box-decoration-break-value('clone'));
+    }
+    @include it('is-box-decoration-break-value function: true for "clone"') {
+        @include assert-true(is-box-decoration-break-value("clone"));
+    }
+    @include it('is-box-decoration-break-value function: false for inherit') {
+        @include assert-false(is-box-decoration-break-value(inherit));
+    }
+}
+@include describe(is-moz-background-inline-policy-value function) {
+    @include it('is-moz-background-inline-policy-value function: true for each-box') {
+        @include assert-true(is-moz-background-inline-policy-value(each-box));
+    }
+    @include it('is-moz-background-inline-policy-value function: true for bounding-box') {
+        @include assert-true(is-moz-background-inline-policy-value(bounding-box));
+    }
+    @include it('is-moz-background-inline-policy-value function: true for continuous') {
+        @include assert-true(is-moz-background-inline-policy-value(continuous));
+    }
+    @include it('is-moz-background-inline-policy-value function: true for \'each-box\'') {
+        @include assert-true(is-moz-background-inline-policy-value('each-box'));
+    }
+    @include it('is-moz-background-inline-policy-value function: true for "each-box"') {
+        @include assert-true(is-moz-background-inline-policy-value("each-box"));
+    }
+    @include it('is-moz-background-inline-policy-value function: false for inherit') {
+        @include assert-false(is-moz-background-inline-policy-value(inherit));
+    }
+}
+@include describe(convert-box-decoration-break-value-to-moz-background-inline-policy-value function){
+    @include it('convert-box-decoration-break-value-to-moz-background-inline-policy-value: slice, continuous') {
+        @include assert-true(convert-box-decoration-break-value-to-moz-background-inline-policy-value(slice), continuous); 
+    }
+    @include it('convert-box-decoration-break-value-to-moz-background-inline-policy-value: clone, each-box') {
+        @include assert-true(convert-box-decoration-break-value-to-moz-background-inline-policy-value(clone), each-box); 
+    }
+    @include it('convert-box-decoration-break-value-to-moz-background-inline-policy-value: cheese, continuous') {
+        @include assert-true(convert-box-decoration-break-value-to-moz-background-inline-policy-value(cheese), continuous); 
+    }
+    @include it('convert-box-decoration-break-value-to-moz-background-inline-policy-value: inherit, inherit') {
+        @include assert-true(convert-box-decoration-break-value-to-moz-background-inline-policy-value(inherit), inherit); 
+    }
+}
+
+@include describe('__box-decoration-break mixin') {
+    @include it('__box-decoration-break outputs -webkit prefix as well as -mox-background-inline-policy: outputs on slice') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __box-decoration-break(slice);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-background-inline-policy: continuous;
+                    -webkit-box-decoration-break: slice;
+                    box-decoration-break: slice;
+                }
+            }
+        }
+    }
+    @include it('__box-decoration-break outputs -webkit prefix as well as -mox-background-inline-policy: outputs on clone') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __box-decoration-break(clone);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-background-inline-policy: each-box;
+                    -webkit-box-decoration-break: clone;
+                    box-decoration-break: clone;
+                }
+            }
+        }
+    }
+    @include it('__box-decoration-break outputs -webkit prefix as well as -mox-background-inline-policy: outputs reserved-variables') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __box-decoration-break(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-background-inline-policy: inherit;
+                    -webkit-box-decoration-break: inherit;
+                    box-decoration-break: inherit;
+                }
+            }
+        }
+    }
+    @include it('__box-decoration-break outputs -webkit prefix as well as -mox-background-inline-policy: outputs nothing on wrong value') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __box-decoration-break(cheese);
+                }
+            }
+            @include expect {
+                #cheese {
+                }
+            }
+        }
+    }
+}

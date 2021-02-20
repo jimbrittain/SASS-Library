@@ -1,0 +1,45 @@
+@mixin angled-single-line-backs($angle, $height, $color, $back:'') {
+    position: relative;
+    display: inline-block;
+    $side-length: sin($angle) * $height;
+    @if $side-length > 0 {
+        padding-right: abs(multiplynumbers($side-length, 2));
+    } @else {
+        padding-left: abs(multiplynumbers($side-length, 2));
+    }
+    @include __before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: subtractnumbers(zeromeasure(unit($height)), $side-length);
+        width: 100%;
+        height: 100%;
+        background-color: $color;
+        overflow: hidden;
+        @if not($back == '') {
+            //background-image, should also have background settings?
+        }
+        transform: skew($angle);
+        z-index: -1;
+    }
+}
+@mixin multi-line-backs($line-height-1, $line-height-2, $enclosingSelector, $padding:0) {
+    @if not(is-length($line-height-1) or ((type-of($line-height-1) == 'number') and unitless($line-height-1))) {
+        @warn '`single-line-backs` needs a length or unitless number for first parameter, supplied "' + $line-height-1 + '" {' + type-of($line-height-1) + '}';
+        $line-height-1: 1.5;
+    }
+    @if not(is-length($line-height-2) or ((type-of($line-height-2) == 'number') and unitless($line-height-2))) {
+        @warn '`single-line-backs` needs a length or unitless number for second parameter, supplied "' + $line-height-2 + '" {' + type-of($line-height-2) + '}';
+        $line-height-2: 1;
+    }
+    line-height: $line-height-1;
+    & #{$enclosingSelector} {
+        line-height: $line-height-2;
+        display: inline;
+        @if not($padding == 0) and is-length($padding) {
+            padding-left: $padding;
+            padding-right: $padding;
+        }
+        @include __box-decoration-break(clone);
+    }
+}

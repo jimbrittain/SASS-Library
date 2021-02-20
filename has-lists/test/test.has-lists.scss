@@ -1,0 +1,26 @@
+@import 'true';
+@import '../src/has-lists.scss';
+@include describe('has-lists function:') {
+    $a: (1, 2, 3 4, 5);
+    $b: (1 2 3,4 5);
+    @include it('has-lists returns false for measurement') {
+        @include assert-false(
+            has-lists(1em),
+            'Measurement does not have lists');
+    }
+    @include it('has-lists returns false for number') {
+        @include assert-false(
+            has-lists(1),
+            '"1" does not have lists');
+    }
+    @include it('has lists returns true "1, 2, 3 4, 5"') {
+        @include assert-true(
+            has-lists($a),
+            '"1, 2, 3 4, 5" does have inner lists');
+    }
+    @include it('has list returns true "1 2 3,4 5"') {
+        @include assert-true(
+            has-lists($b),
+            '"1 2 3,4 5" does have inner lists');
+    }
+}

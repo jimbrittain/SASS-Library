@@ -1,0 +1,59 @@
+$_bi_d: -1 !default;
+@mixin __align-items($a1,$a2:$_bi_d){
+    $args: arguments($a1,$a2);
+    $args: list-change-separator($args, ' ');
+    $args: list-safe-unquote-items($args);
+
+    $good: false;
+    @if length($args) == 2 {
+        $n1: nth($args,1);
+        $n2: nth($args,2);
+        @if (($n1 == first or $n1 == last) and $n2 == baseline) or (($n1 == safe or $n1 == unsafe) and is-align-items-value($n2)) {
+            $good: true;
+        }
+    } @else if length($args) == 1 {
+        @if is-align-items-value(nth($args,1)) or is-reserved-variable(nth($args,1)) {
+            $good: true; }}
+    @if $good == true {
+        -webkit-align-items: $args;
+        align-items: $args;
+    } @else { @warn '`__align-items` supplied invalid value as arguments'; }}
+
+@mixin __justify-content($a1,$a2:$_bi_d){
+    $args: arguments($a1,$a2);
+    $args: list-change-separator($args, ' ');
+    $args: list-safe-unquote-items($args);
+
+    $good: false;
+    @if length($args) == 2 {
+        $n1: nth($args,1);
+        $n2: nth($args,2);
+        @if ($n1 == safe or $n1 == unsafe) and is-justify-content-value($n2) {
+            $good: true;
+        }
+    } @else if length($args) == 1 {
+        @if is-justify-content-value(nth($args,1)) or is-reserved-variable(nth($args,1)) {
+            $good: true; }}
+    @if $good == true {
+        -webkit-justify-content: $args;
+        justify-content: $args;
+    } @else { @warn '`__justify-content` supplied invalid value as arguments'; }}
+
+@function is-align-items-value($val) {
+    @return if((is-alignment-basic-value($val) or is-alignment-positional-value($val) or is-alignment-baseline-value($val)) and not($val == left or $val == right), true, false); }
+@function is-justify-content-value($val) {
+    @return if((is-alignment-basic-value($val) or is-alignment-positional-value($val) or is-alignment-distribution-value($val)) and not($val == self-start or $val == self-end), true, false); }
+
+@function is-alignment-basic-value($val) {
+    $list: (normal stretch);
+    @return if(index($list,$val) != null, true, false); }
+@function is-alignment-positional-value($val) {
+    $list: (center start end flex-start flex-end self-start self-end left right);
+    @return if(index($list,$val) != null, true, false); }
+@function is-alignment-distribution-value($val) {
+    $list: (space-between space-around space-evenly stretch);
+    @return if(index($list,$val) != null, true, false); }
+@function is-alignment-baseline-value($val) {
+    $list: (baseline 'first baseline' 'last baseline');
+    @return if(index($list,$val) != null, true, false); }
+

@@ -3,52 +3,62 @@ $grid-col: #000000;
 $_bi_d: "a" !default;
 @mixin construction-grid($a1:$_bi_d, $a2:$_bi_d,$a3:$_bi_d,$a4:$_bi_d,$a5:$_bi_d,$a6:$_bi_d,$a7:$_bi_d,$a8:$_bi_d,$a9:$_bi_d) {
     $args: arguments($a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
-    // $args: list-create-exclude($_bi_d, $a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9);
-    $x-steps: '';
-    $y-steps: '';
-    @if(type-of(nth($args,1)) == list or (length($args) > 1 and type-of(nth($args,2)) == list)){
-        $x-steps: nth($args,1);
-        @if(length($args) > 1){ 
-            $y-steps: nth($args,2); }
-    } @else { $x-steps: $args; }
-    $x: ();
-    $y: ();
-    $x-steps: if(type-of($x-steps) != list, append($x,$x-steps), $x-steps);
-    $y-steps: if(type-of($y-steps) != list, append($y,$y-steps), $y-steps);
-    $y-steps: if($y-steps == '', $x-steps, $y-steps);
-    $on-col: rgba($grid-col, 0.1);
-    $off-col: rgba($grid-col, 0);
-    $all: length($x-steps) + length($y-steps);
-    $grads: ();
-    $grad-size: '';
-    @for $n from 1 through $all {
-        $on: if($n > length($x-steps), nth($y-steps, ($n - length($x-steps))), nth($x-steps, $n));
-        @if(type-of($on) == number){
-            $on: measure($on, px);
-            $size: addnumbers($on,1px);
-            $grad-size: $on + ' ' + $on + if(str-length($grad-size) > 0, ', ', '') + $grad-size;
-            $percent: strip-units(dividenumbers(1px,$on));
-            $percent: $percent * 100;
-            $percent: 100 - $percent;
-            $percent: 0% + $percent;
-            $l: ();
-            $l: append($l, safe-unquote('repeating-linear-gradient'));
-            $l: append($l, if($n > length($x-steps), 0deg, 90deg));
-            $l: append($l, $off-col);
-            $l: append($l, $percent);
-            $l: append($l, $off-col);
-            $l: append($l, $percent);
-            $l: append($l, $on-col);
-            $l: append($l, 100%);
-            $l: append($l, $on-col);
-            $l: append($l, 100%);
-            $l: append($l, $off-col);
-            $l: append($l, $off-col);
-            $grads: list-unshift($grads, $l); }}
-    @if length($grads) > 0 {
+    @if not(has-lists($args)) and length($args) < 4 {
+        $n: ();
+        $n: append($n, $args);
+        $args: $n; }
+    $grids: ();
+    $grids: list-change-separator($grids, ',');
+    $sizes: ();
+    $sizes: list-change-separator($sizes, ',');
+
+    @for $i from 1 through length($args) {
+        $x: false;
+        $y: false;
+        $col: #000;
+        $on: nth($args, $i);
+        @if type-of($on) == 'list' {
+            $on: ($on); }
+        @for $n from 1 through length($on) {
+            $onn: nth($on, $n);
+            $onn: if($onn == 0, 0px, $onn);
+            @if is-length($onn) and strip-units($onn) >= 0 {
+                @if $x == false {
+                    $x: $onn;
+                } @else {
+                    $y: $onn;
+                }
+            }
+            @if type-of($onn) == 'color' {
+                $col: $onn;
+            }
+        }
+        @if $x != false {
+            $y: if($y == false, $x, $y);
+            $on-col: rgba($col, 0.5);
+            @warn $x + ' HELLO ' + unit($x);
+            @if $x > zeromeasure(unit($x)) {
+                $s: produce-single-construction-grid(unit($x), 90deg, $on-col);
+                @if $s != false {
+                    $grids: append($grids, $s);
+                }
+                $sizes: append($sizes, ($x 100%));
+            }
+            @if $y > zeromeasure(unit($y)) {
+                $s: produce-single-construction-grid(unit($y), 0deg, $on-col);
+                @if $s != false {
+                    $grids: append($grids, $s);
+                }
+                $sizes: append($sizes, (100% $y));
+            }
+        } @else {
+            @warn "An invalid construction-grids was supplied must have an x dimension, optional y, optional color"; }}
+
+    @if length($grids) > 0 and length($grids) == length ($sizes) {
         @warn "CONSTRUCTION GRID USED::THIS SHOULD NOT BE FOR PRODUCTION";
         body {
             @include __after {
+                @include __background-image($grids...);
                 z-index: 999999999999;
                 position: absolute;
                 top: 0;
@@ -59,5 +69,31 @@ $_bi_d: "a" !default;
                 height: 5000px;
                 pointer-events: none;
                 overflow: hidden;
-                @include __background-image($grads...);
-                background-size: unquote($grad-size); }}}}
+                background-size: safe-unquote($sizes); 
+            }
+        }
+    } @else {
+        @warn "No valid construction-grids were supplied, and no construction-grid created, yet construction-grid included";
+    }
+}
+@function produce-single-construction-grid($unit, $angle, $col) {
+    @if is-unit($unit) and is-angle($angle) and type-of($col) == 'color' {
+        $l: ();
+        $l: append($l, 'repeating-linear-gradient');
+        $l: append($l, $angle);
+        $l: append($l, $col);
+        $t: ();
+        $t: append($t, measure(1px,$unit));
+        $t: append($t, $col);
+        $l: append($l, $t);
+        $t: ();
+        $t: append($t, measure(1px,$unit));
+        $t: append($t, transparent);
+        $l: append($l, $t);
+        $l: append($l, transparent);
+        @return $l;
+    } @else {
+        @warn "construction-grid was supplied improper values";
+        @return false;
+    }
+}

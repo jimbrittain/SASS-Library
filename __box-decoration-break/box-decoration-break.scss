@@ -1,0 +1,29 @@
+@mixin __box-decoration-break($type) {
+    @if is-reserved-variable($type) or is-box-decoration-break-value($type) {
+        @include __moz-background-inline-policy(convert-box-decoration-break-value-to-moz-background-inline-policy-value($type));
+        -webkit-box-decoration-break: $type;
+        box-decoration-break: $type;
+    } @else {
+        @warn '`__box-decoration-break` supplied an incorrect value, should be either `reserved`, clone, or slice';
+    }
+}
+@function is-box-decoration-break-value($val) {
+    $list: (slice clone);
+    @return if(index($list, $val) == null, false, true); }
+
+@mixin __moz-background-inline-policy($type) {
+    @if is-reserved-variable($type) or is-moz-background-inline-policy($type) {
+        -moz-background-inline-policy: $type;
+    }
+}
+@function convert-box-decoration-break-value-to-moz-background-inline-policy-value($val){
+    $fromlist: (slice clone);
+    $tolist: (continuous each-box);
+    @if not(is-reserved-variable($val) or is-box-decoration-value($val)) {
+        $val: continuous;
+    }
+    @return if(index($fromlist, $val) != null, nth($tolist, index($fromlist, $val)), $val); 
+}
+@function is-moz-background-inline-policy-value($val) {
+    $list: (bounding-box continuous each-box);
+    @return if(index($list, $val) != null, true, false); }

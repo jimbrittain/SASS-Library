@@ -20,13 +20,13 @@ $baseline-grid-col: #000000;
         $l: append($l, 'repeating-linear-gradient');
         $l: append($l, 0deg);
         $l: append($l, $on-col);
-        $l: append($l, $percent-x-height);
         $l: append($l, $on-col);
         $l: append($l, $percent-x-height);
         $l: append($l, $off-col);
+        $l: append($l, $percent-x-height);
+        $l: append($l, $off-col);
         $l: append($l, 100%);
-        $l: append($l, $off-col);
-        $l: append($l, $off-col);
+        //$l: append($l, $off-col);
         $grads: list-unshift($grads, $l);
         @warn "BASELINE CONSTRUCTION GRID USED::THIS SHOULD NOT BE FOR PRODUCTION";
         body {

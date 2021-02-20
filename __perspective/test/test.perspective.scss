@@ -1,0 +1,133 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/perspective.scss';
+@include describe('__perspective mixin') {
+    @include it('Outputs perspective proceeded by the -moz, and webkit prefixes; none') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __perspective(none);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-perspective: none;
+                    -webkit-perspective: none;
+                    perspective: none;
+                }
+            }
+        }
+    }
+    @include it('Outputs perspective proceeded by the -moz, and webkit prefixes; inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __perspective(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-perspective: inherit;
+                    -webkit-perspective: inherit;
+                    perspective: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs perspective proceeded by the -moz, and webkit prefixes; unset') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __perspective(unset);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-perspective: unset;
+                    -webkit-perspective: unset;
+                    perspective: unset;
+                }
+            }
+        }
+    }
+    @include it('Outputs perspective proceeded by the -moz, and webkit prefixes; initial') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __perspective(initial);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-perspective: initial;
+                    -webkit-perspective: initial;
+                    perspective: initial;
+                }
+            }
+        }
+    }
+    @include it('Outputs perspective proceeded by the -moz, and webkit prefixes; 20px') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __perspective(20px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-perspective: 20px;
+                    -webkit-perspective: 20px;
+                    perspective: 20px;
+                }
+            }
+        }
+    }
+    @include it('Outputs perspective proceeded by the -moz, and webkit prefixes; 3.5em') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __perspective(3.5em);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-perspective: 3.5em;
+                    -webkit-perspective: 3.5em;
+                    perspective: 3.5em;
+                }
+            }
+        }
+    }
+    @include it('Outputs perspective proceeded by the -moz, and webkit prefixes; 23rem') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __perspective(23rem);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-perspective: 23rem;
+                    -webkit-perspective: 23rem;
+                    perspective: 23rem;
+                }
+            }
+        }
+    }
+    @include it('Outputs perspective proceeded by the -moz, and webkit prefixes; 5.5cm') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __perspective(5.5cm);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-perspective: 5.5cm;
+                    -webkit-perspective: 5.5cm;
+                    perspective: 5.5cm;
+                }
+            }
+        }
+    }
+}

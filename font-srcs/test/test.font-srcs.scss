@@ -1,0 +1,275 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/font-srcs.scss';
+
+/* This, despite being correct is not being tested properly as slashed quotes are being added */
+/*
+@include describe('font-srcs mixin') {
+    @include it('font-src produces valid code, for testing this is erroneously included in a standard declaration rather than a font declaration'){
+        @include assert {
+            @include output {
+                @include font-srcs('Gill-Sans.woff');
+            }
+            @include expect {
+                src: url('Gill-Sans.woff') format('woff');
+            }
+        }
+    }
+}
+*/
+@include describe('determine-font-src from filename') {
+    @include it('determine-font-src returns null when supplied an unrecognised font filename') {
+        @include assert-equal(
+            determine-font-src('Gill-Sans.exe'),
+            null);
+    }
+    @include it('determine-font-src returns null when supplied an unrecognised font filename') {
+        @include assert-equal(
+            determine-font-src(123),
+            null);
+    }
+    @include it('determine-font-src returns url("Gill-Sans.woff") when supplied Gill-Sans.woff') {
+        @include assert-equal(
+            determine-font-src('Gill-Sans.woff'),
+            "url('Gill-Sans.woff') format('woff')");
+    }
+    @include it('determine-font-src returns local("Gill Sans") when supplied "Gill Sans"') {
+        @include assert-equal(
+            determine-font-src('Gill Sans'),
+            "local('Gill Sans')");
+    }
+}
+@include describe('determine-font-type function from filename') {
+    @include it('determine-font-type returns LOCAL when supplied a font name without extension') {
+        @include assert-equal(
+        determine-font-type('Gill Sans'),
+        'LOCAL',
+        'A string will be recognised as local if it does not include a trailing extension');
+    }
+    @include it('determine-font-type returns embedded-opentype when supplied a font name with a .eot extension') {
+        @include assert-equal(
+        determine-font-type('Gill-Sans.eot'),
+        'embedded-opentype',
+        'A string will be recognised as embedded-opentype if it includes a trailing extension of eot');
+    }
+    @include it('determine-font-type returns opentype when supplied a font name with a .otf extension') {
+        @include assert-equal(
+        determine-font-type('Gill-Sans.otf'),
+        'opentype',
+        'A string will be recognised as opentype if it includes a trailing extension of otf');
+    }
+    @include it('determine-font-type returns truetype when supplied a font name with a .ttf extension') {
+        @include assert-equal(
+        determine-font-type('Gill-Sans.ttf'),
+        'truetype',
+        'A string will be recognised as truetype if it includes a trailing extension of ttf');
+    }
+    @include it('determine-font-type returns woff when supplied a font name with a .woff extension') {
+        @include assert-equal(
+        determine-font-type('Gill-Sans.woff'),
+        'woff',
+        'A string will be recognised as woff if it includes a trailing extension of woff');
+    }
+    @include it('determine-font-type returns woff2 when supplied a font name with a .woff2 extension') {
+        @include assert-equal(
+        determine-font-type('Gill-Sans.woff2'),
+        'woff2',
+        'A string will be recognised as woff2 if it includes a trailing extension of woff2');
+    }
+    @include it('determine-font-type returns svg when supplied a font name with a .svg extension') {
+        @include assert-equal(
+        determine-font-type('Gill-Sans.svg'),
+        'svg',
+        'A string will be recognised as svg if it includes a trailing extension of svg');
+    }
+    @include it('determine-font-type returns ERROR when supplied an unrecognised extension, e.g. .exe') {
+        @include assert-equal(
+        determine-font-type('Gill-Sans.exe'),
+        'ERROR',
+        'A string with an unrecognised extension will return an error');
+    }
+}
+/*
+@include describe('__transition mixin') {
+    @include it('Outputs transition proceeded by the -o, -ms, -moz and webkit prefixes; none') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition(none);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition: none;
+                    -ms-transition: none;
+                    -o-transition: none;
+                    -webkit-transition: none;
+                    transition: none;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition proceeded by the -o, -ms, -moz and webkit prefixes; inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition: inherit;
+                    -ms-transition: inherit;
+                    -o-transition: inherit;
+                    -webkit-transition: inherit;
+                    transition: inherit;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition proceeded by the -o, -ms, -moz and webkit prefixes; initial') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition(initial);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition: initial;
+                    -ms-transition: initial;
+                    -o-transition: initial;
+                    -webkit-transition: initial;
+                    transition: initial;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition proceeded by the -o, -ms, -moz and webkit prefixes; unset') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition(unset);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition: unset;
+                    -ms-transition: unset;
+                    -o-transition: unset;
+                    -webkit-transition: unset;
+                    transition: unset;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition proceeded by the -o, -ms, -moz and webkit prefixes; margin-right 4s, unbracketed') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition(margin-right 4s);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition: margin-right 4s;
+                    -ms-transition: margin-right 4s;
+                    -o-transition: margin-right 4s;
+                    -webkit-transition: margin-right 4s;
+                    transition: margin-right 4s;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition proceeded by the -o, -ms, -moz and webkit prefixes; margin-right 4s, bracketed') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition((margin-right 4s));
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition: margin-right 4s;
+                    -ms-transition: margin-right 4s;
+                    -o-transition: margin-right 4s;
+                    -webkit-transition: margin-right 4s;
+                    transition: margin-right 4s;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition proceeded by the -o, -ms, -moz and webkit prefixes; margin-right 4s 1s') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition(margin-right 4s 1s);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition: margin-right 4s 1s;
+                    -ms-transition: margin-right 4s 1s;
+                    -o-transition: margin-right 4s 1s;
+                    -webkit-transition: margin-right 4s 1s;
+                    transition: margin-right 4s 1s;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition proceeded by the -o, -ms, -moz and webkit prefixes; margin-right 4s ease-in-out') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition(margin-right 4s ease-in-out);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition: margin-right 4s ease-in-out;
+                    -ms-transition: margin-right 4s ease-in-out;
+                    -o-transition: margin-right 4s ease-in-out;
+                    -webkit-transition: margin-right 4s ease-in-out;
+                    transition: margin-right 4s ease-in-out;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition proceeded by the -o, -ms, -moz and webkit prefixes; margin-right 4s ease-in-out 1s') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition(margin-right 4s ease-in-out 1s);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition: margin-right 4s ease-in-out 1s;
+                    -ms-transition: margin-right 4s ease-in-out 1s;
+                    -o-transition: margin-right 4s ease-in-out 1s;
+                    -webkit-transition: margin-right 4s ease-in-out 1s;
+                    transition: margin-right 4s ease-in-out 1s;
+                }
+            }
+        }
+    }
+    @include it('Outputs transition proceeded by the -o, -ms, -moz and webkit prefixes; margin-right 4s, color 1s') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __transition(margin-right 4s, color 1s);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-transition: margin-right 4s, color 1s;
+                    -ms-transition: margin-right 4s, color 1s;
+                    -o-transition: margin-right 4s, color 1s;
+                    -webkit-transition: margin-right 4s, color 1s;
+                    transition: margin-right 4s, color 1s;
+                }
+            }
+        }
+    }
+}
+*/

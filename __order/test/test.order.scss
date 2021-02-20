@@ -1,0 +1,85 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/order.scss';
+@include describe('__order mixin') {
+    @include it('Outputs order proceeded by the -ms and -webkit prefixes for 5') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __order(5);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-order: 5;
+                    -webkit-order: 5;
+                    order: 5; }}}}
+    @include it('Outputs order proceeded by the -ms and -webkit prefixes for -5') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __order(-5);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-order: -5;
+                    -webkit-order: -5;
+                    order: -5; }}}}
+    @include it('Outputs order proceeded by the -ms and -webkit prefixes for 0') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __order(0);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-order: 0;
+                    -webkit-order: 0;
+                    order: 0; }}}}
+    @include it('Outputs order proceeded by the -ms and -webkit prefixes for inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __order(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-order: inherit;
+                    -webkit-order: inherit;
+                    order: inherit; }}}}
+    @include it('Outputs order proceeded by the -ms and -webkit prefixes for initial') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __order(initial);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-order: initial;
+                    -webkit-order: initial;
+                    order: initial; }}}}
+    @include it('Outputs order proceeded by the -ms and -webkit prefixes for unset') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __order(unset);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-order: unset;
+                    -webkit-order: unset;
+                    order: unset; }}}}
+    @include it('Outputs order proceeded by the -ms and -webkit prefixes for 0.2') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __order(0.2);
+                }
+            }
+            @include expect {}}}
+}

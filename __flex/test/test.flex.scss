@@ -1,0 +1,851 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/flex.scss';
+@include describe('is-flex-basis-value function:') {
+    @include it('is-flex-basis-value: true for content') { @include assert-true(is-flex-basis-value(content)); }
+    @include it('is-flex-basis-value: true for \'content\'') { @include assert-true(is-flex-basis-value('content')); }
+    @include it('is-flex-basis-value: true for "content"') { @include assert-true(is-flex-basis-value("content")); }
+    @include it('is-flex-basis-value: true for fill') { @include assert-true(is-flex-basis-value(fill)); }
+    @include it('is-flex-basis-value: true for content') { @include assert-true(is-flex-basis-value(content)); }
+    @include it('is-flex-basis-value: true for fit-content') { @include assert-true(is-flex-basis-value(fit-content)); }
+    @include it('is-flex-basis-value: true for max-content') { @include assert-true(is-flex-basis-value(max-content)); }
+    @include it('is-flex-basis-value: true for min-content') { @include assert-true(is-flex-basis-value(min-content)); }
+    @include it('is-flex-basis-value: true for auto') { @include assert-true(is-flex-basis-value(auto)); }
+    @include it('is-flex-basis-value: false for cheese') { @include assert-false(is-flex-basis-value(cheese)); }
+    @include it('is-flex-basis-value: false for none') { @include assert-false(is-flex-basis-value(none)); }
+    @include it('is-flex-basis-value: false for initial') { @include assert-false(is-flex-basis-value(initial)); }
+}
+@include describe('__flex-direction mixin outputs moz, ms, webkit and unprefixed versions') {
+    @include it('Outputs __flex-direction for row') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-direction(row);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-flex-direction: row;
+                    -ms-flex-direction: row;
+                    -webkit-flex-direction: row;
+                    flex-direction: row; }}}}
+    @include it('Outputs __flex-direction for row-reverse') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-direction(row-reverse);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-flex-direction: row-reverse;
+                    -ms-flex-direction: row-reverse;
+                    -webkit-flex-direction: row-reverse;
+                    flex-direction: row-reverse; }}}}
+    @include it('Outputs __flex-direction for column') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-direction(column);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-flex-direction: column;
+                    -ms-flex-direction: column;
+                    -webkit-flex-direction: column;
+                    flex-direction: column; }}}}
+    @include it('Outputs __flex-direction for column-reverse') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-direction(column-reverse);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-flex-direction: column-reverse;
+                    -ms-flex-direction: column-reverse;
+                    -webkit-flex-direction: column-reverse;
+                    flex-direction: column-reverse; }}}}
+    @include it('Outputs __flex-direction for initial') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-direction(initial);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-flex-direction: initial;
+                    -ms-flex-direction: initial;
+                    -webkit-flex-direction: initial;
+                    flex-direction: initial; }}}}
+    @include it('Outputs __flex-direction for inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-direction(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-flex-direction: inherit;
+                    -ms-flex-direction: inherit;
+                    -webkit-flex-direction: inherit;
+                    flex-direction: inherit; }}}}
+    @include it('Outputs __flex-direction for unset') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-direction(unset);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -moz-flex-direction: unset;
+                    -ms-flex-direction: unset;
+                    -webkit-flex-direction: unset;
+                    flex-direction: unset; }}}}
+    @include it('Outputs nothing for invalid __flex-direction value') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-direction(cheese);
+                }
+            }
+            @include expect {}}}
+}
+@include describe('__flex-basis mixin outputs webkit and unprefixed versions') {
+    @include it('Outputs flex-basis proceeded by -webkit prefix for auto') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-basis(auto); }}
+            @include expect {
+                #cheese {
+                    -ms-flex-preferred-size: auto;
+                    -webkit-flex-basis: auto;
+                    flex-basis: auto; }}}}
+    @include it('Outputs flex-basis proceeded by -webkit prefix for 3px') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-basis(3px); }}
+            @include expect {
+                #cheese {
+                    -ms-flex-preferred-size: 3px;
+                    -webkit-flex-basis: 3px;
+                    flex-basis: 3px; }}}}
+    @include it('Outputs flex-basis proceeded by -webkit prefix for 10em') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-basis(10em); }}
+            @include expect {
+                #cheese {
+                    -ms-flex-preferred-size: 10em;
+                    -webkit-flex-basis: 10em;
+                    flex-basis: 10em; }}}}
+    @include it('Outputs flex-basis proceeded by -webkit prefix for fill') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-basis(fill); }}
+            @include expect {
+                #cheese {
+                    -ms-flex-preferred-size: fill;
+                    -webkit-flex-basis: fill;
+                    flex-basis: fill; }}}}
+    @include it('Outputs flex-basis proceeded by -webkit prefix for max-content') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-basis(max-content); }}
+            @include expect {
+                #cheese {
+                    -ms-flex-preferred-size: max-content;
+                    -webkit-flex-basis: max-content;
+                    flex-basis: max-content; }}}}
+    @include it('Outputs flex-basis proceeded by -webkit prefix for min-content') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-basis(min-content); }}
+            @include expect {
+                #cheese {
+                    -ms-flex-preferred-size: min-content;
+                    -webkit-flex-basis: min-content;
+                    flex-basis: min-content; }}}}
+    @include it('Outputs flex-basis proceeded by -webkit prefix for fit-content') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-basis(fit-content); }}
+            @include expect {
+                #cheese {
+                    -ms-flex-preferred-size: fit-content;
+                    -webkit-flex-basis: fit-content;
+                    flex-basis: fit-content; }}}}
+    @include it('Outputs flex-basis proceeded by -webkit prefix for content') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-basis(content); }}
+            @include expect {
+                #cheese {
+                    -ms-flex-preferred-size: content;
+                    -webkit-flex-basis: content;
+                    flex-basis: content; }}}}
+    @include it('Outputs flex-basis proceeded by -webkit prefix for inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-basis(inherit); }}
+            @include expect {
+                #cheese {
+                    -ms-flex-preferred-size: inherit;
+                    -webkit-flex-basis: inherit;
+                    flex-basis: inherit; }}}}
+    @include it('Outputs flex-basis proceeded by -webkit prefix for initial') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-basis(initial); }}
+            @include expect {
+                #cheese {
+                    -ms-flex-preferred-size: initial;
+                    -webkit-flex-basis: initial;
+                    flex-basis: initial; }}}}
+    @include it('Outputs flex-basis proceeded by -webkit prefix for unset') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-basis(unset); }}
+            @include expect {
+                #cheese {
+                    -ms-flex-preferred-size: unset;
+                    -webkit-flex-basis: unset;
+                    flex-basis: unset; }}}}
+    @include it('Outputs flex-basis proceeded by -webkit prefix for cheese') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-basis(cheese); }}
+            @include expect {}}}
+}
+@include describe('is-flex-direction-value function:') {
+    @include it('if-flex-direction-value: true for row') { @include assert-true(is-flex-direction-value(row)); }
+    @include it('if-flex-direction-value: true for \'row\'') { @include assert-true(is-flex-direction-value('row')); }
+    @include it('if-flex-direction-value: true for "row"') { @include assert-true(is-flex-direction-value("row")); }
+    @include it('if-flex-direction-value: true for row-reverse') { @include assert-true(is-flex-direction-value(row-reverse)); }
+    @include it('if-flex-direction-value: true for column') { @include assert-true(is-flex-direction-value(column)); }
+    @include it('if-flex-direction-value: true for column-reverse') { @include assert-true(is-flex-direction-value(column-reverse)); }
+    @include it('if-flex-direction-value: false for inherit') { @include assert-false(is-flex-direction-value(inherit)); }
+    @include it('if-flex-direction-value: false for cheese') { @include assert-false(is-flex-direction-value(cheese)); }
+}
+@include describe('is-flex-wrap-value function:') {
+    @include it('is-flex-wrap-value: true for wrap') { @include assert-true(is-flex-wrap-value(wrap)); }
+    @include it('is-flex-wrap-value: true for \'wrap\'') { @include assert-true(is-flex-wrap-value('wrap')); }
+    @include it('is-flex-wrap-value: true for "wrap"') { @include assert-true(is-flex-wrap-value("wrap")); }
+    @include it('is-flex-wrap-value: true for wrap-reverse') { @include assert-true(is-flex-wrap-value(wrap-reverse)); }
+    @include it('is-flex-nowrap-value: true for nowrap') { @include assert-true(is-flex-wrap-value(nowrap)); }
+    @include it('is-flex-cheese-value: false for cheese') { @include assert-false(is-flex-wrap-value(cheese)); }
+}
+@include describe('__flex-grow mixin outputs webkit and unprefixed versions') {
+    @include it('Outputs flex-grow proceeded by webkit for 2') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-grow(2);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-positive: 2;
+                    -webkit-flex-grow: 2;
+                    flex-grow: 2; }}}}
+    @include it('Outputs flex-grow proceeded by webkit for 0.6') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-grow(0.6);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-positive: 0.6;
+                    -webkit-flex-grow: 0.6;
+                    flex-grow: 0.6; }}}}
+    @include it('Outputs flex-grow proceeded by webkit for inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-grow(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-positive: inherit;
+                    -webkit-flex-grow: inherit;
+                    flex-grow: inherit; }}}}
+    @include it('Outputs flex-grow proceeded by webkit for initial') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-grow(initial);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-positive: initial;
+                    -webkit-flex-grow: initial;
+                    flex-grow: initial; }}}}
+    @include it('Outputs flex-grow proceeded by webkit for unset') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-grow(unset);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-positive: unset;
+                    -webkit-flex-grow: unset;
+                    flex-grow: unset; }}}}
+    @include it('Outputs nothing for flex-grow: -1') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-grow(-1);
+                }
+            }
+            @include expect {}}}
+    @include it('Outputs nothing for flex-grow: -0.1') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-grow(-0.1);
+                }
+            }
+            @include expect {}}}
+    @include it('Outputs nothing for flex-grow: cheese') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-grow(cheese);
+                }
+            }
+            @include expect {}}}
+}
+@include describe('__flex-shrink mixin outputs webkit and unprefixed versions') {
+    @include it('Outputs flex-shrink proceeded by webkit for 2') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-shrink(2);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-negative: 2;
+                    -webkit-flex-shrink: 2;
+                    flex-shrink: 2; }}}}
+    @include it('Outputs flex-shrink proceeded by webkit for 0.6') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-shrink(0.6);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-negative: 0.6;
+                    -webkit-flex-shrink: 0.6;
+                    flex-shrink: 0.6; }}}}
+    @include it('Outputs flex-shrink proceeded by webkit for inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-shrink(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-negative: inherit;
+                    -webkit-flex-shrink: inherit;
+                    flex-shrink: inherit; }}}}
+    @include it('Outputs flex-shrink proceeded by webkit for initial') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-shrink(initial);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-negative: initial;
+                    -webkit-flex-shrink: initial;
+                    flex-shrink: initial; }}}}
+    @include it('Outputs flex-shrink proceeded by webkit for unset') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-shrink(unset);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-negative: unset;
+                    -webkit-flex-shrink: unset;
+                    flex-shrink: unset; }}}}
+    @include it('Outputs nothing for flex-shrink: -1') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-shrink(-1);
+                }
+            }
+            @include expect {}}}
+    @include it('Outputs nothing for flex-shrink: -0.1') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-shrink(-0.1);
+                }
+            }
+            @include expect {}}}
+    @include it('Outputs nothing for flex-shrink: cheese') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-shrink(cheese);
+                }
+            }
+            @include expect {}}}
+}
+@include describe('__flex-flow mixin outputs webkit and unprefixed versions') {
+    @include it('Outputs flex-flow proceeded by -webkit for row') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(row);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-flex-flow: row;
+                    flex-flow: row; }}}}
+    @include it('Outputs flex-flow proceeded by -webkit for row-reverse') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(row-reverse);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-flex-flow: row-reverse;
+                    flex-flow: row-reverse; }}}}
+    @include it('Outputs flex-flow proceeded by -webkit for column') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(column);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-flex-flow: column;
+                    flex-flow: column; }}}}
+    @include it('Outputs flex-flow proceeded by -webkit for column-reverse') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(column-reverse);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-flex-flow: column-reverse;
+                    flex-flow: column-reverse; }}}}
+    @include it('Outputs flex-flow proceeded by -webkit for nowrap') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(nowrap);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-flex-flow: nowrap;
+                    flex-flow: nowrap; }}}}
+    @include it('Outputs flex-flow proceeded by -webkit for wrap') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(wrap);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-flex-flow: wrap;
+                    flex-flow: wrap; }}}}
+    @include it('Outputs flex-flow proceeded by -webkit for wrap-reverse') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(wrap-reverse);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-flex-flow: wrap-reverse;
+                    flex-flow: wrap-reverse; }}}}
+    @include it('Outputs flex-flow proceeded by -webkit for row nowrap') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(row nowrap);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-flex-flow: row nowrap;
+                    flex-flow: row nowrap; }}}}
+    @include it('Outputs flex-flow proceeded by -webkit for column wrap') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(column wrap);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-flex-flow: column wrap;
+                    flex-flow: column wrap; }}}}
+    @include it('Outputs flex-flow proceeded by -webkit for column-reverse wrap-reverse') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(column-reverse wrap-reverse);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-flex-flow: column-reverse wrap-reverse;
+                    flex-flow: column-reverse wrap-reverse; }}}}
+    @include it('Outputs flex-flow proceeded by -webkit for inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-flex-flow: inherit;
+                    flex-flow: inherit; }}}}
+    @include it('Outputs flex-flow proceeded by -webkit for initial') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(initial);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-flex-flow: initial;
+                    flex-flow: initial; }}}}
+    @include it('Outputs flex-flow proceeded by -webkit for unset') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(unset);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-flex-flow: unset;
+                    flex-flow: unset; }}}}
+    @include it('Outputs flex-flow proceeded by -webkit for wrap, column') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(wrap, column);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-flex-flow: wrap column;
+                    flex-flow: wrap column; }}}}
+    @include it('Outputs nothing flex-flow when invalid') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(auto);
+                }
+            }
+            @include expect {}}}
+    @include it('Outputs nothing flex-flow when invalid') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(wrap wrap);
+                }
+            }
+            @include expect {}}}
+    @include it('Outputs nothing flex-flow when invalid') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(column column);
+                }
+            }
+            @include expect {}}}
+    @include it('Outputs nothing flex-flow when invalid') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-flow(column column column);
+                }
+            }
+            @include expect {}}}
+}
+@include describe('__flex mixin outputs ms, webkit and unprefixed versions') {
+    @include it('Outputs flex proceeded by -ms and webkit for auto'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex(auto);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex: auto;
+                    -webkit-flex: auto;
+                    flex: auto; }}}}
+    @include it('Outputs flex proceeded by -ms and webkit for initial'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex(initial);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex: initial;
+                    -webkit-flex: initial;
+                    flex: initial; }}}}
+    @include it('Outputs flex proceeded by -ms and webkit for none'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex(none);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex: none;
+                    -webkit-flex: none;
+                    flex: none; }}}}
+    @include it('Outputs flex proceeded by -ms and webkit for 2'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex(2);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex: 2;
+                    -webkit-flex: 2;
+                    flex: 2; }}}}
+    @include it('Outputs flex proceeded by -ms and webkit for 10em'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex(10em);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex: 10em;
+                    -webkit-flex: 10em;
+                    flex: 10em; }}}}
+    @include it('Outputs flex proceeded by -ms and webkit for 30%'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex(30%);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex: 30%;
+                    -webkit-flex: 30%;
+                    flex: 30%; }}}}
+    @include it('Outputs flex proceeded by -ms and webkit for min-content'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex(min-content);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex: min-content;
+                    -webkit-flex: min-content;
+                    flex: min-content; }}}}
+    @include it('Outputs flex proceeded by -ms and webkit for 1 30px'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex(1 30px);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex: 1 30px;
+                    -webkit-flex: 1 30px;
+                    flex: 1 30px; }}}}
+    @include it('Outputs flex proceeded by -ms and webkit for 2 2'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex(2 2);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex: 2 2;
+                    -webkit-flex: 2 2;
+                    flex: 2 2; }}}}
+    @include it('Outputs flex proceeded by -ms and webkit for 2 2 10%'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex(2 2 10%);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex: 2 2 10%;
+                    -webkit-flex: 2 2 10%;
+                    flex: 2 2 10%; }}}}
+    @include it('Outputs flex proceeded by -ms and webkit for inherit'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex: inherit;
+                    -webkit-flex: inherit;
+                    flex: inherit; }}}}
+    @include it('Outputs flex proceeded by -ms and webkit for unset'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex(unset);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex: unset;
+                    -webkit-flex: unset;
+                    flex: unset; }}}}
+    @include it('Outputs flex proceeded by -ms and webkit for cheese'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex(cheese);
+                }
+            }
+            @include expect {}}}
+}
+@include describe('__flex-wrap mixin outputs ms, webkit and unprefixed versions') {
+    @include it('Outputs flex-wrap procceded by -ms and webkit for wrap'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-wrap(wrap);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-wrap: wrap;
+                    -webkit-flex-wrap: wrap;
+                    flex-wrap: wrap; }}}}
+    @include it('Outputs flex-wrap procceded by -ms and webkit for nowrap'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-wrap(nowrap);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-wrap: nowrap;
+                    -webkit-flex-wrap: nowrap;
+                    flex-wrap: nowrap; }}}}
+    @include it('Outputs flex-wrap procceded by -ms and webkit for wrap-reverse'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-wrap(wrap-reverse);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-wrap: wrap-reverse;
+                    -webkit-flex-wrap: wrap-reverse;
+                    flex-wrap: wrap-reverse; }}}}
+    @include it('Outputs flex-wrap procceded by -ms and webkit for inherit'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-wrap(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-wrap: inherit;
+                    -webkit-flex-wrap: inherit;
+                    flex-wrap: inherit; }}}}
+    @include it('Outputs flex-wrap procceded by -ms and webkit for initial'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-wrap(initial);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-wrap: initial;
+                    -webkit-flex-wrap: initial;
+                    flex-wrap: initial; }}}}
+    @include it('Outputs flex-wrap procceded by -ms and webkit for unset'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-wrap(unset);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -ms-flex-wrap: unset;
+                    -webkit-flex-wrap: unset;
+                    flex-wrap: unset; }}}}
+    @include it('Outputs flex-wrap procceded by -ms and webkit for cheese'){
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __flex-wrap(cheese);
+                }
+            }
+            @include expect {}}}
+}
+

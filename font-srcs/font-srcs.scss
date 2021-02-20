@@ -8,7 +8,7 @@ $_bi_d: "a" !default;
         $t: determine-font-type(nth($args,$i));
         @if($t != 'embedded-opentype'){
             $v: determine-font-src(nth($args,$i));
-            @if($v != ''){
+            @if($v != '' and $v != null){
                 $str: if(str-length($str) > 0, $str + ", ", $str);
                 $str: $str + $v; }
         } @elseif($eotFont == '') { $eotFont: nth($args,$i); }}

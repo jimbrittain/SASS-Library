@@ -1,0 +1,469 @@
+@import 'true';
+@import '../../../globalimport.scss';
+@import '../src/align-items.scss';
+
+@include describe('is-alignment-basic-value:') {
+    @include it('is-alignment-basic-value: true for normal') { @include assert-true(is-alignment-basic-value(normal)); }
+    @include it('is-alignment-basic-value: true for stretch') { @include assert-true(is-alignment-basic-value(stretch)); }
+    @include it('is-alignment-basic-value: false for cheese') { @include assert-false(is-alignment-basic-value(cheese)); }
+}
+@include describe('is-alignment-positional-value:') {
+    @include it('is-alignment-positional-value: true for center') { @include assert-true(is-alignment-positional-value(center)); }
+    @include it('is-alignment-positional-value: true for start') { @include assert-true(is-alignment-positional-value(start)); }
+    @include it('is-alignment-positional-value: true for end') { @include assert-true(is-alignment-positional-value(end)); }
+    @include it('is-alignment-positional-value: true for left') { @include assert-true(is-alignment-positional-value(left)); }
+    @include it('is-alignment-positional-value: true for right') { @include assert-true(is-alignment-positional-value(right)); }
+    @include it('is-alignment-positional-value: true for flex-start') { @include assert-true(is-alignment-positional-value(flex-start)); }
+    @include it('is-alignment-positional-value: true for flex-end') { @include assert-true(is-alignment-positional-value(flex-end)); }
+    @include it('is-alignment-positional-value: true for self-start') { @include assert-true(is-alignment-positional-value(self-start)); }
+    @include it('is-alignment-positional-value: true for self-end') { @include assert-true(is-alignment-positional-value(self-end)); }
+    @include it('is-alignment-positional-value: false for normal') { @include assert-false(is-alignment-positional-value(normal)); }
+    @include it('is-alignment-positional-value: false for cheese') { @include assert-false(is-alignment-positional-value(cheese)); }
+}
+@include describe('is-alignment-distribution-value:') {
+    @include it('is-alignment-distribution-value: true for stretch') { @include assert-true(is-alignment-distribution-value(stretch)); }
+    @include it('is-alignment-distribution-value: true for space-evenly') { @include assert-true(is-alignment-distribution-value(space-evenly)); }
+    @include it('is-alignment-distribution-value: true for space-between') { @include assert-true(is-alignment-distribution-value(space-between)); }
+    @include it('is-alignment-distribution-value: true for space-around') { @include assert-true(is-alignment-distribution-value(space-around)); }
+    @include it('is-alignment-distribution-value: false for normal') { @include assert-false(is-alignment-distribution-value(normal)); }
+    @include it('is-alignment-distribution-value: false for cheese') { @include assert-false(is-alignment-distribution-value(cheese)); }
+}
+@include describe('is-alignment-baseline-value:') {
+    @include it('is-alignment-baseline-value: true for baseline') { @include assert-true(is-alignment-baseline-value(baseline)); }
+    @include it('is-alignment-baseline-value: true for first baseline') { @include assert-true(is-alignment-baseline-value('first baseline')); }
+    @include it('is-alignment-baseline-value: true for last baseline') { @include assert-true(is-alignment-baseline-value('last baseline')); }
+    @include it('is-alignment-baseline-value: false for normal') { @include assert-false(is-alignment-baseline-value(normal)); }
+    @include it('is-alignment-baseline-value: false for cheese') { @include assert-false(is-alignment-baseline-value(cheese)); }
+}
+@include describe('is-align-items-value function:') {
+    @include it('is-align-items-value: true for normal'){ @include assert-true(is-align-items-value(normal)); }
+    @include it('is-align-items-value: true for stretch'){ @include assert-true(is-align-items-value(stretch)); }
+    @include it('is-align-items-value: true for center'){ @include assert-true(is-align-items-value(center)); }
+    @include it('is-align-items-value: true for start'){ @include assert-true(is-align-items-value(start)); }
+    @include it('is-align-items-value: true for end'){ @include assert-true(is-align-items-value(end)); }
+    @include it('is-align-items-value: true for flex-start'){ @include assert-true(is-align-items-value(flex-start)); }
+    @include it('is-align-items-value: true for flex-end'){ @include assert-true(is-align-items-value(flex-end)); }
+    @include it('is-align-items-value: true for self-start'){ @include assert-true(is-align-items-value(self-start)); }
+    @include it('is-align-items-value: true for self-end'){ @include assert-true(is-align-items-value(self-end)); }
+    @include it('is-align-items-value: true for baseline'){ @include assert-true(is-align-items-value(baseline)); }
+    @include it('is-align-items-value: false for left'){ @include assert-false(is-align-items-value(left)); }
+    @include it('is-align-items-value: false for space-between'){ @include assert-false(is-align-items-value(space-between)); }
+}
+@include describe('is-justify-content-value function:') {
+    @include it('is-justify-content-value: true for center'){ @include assert-true(is-justify-content-value(center)); }
+    @include it('is-justify-content-value: true for start'){ @include assert-true(is-justify-content-value(start)); }
+    @include it('is-justify-content-value: true for end'){ @include assert-true(is-justify-content-value(end)); }
+    @include it('is-justify-content-value: true for flex-start'){ @include assert-true(is-justify-content-value(flex-start)); }
+    @include it('is-justify-content-value: true for flex-end'){ @include assert-true(is-justify-content-value(flex-end)); }
+    @include it('is-justify-content-value: true for left'){ @include assert-true(is-justify-content-value(left)); }
+    @include it('is-justify-content-value: true for right'){ @include assert-true(is-justify-content-value(right)); }
+    @include it('is-justify-content-value: true for normal'){ @include assert-true(is-justify-content-value(normal)); }
+    @include it('is-justify-content-value: true for stretch'){ @include assert-true(is-justify-content-value(stretch)); }
+    @include it('is-justify-content-value: true for space-between'){ @include assert-true(is-justify-content-value(space-between)); }
+    @include it('is-justify-content-value: true for space-around'){ @include assert-true(is-justify-content-value(space-around)); }
+    @include it('is-justify-content-value: true for space-evenly'){ @include assert-true(is-justify-content-value(space-evenly)); }
+    @include it('is-justify-content-value: false for self-start'){ @include assert-false(is-justify-content-value(self-start)); }
+    @include it('is-justify-content-value: false for baseline'){ @include assert-false(is-justify-content-value(baseline)); }
+}
+@include describe('__align-items') {
+    @include it('Outputs align-items proceeded by the webkit prefix: normal') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(normal);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: normal;
+                    align-items: normal; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: stretch') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(stretch);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: stretch;
+                    align-items: stretch; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: center') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(center);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: center;
+                    align-items: center; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: start') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(start);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: start;
+                    align-items: start; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: end') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(end);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: end;
+                    align-items: end; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: flex-start') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(flex-start);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: flex-start;
+                    align-items: flex-start; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: flex-end') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(flex-end);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: flex-end;
+                    align-items: flex-end; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: self-start') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(self-start);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: self-start;
+                    align-items: self-start; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: self-end') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(self-end);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: self-end;
+                    align-items: self-end; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: baseline') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(baseline);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: baseline;
+                    align-items: baseline; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: first baseline') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(first baseline);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: first baseline;
+                    align-items: first baseline; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: last baseline') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(last baseline);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: last baseline;
+                    align-items: last baseline; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: safe center') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(safe center);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: safe center;
+                    align-items: safe center; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: unsafe center') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(unsafe center);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: unsafe center;
+                    align-items: unsafe center; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: inherit;
+                    align-items: inherit; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: initial') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(initial);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: initial;
+                    align-items: initial; }}}}
+    @include it('Outputs align-items proceeded by the webkit prefix: unset') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(unset);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-align-items: unset;
+                    align-items: unset; }}}}
+    @include it('Outputs nothing for align-items when supplied an invalid value: cheese') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __align-items(cheese);
+                }
+            }
+            @include expect {}}}
+}
+@include describe('__justify-content mixin:') {
+    @include it('Outputs justify-content proceeded by webkit prefix: normal') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(normal);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: normal;
+                    justify-content: normal; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: stretch') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(stretch);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: stretch;
+                    justify-content: stretch; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: center') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(center);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: center;
+                    justify-content: center; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: start') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(start);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: start;
+                    justify-content: start; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: end') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(end);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: end;
+                    justify-content: end; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: flex-start') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(flex-start);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: flex-start;
+                    justify-content: flex-start; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: flex-end') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(flex-end);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: flex-end;
+                    justify-content: flex-end; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: left') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(left);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: left;
+                    justify-content: left; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: right') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(right);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: right;
+                    justify-content: right; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: space-between') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(space-between);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: space-between;
+                    justify-content: space-between; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: space-around') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(space-around);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: space-around;
+                    justify-content: space-around; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: space-evenly') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(space-evenly);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: space-evenly;
+                    justify-content: space-evenly; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: safe center') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(safe center);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: safe center;
+                    justify-content: safe center; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: unsafe center') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(unsafe center);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: unsafe center;
+                    justify-content: unsafe center; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: inherit') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(inherit);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: inherit;
+                    justify-content: inherit; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: initial') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(initial);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: initial;
+                    justify-content: initial; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: unset') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(unset);
+                }
+            }
+            @include expect {
+                #cheese {
+                    -webkit-justify-content: unset;
+                    justify-content: unset; }}}}
+    @include it('Outputs justify-content proceeded by webkit prefix: none') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(none);
+                }
+            }
+            @include expect { }}}
+    @include it('Outputs justify-content proceeded by webkit prefix: cheese') {
+        @include assert {
+            @include output {
+                #cheese {
+                    @include __justify-content(cheese);
+                }
+            }
+            @include expect { }}}
+}

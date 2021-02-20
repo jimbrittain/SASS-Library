@@ -1,0 +1,10 @@
+@function has-lists($v) {
+    $has: false;
+    @if type-of($v) == list {
+        @for $i from 1 through length($v) {
+            $on: nth($v, $i);
+            $has: if(type-of($on) == list, true, $has);
+        }
+    }
+    @return $has;
+}

@@ -1,0 +1,9 @@
+@mixin __order($val) {
+    @if is-integer($val) or is-reserved-variable($val) {
+        -ms-order: $val;
+        -webkit-order: $val;
+        order: $val;
+    } @else {
+        @warn 'An invalid non-integer/none reserved supplied for `order`';
+    }
+}

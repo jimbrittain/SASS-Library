@@ -10,7 +10,19 @@
 //      @notes -o- not as implemented webkit before support, ms supported unprefixed from ie10
 @mixin __perspective($value)
 {
-    -moz-perspective: $value;
-    -webkit-perspective: $value;
-    perspective: $value;
+    @if not(is-perspective-value($value)) {
+        @warn '__perspective was supplied an invalid/unrecognised value ' + $value ', reverting to inherit.';
+        $value: inherit;
+    }
+    -moz-perspective: safe-unquote($value);
+    -webkit-perspective: safe-unquote($value);
+    perspective: safe-unquote($value);
+}
+// @function is-perspective-value, is-length, none or keywords
+@function is-perspective-value($value)
+{
+    @if is-reserved-variable($value) or is-length($value) or $value == none {
+        @return true;
+    }
+    @return false;
 }
